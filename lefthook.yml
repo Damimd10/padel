@@ -1,0 +1,4 @@
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm dlx @commitlint/cli --config commitlint.config.cjs --edit {1}

@@ -1,0 +1,11 @@
+# Documentation example only
+
+pre-commit:
+  commands:
+    biome:
+      run: pnpm nx affected --target=lint
+
+pre-push:
+  commands:
+    test:
+      run: pnpm nx affected --target=test

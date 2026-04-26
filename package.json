@@ -1,0 +1,14 @@
+{
+  "name": "codex-ai-workspace-template-v2",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.6.3",
+  "scripts": {
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.2",
+    "@commitlint/config-conventional": "^20.5.0",
+    "lefthook": "^2.1.6"
+  }
+}
