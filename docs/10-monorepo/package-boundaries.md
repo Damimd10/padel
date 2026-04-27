@@ -10,7 +10,9 @@ Define the allowed architectural boundaries between apps and packages in the mon
 - `apps/api` may depend on `packages/schemas` and `packages/config`
 - `packages/ui` must not depend on application code
 - `packages/api-client` must not depend on `apps/web`
+- `packages/api-client` is the required frontend boundary for backend access unless an ADR explicitly approves an exception
 - `packages/schemas` should stay framework-light and reusable across frontend and backend
+- `packages/schemas` plus `packages/api-client` form the default contract coordination model between `apps/web` and `apps/api`
 - `packages/config` may expose shared tooling configuration but should not become a general utility bucket
 
 ## Nx responsibility
