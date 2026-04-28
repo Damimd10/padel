@@ -1,0 +1,30 @@
+{
+  "name": "@padel/ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "biome check src package.json tsconfig.json tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "tags": ["type:package", "scope:ui", "platform:frontend"]
+  }
+}

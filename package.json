@@ -4,11 +4,27 @@
   "version": "0.0.0",
   "packageManager": "pnpm@10.6.3",
   "scripts": {
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "build": "pnpm exec nx run-many -t build --all",
+    "build:affected": "pnpm exec nx affected -t build --base=origin/main --head=HEAD",
+    "test": "pnpm exec nx run-many -t test --all",
+    "test:affected": "pnpm exec nx affected -t test --base=origin/main --head=HEAD",
+    "lint": "pnpm exec nx run-many -t lint --all",
+    "lint:affected": "pnpm exec nx affected -t lint --base=origin/main --head=HEAD",
+    "typecheck": "pnpm exec nx run-many -t typecheck --all",
+    "typecheck:affected": "pnpm exec nx affected -t typecheck --base=origin/main --head=HEAD",
+    "check": "pnpm exec biome check . && pnpm exec nx run-many -t lint,typecheck,test --all",
+    "check:affected": "pnpm exec biome check . && pnpm exec nx affected -t lint,typecheck,test --base=origin/main --head=HEAD",
+    "graph": "NX_BASE=HEAD NX_HEAD=HEAD pnpm exec nx graph --file=.nx/workspace-graph.html"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^24.10.0",
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
-    "lefthook": "^2.1.6"
+    "lefthook": "^2.1.6",
+    "nx": "^21.6.5",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
   }
 }

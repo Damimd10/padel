@@ -1,4 +1,11 @@
-commit-msg:
+pre-commit:
+  parallel: true
   commands:
-    commitlint:
-      run: pnpm dlx @commitlint/cli --config commitlint.config.cjs --edit {1}
+    biome:
+      glob: "*.{js,jsx,ts,tsx,json,md,yml,yaml}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
+
+pre-push:
+  commands:
+    affected:
+      run: BASE_REF=$(git merge-base origin/main HEAD 2>/dev/null || git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD) && pnpm exec nx affected -t lint,typecheck,test,build --base="$BASE_REF" --head=HEAD

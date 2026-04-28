@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Restore Nx cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-nx-${{ github.ref_name }}-
+            ${{ runner.os }}-nx-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Compute Nx SHAs
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA=$(git merge-base "origin/${{ github.base_ref }}" HEAD)
+          elif [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            BASE_SHA=$(git rev-list --max-parents=0 HEAD)
+          else
+            BASE_SHA=$(git merge-base "${{ github.event.before }}" HEAD)
+          fi
+
+          echo "NX_BASE=$BASE_SHA" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${GITHUB_SHA}" >> "$GITHUB_ENV"
+
+      - name: Biome check
+        run: pnpm exec biome check .
+
+      - name: Nx affected validation
+        run: pnpm exec nx affected -t lint,typecheck,test,build --base="$NX_BASE" --head="$NX_HEAD"
+
+      - name: Generate project graph
+        run: NX_BASE=HEAD NX_HEAD=HEAD pnpm exec nx graph --file=.nx/project-graph.json
+
+      - name: Verify required graph edges
+        run: |
+          node <<'EOF'
+          const graph = require("./.nx/project-graph.json").graph.dependencies;
+          const required = {
+            "@padel/web": ["@padel/api-client", "@padel/schemas", "@padel/ui"],
+            "@padel/api": ["@padel/schemas"]
+          };
+
+          for (const [project, deps] of Object.entries(required)) {
+            const actual = new Set((graph[project] || []).map((dep) => dep.target));
+            for (const dep of deps) {
+              if (!actual.has(dep)) {
+                throw new Error(`${project} is missing required dependency edge to ${dep}`);
+              }
+            }
+          }
+          EOF
