@@ -29,3 +29,10 @@ Define backend-specific coding style and structural conventions for the hexagona
 - naming of use cases and ports
 - boundaries between controllers, use cases and repositories
 - placement of integration tests and persistence tests
+
+## Test placement
+
+- backend tests should be co-located with the file or adapter they verify
+- use the `*.test.ts` naming pattern next to the production file
+- example: `inbound/http/competition.controller.ts` and `inbound/http/competition.controller.test.ts`
+- avoid a separate top-level `/test` folder for backend unit or integration tests unless an external tool requires a dedicated fixture directory

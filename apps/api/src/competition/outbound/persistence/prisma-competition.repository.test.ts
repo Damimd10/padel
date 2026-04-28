@@ -2,9 +2,9 @@ import { randomUUID } from "node:crypto";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { Competition } from "../src/competition/domain/competition.js";
-import { PrismaCompetitionRepository } from "../src/competition/outbound/persistence/prisma-competition.repository.js";
-import { PrismaService } from "../src/prisma/prisma/prisma.service.js";
+import { PrismaService } from "../../../prisma/prisma.service.js";
+import { Competition } from "../../domain/competition.js";
+import { PrismaCompetitionRepository } from "./prisma-competition.repository.js";
 
 const databaseUrl = process.env.DATABASE_URL;
 const canRunDatabaseTests = Boolean(databaseUrl);

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-import { PrismaService } from "../../../prisma/prisma/prisma.service.js";
+import { PrismaService } from "../../../prisma/prisma.service.js";
 import type { CompetitionRepository } from "../../application/ports/competition-repository.js";
 import type { Competition } from "../../domain/competition.js";
 

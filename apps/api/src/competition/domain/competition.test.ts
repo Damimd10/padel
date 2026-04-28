@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Competition } from "../src/competition/domain/competition.js";
+import { Competition } from "./competition.js";
 
 describe("Competition", () => {
   it("creates a draft competition from valid input", () => {

@@ -27,6 +27,7 @@ Use architecture-specific documents for lane-specific rules:
 - avoid cross-app imports that bypass package boundaries
 - prefer one responsibility per file/module when the domain boundary is meaningful
 - tests should follow the naming pattern agreed by each lane
+- when a lane uses co-located tests, place them next to the production file with `*.test.ts` or `*.test.tsx`
 
 ## Governance
 

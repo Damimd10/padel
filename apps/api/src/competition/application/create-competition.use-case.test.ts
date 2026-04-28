@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { CreateCompetitionUseCase } from "../src/competition/application/create-competition.use-case.js";
-import type { CompetitionRepository } from "../src/competition/application/ports/competition-repository.js";
+import { CreateCompetitionUseCase } from "./create-competition.use-case.js";
+import type { CompetitionRepository } from "./ports/competition-repository.js";
 
 class FakeCompetitionRepository implements CompetitionRepository {
   created: ReturnType<

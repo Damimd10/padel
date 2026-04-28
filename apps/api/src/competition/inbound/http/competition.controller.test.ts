@@ -5,8 +5,8 @@ import { Test } from "@nestjs/testing";
 import request from "supertest";
 import { describe, expect, it } from "vitest";
 
-import { CreateCompetitionUseCase } from "../src/competition/application/create-competition.use-case.js";
-import { CompetitionController } from "../src/competition/inbound/http/competition.controller.js";
+import { CreateCompetitionUseCase } from "../../application/create-competition.use-case.js";
+import { CompetitionController } from "./competition.controller.js";
 
 describe("CompetitionController", () => {
   it("creates a competition through the HTTP boundary", async () => {

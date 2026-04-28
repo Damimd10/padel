@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "lint": "biome check src/app.module.ts src/main.ts src/common src/competition src/prisma test package.json tsconfig.json tsconfig.build.json",
+    "lint": "biome check src/app.module.ts src/main.ts src/common src/competition src/prisma package.json tsconfig.json tsconfig.build.json",
     "prisma:generate": "pnpm -w exec prisma generate --schema ./apps/api/prisma/schema.prisma",
     "prisma:migrate:dev": "pnpm -w exec prisma migrate dev --schema ./apps/api/prisma/schema.prisma",
     "prisma:migrate:deploy": "pnpm -w exec prisma migrate deploy --schema ./apps/api/prisma/schema.prisma",
