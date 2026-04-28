@@ -18,3 +18,8 @@ Track:
 ## Sync rule
 
 If this document and the GitHub Project disagree, update both and record the reason for the change.
+
+## Current State
+
+- No active sprint backlog is committed yet for these follow-up items.
+- `TKT-010` and `TKT-011` are approved in [`/docs/09-agile/product-backlog.md`](/Users/damian/Projects/padel/docs/09-agile/product-backlog.md) and are awaiting GitHub Issue creation plus sprint selection.
