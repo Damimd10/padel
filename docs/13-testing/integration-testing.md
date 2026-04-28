@@ -10,6 +10,12 @@ Integration tests validate the "seams" of the application where different module
 - **Inbound Adapters**: Test NestJS Controllers using `supertest` to verify routing, guards, and status code mapping.
 - **Transaction Management**: Verify that unit-of-work/transaction decorators correctly commit or rollback changes.
 
+#### Current local baseline for `apps/api`
+
+- The default repository-backed database path is the checked-in Docker Compose PostgreSQL service at the repository root.
+- Developers should boot PostgreSQL with `pnpm run db:up`, configure `DATABASE_URL` from `.env.example`, and apply Prisma migrations with `pnpm --filter @padel/api prisma:migrate:deploy`.
+- The Prisma repository integration test is exercised with `pnpm --filter @padel/api test:integration:db` and should rely on the checked-in Prisma migration history rather than custom schema bootstrapping inside the test.
+
 ### Frontend Integration (Route & Data)
 - **TanStack Router + Query**: Test that navigating to a route triggers the correct query and renders the data.
 - **Form Submission**: Test the full cycle of user input -> TanStack Form validation -> TanStack Query mutation -> Cache invalidation.
@@ -22,3 +28,4 @@ Integration tests validate the "seams" of the application where different module
 ### Rules
 - **No Manual Mocks for DB**: Always use a real database for repository tests.
 - **Isolation**: Each test must run in a clean transaction or have its data purged via `TRUNCATE`.
+- **Migration Fidelity**: Integration tests that hit PostgreSQL should prepare schema state through Prisma migrations so test setup matches the runtime persistence path.

@@ -33,22 +33,21 @@ Every committed ticket must:
 - sprint dates or iteration label: `next-foundation-sprint`
 - capacity assumptions:
   - monorepo, UI foundation, Storybook bootstrap, backend persistence, and the first competition-create backend slice are already delivered or accepted on `master`
-  - the next delivery bottlenecks are local PostgreSQL infrastructure and authentication foundation, not another create-competition backend slice
+  - local PostgreSQL infrastructure is now delivered, and the next delivery bottleneck is the Better Auth foundation rather than another create-competition backend slice
 - committed tickets:
-  - none yet; the next candidates should be `TKT-015` and `TKT-016`
-- stretch tickets:
   - `TKT-015` - provision local PostgreSQL with Docker for Prisma and Nest integration
+- stretch tickets:
   - `TKT-016` - establish Better Auth foundation for application authentication
 - lane balance across frontend / backend / infrastructure:
-  - infrastructure: `TKT-015`
+  - infrastructure: delivered through `TKT-015`
   - frontend: completed foundation work only
   - backend: `TKT-016`
 - affected apps/packages summary:
   - `TKT-015`: `apps/api`
   - `TKT-016`: `apps/api`, `apps/web`
 - dependencies and blockers:
-  - `TKT-015` unblocks a reproducible local PostgreSQL path for Prisma migrations, repository tests, and Better Auth persistence
-  - `TKT-016` should follow `ADR-011` and is safer once `TKT-015` exists
+  - `TKT-015` delivered the reproducible local PostgreSQL path for Prisma migrations, repository tests, and Better Auth persistence
+  - `TKT-016` should follow `ADR-011` and now builds on the local PostgreSQL workflow delivered in `TKT-015`
 - GitHub milestone / project view used for execution:
   - milestone: `next-foundation-sprint`
   - project status: sync after GitHub Issues are created
@@ -56,4 +55,5 @@ Every committed ticket must:
   - completed foundation tickets are reflected as delivered in backlog and GitHub
   - `TKT-013` is closed with the accepted persistence ADR linked
   - `TKT-014` is reflected as delivered in backlog and GitHub
-  - `TKT-015` and `TKT-016` exist as GitHub Issues without reopening the already accepted Prisma or Better Auth tool choices
+  - `TKT-015` is reflected as delivered in backlog and GitHub without reopening the accepted Prisma choice
+  - `TKT-016` exists as a GitHub Issue without reopening the accepted Better Auth choice

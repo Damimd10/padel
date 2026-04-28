@@ -246,7 +246,7 @@ For each ticket, include:
   - integration: verify Prisma migration and repository tests can run against the Docker-backed PostgreSQL instance
   - e2e/manual: manually confirm a developer can start the local database and connect `apps/api` successfully
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:infrastructure`, `area:platform`, `area:data`, `target:apps-api`
 - milestone/sprint: `next-foundation-sprint`
