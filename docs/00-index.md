@@ -63,6 +63,8 @@ This project is documentation-first. Code starts only after tickets are generate
 - `docs/07-adrs/adr-007-deployment-strategy.md`
 - `docs/07-adrs/adr-008-monorepo-tooling.md`
 - `docs/07-adrs/adr-009-testing-stack.md`
+- `docs/07-adrs/adr-010-backend-persistence-implementation.md`
+- `docs/07-adrs/adr-011-authentication-strategy.md`
 
 ### 08. Tech Decisions
 

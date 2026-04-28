@@ -12,6 +12,9 @@
   "dependencies": {
     "zod": "^4.1.13"
   },
+  "devDependencies": {
+    "@padel/config": "workspace:*"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

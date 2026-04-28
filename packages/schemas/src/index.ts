@@ -5,4 +5,37 @@ export const sharedPingContract = z.object({
   version: z.literal("0.0.0"),
 });
 
+export const createCompetitionRequestSchema = z
+  .object({
+    title: z.string().trim().min(1),
+    format: z.enum(["elimination", "round-robin", "league"]),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    ownerId: z.string().trim().min(1),
+  })
+  .refine(
+    ({ startsAt, endsAt }) =>
+      new Date(startsAt).getTime() <= new Date(endsAt).getTime(),
+    {
+      message: "Competition end date must not be earlier than start date.",
+      path: ["endsAt"],
+    },
+  );
+
+export const createCompetitionResponseSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  format: z.enum(["elimination", "round-robin", "league"]),
+  startsAt: z.iso.datetime(),
+  endsAt: z.iso.datetime(),
+  ownerId: z.string(),
+  status: z.literal("draft"),
+});
+
+export type CreateCompetitionInput = z.infer<
+  typeof createCompetitionRequestSchema
+>;
+export type CreateCompetitionResponse = z.infer<
+  typeof createCompetitionResponseSchema
+>;
 export type SharedPingContract = z.infer<typeof sharedPingContract>;

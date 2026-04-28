@@ -4,6 +4,8 @@
 
 Define the backend implementation model for NestJS, TypeScript and PostgreSQL.
 
+The backend also owns authentication wiring, using Better Auth as the accepted auth framework while keeping auth concerns outside the competition domain model.
+
 ## Architecture summary
 
 The backend follows a hexagonal architecture:
