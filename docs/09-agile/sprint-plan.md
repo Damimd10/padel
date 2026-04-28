@@ -38,21 +38,24 @@ Every committed ticket must:
   - none yet; the next two candidates are approved but not committed into an active sprint
 - stretch tickets:
   - `TKT-010` - automate module boundary enforcement
+  - `TKT-012` - establish the shared UI styling foundation and first reusable `packages/ui` component surface
   - `TKT-011` - bootstrap Storybook for `packages/ui`
 - lane balance across frontend / backend / infrastructure:
   - infrastructure: `TKT-010`
-  - frontend: `TKT-011`
+  - frontend: `TKT-012`, `TKT-011`
   - backend: none in this follow-up set
 - affected apps/packages summary:
   - `TKT-010`: `apps/web`, `apps/api`, `packages/ui`, `packages/schemas`, `packages/api-client`, `packages/config`
+  - `TKT-012`: `packages/ui`, `packages/config`, `apps/web`
   - `TKT-011`: `packages/ui`, `packages/config`
 - dependencies and blockers:
   - `TKT-010` depends on confirming the approved enforcement mechanism from existing docs/ADRs or accepting a new ADR if a new mechanism is required
-  - `TKT-011` depends on a future approved ticket that introduces the first real reusable UI component surface in `packages/ui`
+  - `TKT-012` depends on preserving documented shared UI package boundaries while introducing the shared styling foundation and first real reusable component surface
+  - `TKT-011` depends on `TKT-012` establishing the shared styling foundation and introducing the first real reusable UI component surface in `packages/ui`
 - GitHub milestone / project view used for execution:
   - milestone: `next-foundation-sprint`
   - project status: sync after GitHub Issues are created
 - exit criteria:
-  - both tickets are represented as GitHub Issues before entering active sprint scope
+  - `TKT-010`, `TKT-011` and `TKT-012` are represented as GitHub Issues before entering active sprint scope
   - `TKT-010` has a documented enforcement approach
-  - `TKT-011` is not pulled into active delivery until reusable UI scope exists
+  - `TKT-011` is not pulled into active delivery until reusable UI scope exists through `TKT-012` or an equivalent approved prerequisite

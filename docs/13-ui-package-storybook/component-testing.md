@@ -10,6 +10,8 @@ Define testing expectations for reusable UI components.
 - accessibility-aware review
 - unit or interaction-focused validation where component behavior justifies it
 - integration expectations when components depend on surrounding composition patterns
+- keyboard and focus-state coverage for Radix-driven interactions when applicable
+- variant and token parity checks for `shadcn/ui` and Tailwind-based styling contracts
 
 ## Rule
 

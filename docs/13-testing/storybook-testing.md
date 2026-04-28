@@ -8,7 +8,7 @@ Utilize Storybook as a development workbench and a platform for "Living Document
 ### Interaction Testing (Play Functions)
 - Each story should include a `play` function that simulates a basic interaction (e.g., clicking a button, filling a form).
 - Use the `@storybook/test` package for assertions within the browser.
-- These tests are executed in CI using the Storybook Test Runner.
+- At minimum, Storybook validation should include a successful `storybook build` path through Nx/root scripts; browser-level interaction execution can expand from there.
 
 ### Visual Regression Testing
 - **Tool**: Chromatic (or similar).
@@ -22,3 +22,7 @@ Utilize Storybook as a development workbench and a platform for "Living Document
 ### Component Discovery
 - Organize stories by domain (e.g., `Tournament/Bracket`, `Shared/Buttons`).
 - Use MDX for detailed documentation on when and how to use specific tournament UI patterns.
+
+### Validation Workflow
+- Use `pnpm storybook` for local component review in `packages/ui`.
+- Use `pnpm storybook:build` as the baseline validation command for reusable UI changes before merge and in CI wiring.

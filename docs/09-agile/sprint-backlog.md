@@ -22,4 +22,4 @@ If this document and the GitHub Project disagree, update both and record the rea
 ## Current State
 
 - No active sprint backlog is committed yet for these follow-up items.
-- `TKT-010` and `TKT-011` are approved in [`/docs/09-agile/product-backlog.md`](/Users/damian/Projects/padel/docs/09-agile/product-backlog.md) and are awaiting GitHub Issue creation plus sprint selection.
+- `TKT-010`, `TKT-011` and `TKT-012` are approved in [`/docs/09-agile/product-backlog.md`](/Users/damian/Projects/padel/docs/09-agile/product-backlog.md). Sprint activation remains gated by the documented dependencies and scope readiness.
