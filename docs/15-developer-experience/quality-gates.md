@@ -20,6 +20,13 @@ Define the end-to-end quality gates enforced by local workflow and CI.
 - CI gates: authoritative validation for changed scope
 - review gates: architectural and documentation alignment
 
+## Boundary gate behavior
+
+- `pnpm run boundaries` is the required package-boundary gate
+- `pre-push` must run the boundary gate before affected validation
+- CI must run the same boundary gate before the broader Nx affected checks
+- fix violations by changing the offending import or declared workspace dependency, not by bypassing the check
+
 ## Mandatory examples
 
 - a `packages/ui` ticket without Storybook updates should fail review

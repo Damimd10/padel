@@ -7,5 +7,7 @@ pre-commit:
 
 pre-push:
   commands:
+    boundaries:
+      run: pnpm run boundaries
     affected:
       run: BASE_REF=$(git merge-base origin/main HEAD 2>/dev/null || git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD) && pnpm exec nx affected -t lint,typecheck,test,build --base="$BASE_REF" --head=HEAD

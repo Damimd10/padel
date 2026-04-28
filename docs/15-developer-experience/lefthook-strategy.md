@@ -18,3 +18,4 @@ Keep local validation fast, predictable and aligned with CI.
 
 - do not put slow full-repo validation in the default fast hook path without strong reason
 - hooks should fail fast on formatting, linting or missing test updates when detectable
+- `pre-push` should run `pnpm run boundaries` before affected validation so forbidden workspace imports are blocked before CI

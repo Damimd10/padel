@@ -43,3 +43,9 @@ Nx should help prevent:
 - app-to-app leakage
 - accidental UI/package boundary violations
 - backend architectural layering shortcuts
+
+## Enforcement path
+
+- use `pnpm run boundaries` as the workspace boundary gate
+- the command generates the Nx project graph and validates internal dependencies against `/docs/10-monorepo/package-boundaries.md`
+- because this repo standardizes on Biome instead of ESLint, boundary enforcement is implemented as an Nx graph validation step rather than the ESLint-based `@nx/enforce-module-boundaries` rule

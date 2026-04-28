@@ -19,6 +19,19 @@ Define the allowed architectural boundaries between apps and packages in the mon
 
 Nx should enforce project graph visibility and module boundary rules so invalid cross-imports are caught before implementation spreads coupling.
 
+## Automated enforcement
+
+- run `pnpm run boundaries` to generate the Nx project graph and fail on forbidden internal dependencies
+- the validator treats these dependencies as the enforced baseline:
+  - `@padel/web` -> `@padel/ui`, `@padel/schemas`, `@padel/api-client`, `@padel/config`
+  - `@padel/api` -> `@padel/schemas`, `@padel/config`
+  - `@padel/ui` -> `@padel/schemas`, `@padel/config`
+  - `@padel/api-client` -> `@padel/schemas`, `@padel/config`
+  - `@padel/schemas` -> `@padel/config`
+  - `@padel/config` -> no internal workspace packages
+- if a boundary violation is reported, move the shared code into the documented package boundary or update the architecture docs and ADRs before changing the rule
+- graph visibility alone is not considered sufficient; the boundary validator must pass locally and in CI
+
 ## Ticketing implication
 
 Every ticket must declare affected apps/packages so boundary impact is explicit before implementation starts.

@@ -55,27 +55,11 @@ jobs:
       - name: Biome check
         run: pnpm exec biome check .
 
+      - name: Enforce module boundaries
+        run: pnpm run boundaries
+
+      - name: Test boundary validator
+        run: pnpm run test:boundaries
+
       - name: Nx affected validation
         run: pnpm exec nx affected -t lint,typecheck,test,build --base="$NX_BASE" --head="$NX_HEAD"
-
-      - name: Generate project graph
-        run: NX_BASE=HEAD NX_HEAD=HEAD pnpm exec nx graph --file=.nx/project-graph.json
-
-      - name: Verify required graph edges
-        run: |
-          node <<'EOF'
-          const graph = require("./.nx/project-graph.json").graph.dependencies;
-          const required = {
-            "@padel/web": ["@padel/api-client", "@padel/schemas", "@padel/ui"],
-            "@padel/api": ["@padel/schemas"]
-          };
-
-          for (const [project, deps] of Object.entries(required)) {
-            const actual = new Set((graph[project] || []).map((dep) => dep.target));
-            for (const dep of deps) {
-              if (!actual.has(dep)) {
-                throw new Error(`${project} is missing required dependency edge to ${dep}`);
-              }
-            }
-          }
-          EOF

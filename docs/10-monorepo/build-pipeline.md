@@ -14,11 +14,12 @@ Define the build, check and validation pipeline before implementation begins.
 ## Expected pipeline stages
 
 1. format/lint/import organization with Biome
-2. typecheck
-3. unit and integration tests with Vitest
-4. Storybook validation for reusable UI changes
-5. E2E tests with Playwright when affected
-6. release or versioning checks with Changesets when relevant
+2. module-boundary enforcement through the Nx project graph
+3. typecheck
+4. unit and integration tests with Vitest
+5. Storybook validation for reusable UI changes
+6. E2E tests with Playwright when affected
+7. release or versioning checks with Changesets when relevant
 
 ## Local vs CI
 
