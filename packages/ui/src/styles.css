@@ -1,30 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@source "../../../apps";
+@source "../src";
+@source "../.storybook";
+@config "../tailwind.config.cjs";
 
-@layer base {
-  :root {
-    --background: 48 33% 98%;
-    --foreground: 160 30% 13%;
-    --border: 146 18% 83%;
-    --input: 146 18% 83%;
-    --ring: 148 63% 32%;
-    --primary: 148 63% 32%;
-    --primary-foreground: 142 53% 97%;
-    --secondary: 148 30% 92%;
-    --secondary-foreground: 154 42% 22%;
-    --muted: 150 19% 92%;
-    --muted-foreground: 154 13% 38%;
-    --accent: 39 86% 91%;
-    --accent-foreground: 26 44% 24%;
-    --radius: 0.9rem;
-  }
+:root {
+  --background: 48 33% 98%;
+  --foreground: 160 30% 13%;
+  --border: 146 18% 83%;
+  --input: 146 18% 83%;
+  --ring: 148 63% 32%;
+  --primary: 148 63% 32%;
+  --primary-foreground: 142 53% 97%;
+  --secondary: 148 30% 92%;
+  --secondary-foreground: 154 42% 22%;
+  --muted: 150 19% 92%;
+  --muted-foreground: 154 13% 38%;
+  --accent: 39 86% 91%;
+  --accent-foreground: 26 44% 24%;
+  --radius: 0.9rem;
+}
 
-  * {
-    @apply border-border;
-  }
+* {
+  @apply border-border;
+}
 
-  body {
-    @apply bg-background font-sans text-foreground antialiased;
-  }
+body {
+  @apply bg-background font-sans text-foreground antialiased;
 }
