@@ -1,0 +1,59 @@
+flowchart TB
+    subgraph WebApp["Competition Workflow Web App"]
+        CMUI["Competition Management UI"]
+        RMUI["Registration Management UI"]
+        MROUI["Match & Result Operations UI"]
+        COD["Competition Operations Dashboard"]
+        PHV["Participant History View"]
+    end
+
+    subgraph Domain["Competition Administration Domain"]
+        CLS["Competition Lifecycle Service"]
+        CDA["Category and Division Administration"]
+        RRS["Registration Review Service"]
+        CPS["Competition Structure / Progression Service"]
+        RVS["Result Validation Service"]
+        CCS["Competition Closure Service"]
+    end
+
+    subgraph Auth["Authorization and Role Context"]
+        RA["Role Assignment"]
+        PE["Permission Evaluation"]
+    end
+
+    subgraph Notify["Notification / Communication Context"]
+        CENH["Competition Event Notification Handler"]
+    end
+
+    DB["Persistence Layer"]
+
+    CMUI --> CLS
+    CMUI --> CDA
+    RMUI --> RRS
+    MROUI --> RVS
+    COD --> CLS
+    COD --> RRS
+    COD --> CPS
+    COD --> CCS
+    PHV --> DB
+
+    CLS --> PE
+    CDA --> PE
+    RRS --> PE
+    CPS --> PE
+    RVS --> PE
+    CCS --> PE
+
+    CLS --> DB
+    CDA --> DB
+    RRS --> DB
+    CPS --> DB
+    RVS --> DB
+    CCS --> DB
+
+    CLS --> CENH
+    RRS --> CENH
+    RVS --> CENH
+    CCS --> CENH
+    RA --> DB
+    PE --> DB

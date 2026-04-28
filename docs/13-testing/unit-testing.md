@@ -1,21 +1,32 @@
-# Unit Testing
+# Unit Testing Strategy (Vitest)
 
-## Tool
+## Role: Test Automator / QA Expert
 
-Use `Vitest` for unit testing.
+### Purpose
+Unit tests protect the smallest units of business logic—specifically domain invariants and utility functions—ensuring they behave correctly in isolation.
 
-## Purpose
+### Tooling
+- **Engine**: Vitest
+- **Mocking**: Vitest's built-in `vi` for spies and mocks.
+- **Assertion Style**: `expect(...)` with TypeScript-first matchers.
 
-Unit tests should validate isolated logic quickly and run frequently in local development and CI.
+### File Placement & Naming
+- Tests must reside next to the code they test: `[filename].spec.ts`.
+- Naming convention: `describe('SymbolName', () => { it('should [expected behavior] when [condition]', ...)\})`.
 
-## Scope examples
+### Strategies by Lane
 
-- frontend hooks, utilities and small state transitions
-- backend domain services, value objects and use-case helpers
-- pure data transformation and validation helpers
+#### Backend (NestJS / Hexagonal)
+- **Domain Logic**: 100% coverage for Value Objects and Domain Entities. No mocks allowed here; these should be pure logic.
+- **Application Services**: Test use-case logic by mocking outbound adapters (repositories, external APIs) using `fakes` or `vi.mocked`.
+- **Zod Schemas**: Validate all input/output transformation logic.
 
-## Rules
+#### Frontend (React / TanStack)
+- **Utilities & Transformers**: Pure functions (e.g., bracket generators, score calculators) must have exhaustive property-based or table-driven tests.
+- **State Selectors**: Test TanStack Store selectors and complex data derivations.
+- **Form Validation**: Test Zod schemas used in TanStack Form.
 
-- unit tests should not depend on unrelated infrastructure
-- unit tests should be fast enough to participate in affected local checks
-- naming and placement conventions should stay predictable within each lane
+### Mocking vs. Fakes
+- **Use Fakes**: For complex stateful logic like an In-Memory Repository.
+- **Use Mocks/Spies**: For one-off side effects (e.g., logging, event emission).
+- **Rule**: Never mock what you don't own (e.g., don't mock TanStack Query internals; test the data transformation instead).

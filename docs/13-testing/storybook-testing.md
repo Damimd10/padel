@@ -1,18 +1,24 @@
-# Storybook Testing
+# Storybook Testing Strategy
 
-## Purpose
+## Role: Browser Debugger / Accessibility Tester
 
-Storybook is mandatory for reusable UI components in `packages/ui`.
+### Purpose
+Utilize Storybook as a development workbench and a platform for "Living Documentation" and visual/interaction validation.
 
-## Rules
+### Interaction Testing (Play Functions)
+- Each story should include a `play` function that simulates a basic interaction (e.g., clicking a button, filling a form).
+- Use the `@storybook/test` package for assertions within the browser.
+- These tests are executed in CI using the Storybook Test Runner.
 
-- every reusable UI component change should include or update stories
-- stories should document intended states, variants and interaction surfaces
-- Storybook should support design review, documentation and component-focused validation
+### Visual Regression Testing
+- **Tool**: Chromatic (or similar).
+- **Scope**: Reusable UI components in `packages/ui`.
+- **Workflow**: On every PR, capture snapshots of all stories. Flag visual "diffs" for manual review by designers/engineers.
 
-## Validation use cases
+### Accessibility Integration
+- Enable the `@storybook/addon-a11y` to provide real-time feedback during development.
+- **Requirement**: All stories must pass the A11y panel checks before being merged.
 
-- manual design review
-- accessibility-focused review
-- interaction testing where appropriate
-- regression confidence before app integration
+### Component Discovery
+- Organize stories by domain (e.g., `Tournament/Bracket`, `Shared/Buttons`).
+- Use MDX for detailed documentation on when and how to use specific tournament UI patterns.

@@ -1,0 +1,95 @@
+sequenceDiagram
+    box rgb(245,245,245) Create Competition
+        actor Organizer as Tournament Organizer
+        participant UI as Competition Management UI
+        participant Auth as Permission Evaluation
+        participant CLS as Competition Lifecycle Service
+        participant CDA as Category and Division Administration
+        participant DB as Persistence Layer
+
+        Organizer->>UI: Create competition
+        UI->>Auth: Check permission
+        Auth-->>UI: Allowed
+        UI->>CLS: Create competition draft
+        CLS->>CDA: Configure categories and divisions
+        CDA-->>CLS: Categories and divisions configured
+        CLS->>DB: Save competition
+        DB-->>CLS: Competition persisted
+        CLS-->>UI: Competition created
+    end
+
+    box rgb(245,245,245) Register and Approve Participant
+        actor Player
+        actor Organizer2 as Tournament Organizer
+        participant UI2 as Registration Management UI
+        participant RRS as Registration Review Service
+        participant DB2 as Persistence Layer
+
+        Player->>UI2: Submit registration
+        UI2->>RRS: Create registration
+        RRS->>DB2: Save registration as pending review
+        DB2-->>RRS: Registration persisted
+        RRS-->>UI2: Registration recorded
+
+        Organizer2->>UI2: Review registration
+        UI2->>RRS: Approve or reject registration
+        RRS->>RRS: Validate category and division alignment
+        RRS->>DB2: Update registration status
+        DB2-->>RRS: Registration updated
+        RRS-->>UI2: Reviewed registration state
+    end
+
+    box rgb(245,245,245) Generate Competition Structure
+        actor Organizer3 as Tournament Organizer
+        participant UI3 as Competition Management UI
+        participant CPS as Competition Structure / Progression Service
+        participant DB3 as Persistence Layer
+
+        Organizer3->>UI3: Generate competition structure
+        UI3->>CPS: Build structure from approved registrations
+        CPS->>DB3: Read approved registrations by category and division
+        DB3-->>CPS: Approved participant set
+        CPS->>CPS: Create bracket, draw, or fixture structure
+        CPS->>DB3: Save matches and progression structure
+        DB3-->>CPS: Structure persisted
+        CPS-->>UI3: Competition structure ready
+    end
+
+    box rgb(245,245,245) Record Match Result
+        actor Staff as Competition Support Staff
+        participant UI4 as Match & Result Operations UI
+        participant RVS as Result Validation Service
+        participant CPS2 as Competition Structure / Progression Service
+        participant DB4 as Persistence Layer
+
+        Staff->>UI4: Record match result
+        UI4->>RVS: Submit result
+        RVS->>DB4: Save result as recorded
+        DB4-->>RVS: Result stored
+        RVS->>RVS: Validate result
+        alt Result valid
+            RVS->>CPS2: Advance progression
+            CPS2->>DB4: Update match progression and derived outcomes
+            DB4-->>CPS2: Progression updated
+            CPS2-->>RVS: Progression advanced
+        else Result invalid
+            RVS-->>UI4: Result remains unresolved
+        end
+        RVS-->>UI4: Result state returned
+    end
+
+    box rgb(245,245,245) Close Competition
+        actor Manager as Club Competition Manager
+        participant UI5 as Competition Operations Dashboard
+        participant CCS as Competition Closure Service
+        participant DB5 as Persistence Layer
+
+        Manager->>UI5: Close competition
+        UI5->>CCS: Request closure
+        CCS->>DB5: Check registrations, matches, and results
+        DB5-->>CCS: Competition state snapshot
+        CCS->>CCS: Verify operational completeness
+        CCS->>DB5: Mark competition completed and finalize outcome
+        DB5-->>CCS: Competition closed
+        CCS-->>UI5: Closure confirmed
+    end

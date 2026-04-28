@@ -9,6 +9,65 @@ This project is documentation-first. Code starts only after tickets are generate
 - `docs/00-setup/agents-and-skills.md`
 - `docs/00-setup/skills-inventory.md`
 
+### 01. Research
+
+- `docs/01-research/problem-statement.md`
+- `docs/01-research/target-users.md`
+- `docs/01-research/pain-points.md`
+- `docs/01-research/competitor-analysis.md`
+- `docs/01-research/opportunities.md`
+- `docs/01-research/assumptions.md`
+- `docs/01-research/risks.md`
+- `docs/01-research/open-questions.md`
+- `docs/01-research/research-summary.md`
+
+### 02. Product
+
+- `docs/02-product/product-vision.md`
+- `docs/02-product/mvp-scope.md`
+- `docs/02-product/out-of-scope.md`
+- `docs/02-product/personas.md`
+- `docs/02-product/user-journeys.md`
+- `docs/02-product/success-metrics.md`
+
+### 03. Requirements
+
+- `docs/03-requirements/functional-requirements.md`
+- `docs/03-requirements/non-functional-requirements.md`
+- `docs/03-requirements/business-rules.md`
+
+### 04. Use Cases
+
+- `docs/04-use-cases/use-cases.md`
+
+### 05. Architecture
+
+- `docs/05-architecture/domain-model.md`
+
+### 06. Diagrams
+
+- `docs/06-diagrams/context-diagram.mmd`
+- `docs/06-diagrams/container-diagram.mmd`
+- `docs/06-diagrams/component-diagram.mmd`
+- `docs/06-diagrams/sequence-diagrams.mmd`
+- `docs/06-diagrams/erd.mmd`
+
+### 07. ADRs
+
+- `docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+- `docs/07-adrs/adr-002-frontend-architecture.md`
+- `docs/07-adrs/adr-003-backend-architecture.md`
+- `docs/07-adrs/adr-004-database-choice.md`
+- `docs/07-adrs/adr-005-api-communication-pattern.md`
+- `docs/07-adrs/adr-006-state-management-approach.md`
+- `docs/07-adrs/adr-007-deployment-strategy.md`
+- `docs/07-adrs/adr-008-monorepo-tooling.md`
+- `docs/07-adrs/adr-009-testing-stack.md`
+
+### 08. Tech Decisions
+
+- `docs/08-tech-decisions/final-stack.md`
+
 ### 09. Agile
 
 - `docs/09-agile/definition-of-ready.md`
@@ -28,6 +87,15 @@ This project is documentation-first. Code starts only after tickets are generate
 ### 11. Design System
 
 - `docs/11-design-system/design-principles.md`
+- `docs/11-design-system/design-tokens.md`
+- `docs/11-design-system/typography-rules.md`
+- `docs/11-design-system/spacing-rules.md`
+- `docs/11-design-system/color-usage.md`
+- `docs/11-design-system/component-inventory.md`
+- `docs/11-design-system/component-states.md`
+- `docs/11-design-system/accessibility-guidelines.md`
+- `docs/11-design-system/ux-guidelines.md`
+- `docs/11-design-system/storybook-documentation-strategy.md`
 
 ### 12. Frontend Architecture
 

@@ -1,0 +1,82 @@
+erDiagram
+    COMPETITION ||--o{ CATEGORY : has
+    COMPETITION ||--o{ DIVISION : has
+    COMPETITION ||--o{ COMPETITION_REGISTRATION : receives
+    COMPETITION ||--o{ MATCH : contains
+    COMPETITION ||--o{ COMPETITION_OUTCOME : produces
+
+    PARTICIPANT ||--o{ COMPETITION_REGISTRATION : submits
+
+    CATEGORY ||--o{ COMPETITION_REGISTRATION : targets
+    DIVISION o|--o{ COMPETITION_REGISTRATION : scopes
+
+    CATEGORY ||--o{ MATCH : groups
+    DIVISION o|--o{ MATCH : scopes
+
+    MATCH ||--o| MATCH_RESULT : records
+
+    COMPETITION {
+        string competition_id
+        string title
+        string format
+        string status
+        string operational_owner
+        date start_date
+        date end_date
+    }
+
+    CATEGORY {
+        string category_id
+        string competition_id
+        string label
+        string status
+    }
+
+    DIVISION {
+        string division_id
+        string competition_id
+        string division_type
+        string status
+    }
+
+    PARTICIPANT {
+        string participant_id
+        string display_identity
+        string sex_classification
+        string club_affiliation
+    }
+
+    COMPETITION_REGISTRATION {
+        string registration_id
+        string competition_id
+        string participant_id
+        string category_id
+        string division_id
+        string registration_status
+        string approval_outcome
+    }
+
+    MATCH {
+        string match_id
+        string competition_id
+        string category_id
+        string division_id
+        string match_status
+        string progression_position
+    }
+
+    MATCH_RESULT {
+        string result_id
+        string match_id
+        string validation_state
+        string score
+        datetime recorded_at
+    }
+
+    COMPETITION_OUTCOME {
+        string outcome_id
+        string competition_id
+        string category_id
+        string division_id
+        string finalized_status
+    }

@@ -1,0 +1,31 @@
+flowchart TB
+    subgraph Users
+        CCM["Club Competition Manager"]
+        TO["Tournament Organizer"]
+        CSS["Competition Support Staff"]
+        P["Player"]
+    end
+
+    subgraph System["Competition Workflow System"]
+        WA["Competition Workflow Web App"]
+        AD["Competition Administration Domain"]
+        AR["Authorization and Role Context"]
+        NC["Notification / Communication Context"]
+        PL["Persistence Layer"]
+    end
+
+    ECT["Existing Club Tools"]
+    ECH["Existing Communication Habits"]
+
+    CCM --> WA
+    TO --> WA
+    CSS --> WA
+    P --> WA
+
+    WA --> AD
+    WA --> AR
+    AD --> PL
+    AR --> PL
+    AD --> NC
+    NC -.-> ECH
+    WA -.-> ECT

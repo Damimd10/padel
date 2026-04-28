@@ -1,27 +1,24 @@
-# Integration Testing
+# Integration Testing Strategy
 
-## Tool
+## Role: QA Expert / Test Automator
 
-Use `Vitest` for integration testing.
+### Purpose
+Integration tests validate the "seams" of the application where different modules or external systems meet.
 
-## Purpose
+### Backend Integration (Hexagonal Adapters)
+- **Outbound Adapters**: Test repositories against a real PostgreSQL instance (via Docker/Testcontainers) to verify SQL queries and Zod mapping.
+- **Inbound Adapters**: Test NestJS Controllers using `supertest` to verify routing, guards, and status code mapping.
+- **Transaction Management**: Verify that unit-of-work/transaction decorators correctly commit or rollback changes.
 
-Integration tests validate meaningful collaboration between modules, adapters or services without jumping directly to full E2E coverage.
+### Frontend Integration (Route & Data)
+- **TanStack Router + Query**: Test that navigating to a route triggers the correct query and renders the data.
+- **Form Submission**: Test the full cycle of user input -> TanStack Form validation -> TanStack Query mutation -> Cache invalidation.
+- **Mock Service Worker (MSW)**: Use MSW to intercept network requests at the browser level, allowing tests to exercise the full HTTP stack without a real backend.
 
-## Frontend examples
+### Contract Testing
+- **Consumer-Driven Contracts**: Ensure the Frontend's expectations (TypeScript types/Zod schemas) match the Backend's API definitions.
+- **Strategy**: Share Zod schemas between Frontend and Backend in the monorepo to ensure compile-time and runtime alignment.
 
-- route + query interactions
-- form + validation + submission flows
-- UI package integration with application wrappers
-
-## Backend examples
-
-- controller to application layer translation
-- repository adapter behavior
-- database-backed integration scenarios
-
-## Rules
-
-- integration tests should focus on seam validation
-- they should remain narrower and cheaper than E2E tests
-- package boundaries should still be respected in test setup
+### Rules
+- **No Manual Mocks for DB**: Always use a real database for repository tests.
+- **Isolation**: Each test must run in a clean transaction or have its data purged via `TRUNCATE`.

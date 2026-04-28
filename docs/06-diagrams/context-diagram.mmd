@@ -1,0 +1,18 @@
+flowchart LR
+    CCM["Club Competition Manager"]
+    TO["Tournament Organizer"]
+    CSS["Competition Support Staff"]
+    P["Player"]
+
+    CWS["Competition Workflow System"]
+
+    ECT["Existing Club Tools"]
+    ECH["Existing Communication Habits"]
+
+    CCM -->|"Creates and oversees competitions"| CWS
+    TO -->|"Configures categories, registrations, structure, closure"| CWS
+    CSS -->|"Records results and resolves operational issues"| CWS
+    P -->|"Registers and follows competition state"| CWS
+
+    CWS -.->|"Coexists with"| ECT
+    CWS -.->|"Triggers relevant workflow communication through"| ECH
