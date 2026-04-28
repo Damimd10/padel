@@ -1,4 +1,7 @@
+import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
@@ -8,39 +11,41 @@ import { PrismaCompetitionRepository } from "./prisma-competition.repository.js"
 
 const databaseUrl = process.env.DATABASE_URL;
 const canRunDatabaseTests = Boolean(databaseUrl);
+const repositoryRoot = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../../../../../..",
+);
+
+function applyPrismaMigrations() {
+  const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+
+  execFileSync(
+    pnpmCommand,
+    [
+      "-w",
+      "exec",
+      "prisma",
+      "migrate",
+      "deploy",
+      "--schema",
+      "./apps/api/prisma/schema.prisma",
+    ],
+    {
+      cwd: repositoryRoot,
+      env: process.env,
+      stdio: "inherit",
+    },
+  );
+}
 
 describe.skipIf(!canRunDatabaseTests)("PrismaCompetitionRepository", () => {
   let prisma: PrismaService;
 
   beforeAll(async () => {
+    applyPrismaMigrations();
+
     prisma = new PrismaService();
     await prisma.$connect();
-
-    await prisma
-      .$executeRawUnsafe(`
-      CREATE TYPE "CompetitionFormat" AS ENUM ('elimination', 'round_robin', 'league');
-    `)
-      .catch(() => undefined);
-
-    await prisma
-      .$executeRawUnsafe(`
-      CREATE TYPE "CompetitionStatus" AS ENUM ('draft', 'open', 'closed');
-    `)
-      .catch(() => undefined);
-
-    await prisma.$executeRawUnsafe(`
-      CREATE TABLE IF NOT EXISTS "Competition" (
-        "id" TEXT PRIMARY KEY,
-        "title" TEXT NOT NULL,
-        "format" "CompetitionFormat" NOT NULL,
-        "startsAt" TIMESTAMPTZ NOT NULL,
-        "endsAt" TIMESTAMPTZ NOT NULL,
-        "ownerId" TEXT NOT NULL,
-        "status" "CompetitionStatus" NOT NULL,
-        "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        "updatedAt" TIMESTAMPTZ NOT NULL DEFAULT NOW()
-      );
-    `);
 
     await prisma.competition.deleteMany();
   });

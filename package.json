@@ -5,6 +5,10 @@
   "packageManager": "pnpm@10.6.3",
   "scripts": {
     "prepare": "lefthook install",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "db:ps": "docker compose ps",
     "build": "pnpm exec nx run-many -t build --all",
     "build:affected": "pnpm exec nx affected -t build --base=origin/main --head=HEAD",
     "boundaries": "node scripts/check-module-boundaries.mjs",
