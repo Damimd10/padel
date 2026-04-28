@@ -21,5 +21,9 @@ If this document and the GitHub Project disagree, update both and record the rea
 
 ## Current State
 
-- No active sprint backlog is committed yet for these follow-up items.
-- `TKT-010`, `TKT-011` and `TKT-012` are approved in [`/docs/09-agile/product-backlog.md`](/Users/damian/Projects/padel/docs/09-agile/product-backlog.md). Sprint activation remains gated by the documented dependencies and scope readiness.
+- No active sprint backlog is committed yet for the next implementation wave.
+- `TKT-010`, `TKT-011` and `TKT-012` are delivered on `master` and should be treated as completed foundation work rather than open sprint candidates.
+- `TKT-013` is completed through `ADR-010`.
+- `TKT-014` is delivered as the first backend implementation slice for competition creation under `CORE-01`.
+- The next recommended infrastructure ticket is `TKT-015`, provisioning local PostgreSQL with Docker for Prisma and Nest integration.
+- The next recommended backend ticket after that is `TKT-016`, establishing the Better Auth foundation.

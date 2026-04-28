@@ -89,6 +89,22 @@ Main risk:
 
 - Contract drift if teams bypass the shared schema and client boundary.
 
+## Authentication
+
+Decision:
+
+- Better Auth
+- PostgreSQL-backed auth persistence
+- backend-owned auth wiring with protected identity crossing into application use cases through explicit boundaries
+
+Why:
+
+- Best fit for a TypeScript-first stack that wants owned authentication without rebuilding security-sensitive commodity flows from scratch.
+
+Main risk:
+
+- Auth and session models can leak into product modules if Better Auth is not kept at inbound and infrastructure boundaries.
+
 ## State management
 
 Decision:
@@ -177,3 +193,5 @@ Main risk:
 - [ADR-007: Deployment Strategy](/Users/damian/Projects/padel/docs/07-adrs/adr-007-deployment-strategy.md)
 - [ADR-008: Monorepo Tooling](/Users/damian/Projects/padel/docs/07-adrs/adr-008-monorepo-tooling.md)
 - [ADR-009: Testing Stack](/Users/damian/Projects/padel/docs/07-adrs/adr-009-testing-stack.md)
+- [ADR-010: Backend Persistence Implementation](/Users/damian/Projects/padel/docs/07-adrs/adr-010-backend-persistence-implementation.md)
+- [ADR-011: Authentication Strategy](/Users/damian/Projects/padel/docs/07-adrs/adr-011-authentication-strategy.md)

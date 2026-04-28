@@ -36,6 +36,7 @@ coverage/
 .turbo/
 .next/
 storybook-static/
+apps/api/src/generated/prisma/*.dylib.node
 
 # Local Codex scratch space
 .codex/.tmp/

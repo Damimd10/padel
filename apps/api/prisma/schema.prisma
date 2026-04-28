@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CompetitionFormat {
+  elimination
+  round_robin
+  league
+}
+
+enum CompetitionStatus {
+  draft
+  open
+  closed
+}
+
+model Competition {
+  id        String            @id @default(uuid())
+  title     String
+  format    CompetitionFormat
+  startsAt  DateTime
+  endsAt    DateTime
+  ownerId   String
+  status    CompetitionStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}

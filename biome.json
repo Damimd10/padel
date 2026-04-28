@@ -12,8 +12,14 @@
       "**/coverage/**",
       "**/.nx/**",
       "**/node_modules/**",
-      "**/storybook-static/**"
+      "**/storybook-static/**",
+      "apps/api/src/generated/**"
     ]
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
   },
   "formatter": {
     "enabled": true,

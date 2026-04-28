@@ -1,14 +1,38 @@
 import { describe, expect, it } from "vitest";
 
-import { sharedPingContract } from "../src/index.js";
+import {
+  createCompetitionRequestSchema,
+  createCompetitionResponseSchema,
+} from "../src/index.js";
 
-describe("schemas package", () => {
-  it("parses the shared placeholder contract", () => {
+describe("competition schemas", () => {
+  it("parses a valid create-competition request", () => {
     expect(
-      sharedPingContract.parse({ status: "ok", version: "0.0.0" }),
-    ).toEqual({
-      status: "ok",
-      version: "0.0.0",
+      createCompetitionRequestSchema.parse({
+        title: "Regional Open",
+        format: "elimination",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-1",
+      }),
+    ).toMatchObject({
+      title: "Regional Open",
+      format: "elimination",
+      ownerId: "owner-1",
     });
+  });
+
+  it("rejects a response with a non-draft status", () => {
+    expect(() =>
+      createCompetitionResponseSchema.parse({
+        id: crypto.randomUUID(),
+        title: "Regional Open",
+        format: "elimination",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-1",
+        status: "open",
+      }),
+    ).toThrow();
   });
 });
