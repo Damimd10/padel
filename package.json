@@ -17,16 +17,30 @@
     "typecheck:affected": "pnpm exec nx affected -t typecheck --base=origin/main --head=HEAD",
     "check": "pnpm exec biome check . && pnpm run boundaries && pnpm run test:boundaries && pnpm exec nx run-many -t lint,typecheck,test --all",
     "check:affected": "pnpm exec biome check . && pnpm run boundaries && pnpm run test:boundaries && pnpm exec nx affected -t lint,typecheck,test --base=origin/main --head=HEAD",
-    "graph": "NX_BASE=HEAD NX_HEAD=HEAD pnpm exec nx graph --file=.nx/workspace-graph.html"
+    "graph": "NX_BASE=HEAD NX_HEAD=HEAD pnpm exec nx graph --file=.nx/workspace-graph.html",
+    "storybook": "pnpm --filter @padel/ui storybook",
+    "storybook:build": "pnpm --filter @padel/ui storybook:build"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^24.10.0",
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
+    "@storybook/addon-a11y": "^8.6.18",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/addon-interactions": "^8.6.18",
+    "@storybook/react": "8.6.18",
+    "@storybook/react-vite": "^8.6.18",
+    "@storybook/test": "^8.6.18",
+    "@tailwindcss/postcss": "4.2.4",
+    "@types/node": "^24.10.0",
+    "@vitejs/plugin-react": "^5.0.4",
     "lefthook": "^2.1.6",
     "nx": "^21.6.5",
+    "postcss": "^8.5.12",
+    "storybook": "^8.6.18",
+    "tailwindcss": "^4.2.4",
     "typescript": "^5.9.3",
+    "vite": "^6.4.2",
     "vitest": "^3.2.4"
   }
 }

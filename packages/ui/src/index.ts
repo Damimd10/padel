@@ -1,1 +1,2 @@
-export const uiPackageMarker = "packages/ui baseline package";
+export { Button, buttonVariants } from "./components/button.js";
+export type { ButtonProps } from "./components/button.js";

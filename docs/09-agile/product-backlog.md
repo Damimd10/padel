@@ -34,6 +34,42 @@ For each ticket, include:
 
 ## Backlog Items
 
+### TKT-012 - Establish the shared UI styling foundation and first reusable component surface
+
+- ID: `TKT-012`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`, `apps/web`
+- title: `Establish the shared UI styling foundation and introduce a Button component in packages/ui`
+- story/task description: Establish the shared styling and composition foundation required for `packages/ui` to follow the documented `shadcn/ui`, Radix UI and Tailwind CSS direction before Storybook is introduced. This ticket should add the shared Tailwind and CSS entrypoint strategy needed by consumers, define the minimal supporting package setup for reusable UI work, and then introduce a shared `Button` component as the first real reusable component surface built on that foundation.
+- acceptance criteria:
+  - the workspace has a documented and implemented shared styling foundation for `packages/ui` consumers, including the Tailwind and shared CSS entrypoint approach needed by future Storybook setup
+  - `packages/ui` exports a real reusable `Button` component instead of only a placeholder marker export
+  - the `Button` API follows the documented shared UI package boundaries and does not pull in app-specific data, routing or workflow logic
+  - the component supports the baseline documented interactive states relevant to a shared button surface, including default, hover, focus-visible, active and disabled
+  - styling and composition align with the documented `shadcn/ui` + Tailwind approach and are consumed through the shared foundation rather than ad hoc app-local setup
+  - tests validate the new shared component surface and the placeholder-only baseline export is removed or no longer presented as the package's only meaningful API
+- linked docs:
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+  - `/docs/13-ui-package-storybook/ui-package-overview.md`
+  - `/docs/13-ui-package-storybook/component-testing.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+- testing expectations:
+  - unit: validate the shared `Button` API and expected baseline rendering or behavior states
+  - integration: verify the shared styling foundation and component can be consumed from package entrypoints without app-specific dependencies leaking into the shared package boundary
+  - e2e/manual: confirm the resulting foundation is credible input for upcoming Storybook bootstrap work
+- estimate: `S`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `target:packages-ui`, `target:packages-config`, `target:apps-web`
+- milestone/sprint: `next-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/10`
+
 ### TKT-010 - Enforce module boundaries automatically in Nx
 
 - ID: `TKT-010`
@@ -76,9 +112,10 @@ For each ticket, include:
 - delivery lane: `frontend`
 - affected apps/packages: `packages/ui`, `packages/config`
 - title: `Bootstrap Storybook when packages/ui gets its first reusable component surface`
-- story/task description: Initialize Storybook for `packages/ui` once the package exposes its first real reusable component API. The bootstrap should align with the documented UI package and Storybook strategy and establish the minimum validation path required for future reusable UI work.
+- story/task description: Initialize Storybook for `packages/ui` once the package exposes its first real reusable component API. The bootstrap should align with the documented UI package and Storybook strategy, load the shared Tailwind and design-token setup used by `shadcn/ui`-style components, support Radix-based interaction states, and establish the minimum validation path required for future reusable UI work.
 - acceptance criteria:
   - Storybook is configured for `packages/ui` and can render the first reusable shared component surface
+  - the Storybook preview environment loads the shared Tailwind, token and styling setup required by the documented `shadcn/ui` + Radix approach
   - at least one real reusable UI component has stories covering default and relevant state examples
   - Nx targets and root scripts expose the agreed Storybook workflow
   - CI and review guidance document when Storybook validation must run
@@ -100,4 +137,4 @@ For each ticket, include:
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `area:design-system`
 - milestone/sprint: `next-foundation-sprint`
-- GitHub issue URL or placeholder: `TBD`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/7`

@@ -4,16 +4,24 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "lint": "biome check src package.json tsconfig.json tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && mkdir -p dist && cp src/styles.css dist/styles.css",
+    "lint": "biome check src .storybook test package.json tsconfig.json tsconfig.build.json",
+    "storybook": "storybook dev -p 6006 --config-dir .storybook",
+    "storybook:build": "CI=1 storybook build --config-dir .storybook",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run"
   },
   "dependencies": {
-    "react": "^19.2.0"
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "react": "^19.2.0",
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.2"
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "react-dom": "^19.2.0"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,6 +30,9 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./styles.css": {
+      "default": "./dist/styles.css"
     }
   },
   "nx": {
