@@ -2,10 +2,12 @@ import "reflect-metadata";
 
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
+import type { Request, Response } from "express";
 import { Logger } from "nestjs-pino";
 
 import { AppModule } from "./app.module.js";
 import { GlobalExceptionFilter } from "./common/filters/global-exception/global-exception.filter.js";
+import { HandleAuthRequestUseCase } from "./common/modules/auth/application/handle-auth-request.use-case.js";
 
 export async function createApp() {
   const app = await NestFactory.create(AppModule, {
@@ -21,6 +23,12 @@ export async function createApp() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  const handleAuthRequestUseCase = app.get(HandleAuthRequestUseCase);
+
+  app.use("/auth", (req: Request, res: Response) => {
+    void handleAuthRequestUseCase.execute(req, res);
+  });
 
   return app;
 }

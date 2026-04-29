@@ -3,14 +3,12 @@ import { PrismaModule } from "../../../prisma/prisma.module.js";
 import { HandleAuthRequestUseCase } from "./application/handle-auth-request.use-case.js";
 import { AuthGatewayToken } from "./application/ports/auth-gateway.port.js";
 import { ResolveAuthSessionUseCase } from "./application/resolve-auth-session.use-case.js";
-import { AuthController } from "./inbound/http/auth.controller.js";
 import { AuthenticatedGuard } from "./inbound/http/authenticated.guard.js";
 import { BetterAuthGateway } from "./outbound/better-auth.gateway.js";
 
 @Global()
 @Module({
   imports: [PrismaModule],
-  controllers: [AuthController],
   providers: [
     BetterAuthGateway,
     HandleAuthRequestUseCase,

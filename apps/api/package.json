@@ -14,7 +14,7 @@
     "prisma:migrate:status": "pnpm -w exec prisma migrate status --schema ./apps/api/prisma/schema.prisma",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "test:integration:db": "vitest run src/competition/outbound/persistence/prisma-competition.repository.test.ts"
+    "test:integration:db": "vitest run src/competition/outbound/persistence/prisma-competition.repository.test.ts src/common/modules/auth/inbound/http/auth.controller.integration.test.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.6.9",

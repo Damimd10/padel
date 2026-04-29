@@ -280,8 +280,43 @@ For each ticket, include:
   - integration: verify Better Auth can persist and read auth state against PostgreSQL in the local backend environment
   - e2e/manual: prove at least one sign-in or session-establishment path end-to-end once the delivery slice is chosen
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:platform`, `target:apps-api`, `target:apps-web`
 - milestone/sprint: `next-foundation-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/15`
+
+### TKT-017 - Protect competition creation with authenticated organizer identity
+
+- ID: `TKT-017`
+- type: `task`
+- epic: `competition-management-core`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Require authenticated identity at the competition-create inbound boundary`
+- story/task description: Build on the delivered Better Auth foundation by protecting the competition-creation flow with an explicit authenticated identity boundary. The slice should require a real session at the inbound HTTP layer, translate authenticated user identity into the application input contract, and remove the current need for external callers to provide `ownerId` directly when creating a competition.
+- acceptance criteria:
+  - the create-competition HTTP endpoint requires an authenticated session before a competition can be created
+  - unauthenticated requests are rejected through the inbound auth boundary with a consistent HTTP response
+  - the authenticated identity used for competition ownership is supplied by the auth boundary instead of trusting caller-provided ownership fields
+  - the application and domain layers continue to avoid direct Better Auth type imports
+  - tests verify both the authenticated success path and the unauthenticated rejection path
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/03-requirements/business-rules.md`
+  - `/docs/16-backend-architecture/security-strategy.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-011-authentication-strategy.md`
+- testing expectations:
+  - unit: cover any request-to-application identity mapping introduced by the ticket
+  - integration: verify the protected HTTP endpoint blocks unauthenticated requests and accepts authenticated ones
+  - e2e/manual: confirm a signed-in user can create a competition without manually passing an ownership field
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:platform`, `area:competition`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `next-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/19`

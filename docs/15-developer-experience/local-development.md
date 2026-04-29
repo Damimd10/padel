@@ -84,7 +84,18 @@ With PostgreSQL running and `DATABASE_URL` configured, the Prisma repository int
 pnpm --filter @padel/api test:integration:db
 ```
 
-That test applies checked-in Prisma migrations before executing the repository assertions, so it validates the same schema path used by local NestJS development.
+That suite applies checked-in Prisma migrations before executing the repository and auth assertions, so it validates the same schema path used by local NestJS development.
+
+## Better Auth local flow
+
+`TKT-016` extends the local backend baseline with Better Auth runtime wiring and a PostgreSQL-backed session path.
+
+See `/docs/15-developer-experience/auth-local-workflow.md` for:
+
+- required auth environment variables
+- local cookie/session guidance
+- the database-backed auth integration test flow
+- a minimal manual sign-up and session-establishment check
 
 ## Principle
 

@@ -8,7 +8,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { toNodeHandler } from "better-auth/node";
+import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 
 import { PrismaService } from "../../../../prisma/prisma.service.js";
 import type {
@@ -30,6 +30,7 @@ export class BetterAuthGateway implements AuthGateway {
       }),
       secret: this.configService.getOrThrow<string>("BETTER_AUTH_SECRET"),
       baseURL: this.configService.getOrThrow<string>("BETTER_AUTH_URL"),
+      basePath: "/auth",
       emailAndPassword: {
         enabled: true,
       },
@@ -37,24 +38,8 @@ export class BetterAuthGateway implements AuthGateway {
   }
 
   async getSession(headers: IncomingHttpHeaders): Promise<AuthSession | null> {
-    const requestHeaders = new Headers();
-
-    for (const [key, value] of Object.entries(headers)) {
-      if (Array.isArray(value)) {
-        for (const headerValue of value) {
-          requestHeaders.append(key, headerValue);
-        }
-
-        continue;
-      }
-
-      if (typeof value === "string") {
-        requestHeaders.set(key, value);
-      }
-    }
-
     return (await this.auth.api.getSession({
-      headers: requestHeaders,
+      headers: fromNodeHeaders(headers),
     })) as AuthSession | null;
   }
 
