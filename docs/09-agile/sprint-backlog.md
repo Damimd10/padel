@@ -27,6 +27,9 @@ If this document and the GitHub Project disagree, update both and record the rea
 - `TKT-015` is delivered as the local PostgreSQL infrastructure path for Prisma, NestJS integration, and repository-backed database tests.
 - `TKT-016` is delivered as the Better Auth foundation for application authentication, including PostgreSQL-backed session persistence and documented local validation.
 - The next recommended backend ticket after that is `TKT-017`, protecting competition creation with authenticated organizer identity.
+- The next recommended frontend shared-UI baseline is `TKT-018`, establishing the form foundation needed before the rest of the `packages/ui` component wave.
+- After `TKT-018`, `TKT-019` and `TKT-020` are the preferred parallel tickets because they split cleanly across form-choice controls versus layout and feedback primitives.
+- `TKT-021` should follow once the shared overlay documentation path remains aligned with the approved Storybook and package-boundary rules.
 
 ## Active Sprint Record
 

@@ -32,3 +32,18 @@ Define the responsibility and technology baseline for `packages/ui` before imple
 
 - Storybook is mandatory for reusable components
 - every component change must define variants, states, accessibility behavior, story examples and test expectations
+
+## Recommended delivery path
+
+To keep `packages/ui` parallelizable without breaking package boundaries, the next shared-component wave should follow this sequence:
+
+1. form foundations first so all data-entry work shares the same field semantics, label wiring and validation surface
+2. selection and choice controls plus layout/feedback primitives in parallel once the form foundation contracts are in place
+3. interactive overlays after the base trigger, content and feedback primitives are already documented in Storybook
+
+## Parallelization guardrails
+
+- `packages/ui` tickets may run in parallel only when they do not redefine the same public API surface or duplicate shared helpers
+- form primitives should establish the baseline field contract before more specialized controls build on top of it
+- Storybook categories and docs should mirror the approved ticket slicing so teams can work independently without inventing new taxonomy mid-implementation
+- overlays must keep Radix portal, focus and keyboard behavior inside the shared package boundary instead of pushing those concerns into consuming apps

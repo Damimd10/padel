@@ -320,3 +320,151 @@ For each ticket, include:
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:platform`, `area:competition`, `target:apps-api`, `target:packages-schemas`
 - milestone/sprint: `next-foundation-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/19`
+
+### TKT-018 - Establish form foundations for the shared UI package
+
+- ID: `TKT-018`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Establish the form foundations for reusable data-entry components in packages/ui`
+- story/task description: Expand the shared UI package with the first approved data-entry foundation wave. This ticket should define the baseline API and Storybook documentation for reusable form primitives in `packages/ui`, covering `Label`, `Input`, and `Textarea`, plus any minimal field-level composition helpers required to keep accessibility wiring and validation presentation consistent across future TanStack Form usage.
+- acceptance criteria:
+  - `packages/ui` exports reusable `Label`, `Input`, and `Textarea` component surfaces aligned with the documented `shadcn/ui` and Radix-compatible design direction
+  - any supporting field-level helper introduced in scope stays generic to shared UI concerns and does not embed app-specific form workflows
+  - the public APIs support the documented baseline states relevant to shared form primitives, including default, focus-visible, disabled, invalid and read-only where applicable
+  - Storybook documents purpose, variants, states and accessibility-relevant behavior for each component
+  - tests validate the public API and baseline behavior for the shipped form primitives
+- linked docs:
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/13-ui-package-storybook/ui-package-overview.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+  - `/docs/13-ui-package-storybook/component-testing.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate form primitive rendering, prop passthrough and invalid or disabled state behavior
+  - integration: verify the components can be consumed through the shared package entrypoint without app-specific form dependencies leaking into `packages/ui`
+  - e2e/manual: confirm Storybook documents keyboard, focus and validation-relevant states clearly enough for follow-on form-control tickets
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/21`
+
+### TKT-019 - Add selection and choice controls to the shared UI package
+
+- ID: `TKT-019`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared selection and choice controls in packages/ui`
+- story/task description: Build the next reusable form-control wave in `packages/ui` once the base field contract exists. This ticket should add `Checkbox`, `Radio Group`, `Select`, and `Switch` as shared components, keeping their APIs aligned with the documented package boundaries and with the accessibility and keyboard expectations of the Radix primitives they wrap.
+- acceptance criteria:
+  - `packages/ui` exports reusable `Checkbox`, `Radio Group`, `Select`, and `Switch` components through the shared package entrypoint
+  - the public APIs stay generic and do not bake in feature-specific option loading, filtering or workflow orchestration
+  - keyboard, focus, checked, disabled and invalid or error-adjacent states are documented in Storybook where those states are part of the public contract
+  - `Select` scope remains a standard shared select surface and does not expand into combobox or async-search behavior in the same ticket
+  - tests validate the public behavior expected from the shipped controls
+- linked docs:
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/accessibility-guidelines.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/13-ui-package-storybook/ui-package-overview.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+  - `/docs/13-ui-package-storybook/component-testing.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate controlled or uncontrolled behavior, state mapping and disabled or checked-state behavior as applicable
+  - integration: verify the wrapped Radix-driven interactions preserve the shared package boundary and can be consumed through `packages/ui`
+  - e2e/manual: confirm Storybook captures keyboard, focus and open or selection behavior expected for shared choice controls
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/22`
+
+### TKT-020 - Add layout and feedback primitives to the shared UI package
+
+- ID: `TKT-020`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared layout and feedback primitives in packages/ui`
+- story/task description: Expand `packages/ui` with a lightweight shared visual-structure and feedback wave that supports future feature work without mixing in domain composition. This ticket should add `Card`, `Badge`, `Skeleton`, and `Separator`, document their intended use in Storybook, and keep them aligned with the approved design-token and styling strategy.
+- acceptance criteria:
+  - `packages/ui` exports reusable `Card`, `Badge`, `Skeleton`, and `Separator` component surfaces
+  - each component API remains generic to layout or feedback concerns and avoids domain-specific naming or workflow composition
+  - Storybook documents the relevant default, variant and state coverage for the shipped primitives, including loading semantics for `Skeleton`
+  - styling follows the shared token and Tailwind conventions already documented for the UI package
+  - tests validate the public rendering contracts and any interactive or semantic behavior that is part of the API
+- linked docs:
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/design-tokens.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/13-ui-package-storybook/ui-package-overview.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+  - `/docs/13-ui-package-storybook/component-testing.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate variant or semantic rendering contracts for each primitive
+  - integration: verify the shared styling foundation and token usage remain consumable from the package entrypoint
+  - e2e/manual: confirm Storybook covers visual states clearly enough for downstream composition work
+- estimate: `S`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/23`
+
+### TKT-021 - Add interactive overlays to the shared UI package
+
+- ID: `TKT-021`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared interactive overlays in packages/ui`
+- story/task description: Add the first shared overlay family to `packages/ui` after the reusable foundation and Storybook structure are stable. This ticket should implement `Dialog`, `Popover`, and `Tooltip` with Radix-backed accessibility behavior, explicit Storybook state coverage, and shared package APIs that keep portal, focus and keyboard behavior out of consuming apps.
+- acceptance criteria:
+  - `packages/ui` exports reusable `Dialog`, `Popover`, and `Tooltip` surfaces through the shared entrypoint
+  - overlay APIs remain generic and do not absorb app-specific business flows or embedded form submission behavior
+  - Storybook documents open or closed behavior, focus management expectations, keyboard interaction and any shared decorator requirements introduced for overlays
+  - shared overlay behavior keeps portal and layering concerns inside the package boundary rather than pushing them into consumers
+  - tests validate the critical public behavior of the shipped overlays
+- linked docs:
+  - `/docs/11-design-system/accessibility-guidelines.md`
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/storybook-documentation-strategy.md`
+  - `/docs/13-ui-package-storybook/ui-package-overview.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+  - `/docs/13-ui-package-storybook/component-testing.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate the public trigger, open-state and content behavior exposed by the overlay APIs
+  - integration: verify shared overlay providers or portal setup remain internal to `packages/ui` and Storybook
+  - e2e/manual: confirm Storybook demonstrates focus trapping, dismissal and keyboard interaction expectations for overlays
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/24`

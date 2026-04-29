@@ -29,33 +29,39 @@ Every committed ticket must:
 
 ## Planning Snapshot
 
-- sprint goal: synchronize delivered backend foundation work and queue the next infrastructure and authentication blockers cleanly
+- sprint goal: open a parallel `packages/ui` delivery track while keeping the next backend protection slice available
 - sprint dates or iteration label: `next-foundation-sprint`
 - capacity assumptions:
   - monorepo, UI foundation, Storybook bootstrap, backend persistence, and the first competition-create backend slice are already delivered or accepted on `master`
   - local PostgreSQL infrastructure and the Better Auth foundation are now delivered, so the next backend bottleneck is protected competition-management behavior
+  - `packages/ui` and Storybook are ready for the next reusable shared-component wave without reopening stack decisions
 - committed tickets:
-  - `TKT-015` - provision local PostgreSQL with Docker for Prisma and Nest integration
+  - `TKT-018` - establish the form foundations for reusable data-entry controls in `packages/ui`
 - stretch tickets:
-  - `TKT-016` - establish Better Auth foundation for application authentication
+  - `TKT-019` - add selection and choice controls in `packages/ui`
+  - `TKT-020` - add layout and feedback primitives in `packages/ui`
+  - `TKT-021` - add interactive overlays in `packages/ui`
+  - `TKT-017` - require authenticated identity at the competition-create inbound boundary
 - lane balance across frontend / backend / infrastructure:
-  - infrastructure: delivered through `TKT-015`
-  - frontend: completed foundation work only
-  - backend: `TKT-016` delivered; next recommendation is `TKT-017`
+  - infrastructure: no new sprint-critical infrastructure work is required for this wave
+  - frontend: `TKT-018` opens the next shared UI lane, with `TKT-019` and `TKT-020` eligible to run in parallel after that baseline lands
+  - backend: `TKT-017` remains available as the next backend slice without blocking the UI package track
 - affected apps/packages summary:
-  - `TKT-015`: `apps/api`
-  - `TKT-016`: `apps/api`, `apps/web`
   - `TKT-017`: `apps/api`, `packages/schemas`
+  - `TKT-018`: `packages/ui`, `packages/config`
+  - `TKT-019`: `packages/ui`, `packages/config`
+  - `TKT-020`: `packages/ui`, `packages/config`
+  - `TKT-021`: `packages/ui`, `packages/config`
 - dependencies and blockers:
-  - `TKT-015` delivered the reproducible local PostgreSQL path for Prisma migrations, repository tests, and Better Auth persistence
-  - `TKT-016` followed `ADR-011` and now provides the reusable auth/session boundary needed before protected competition flows
+  - `TKT-018` should establish the field-level baseline and Storybook documentation contract before more specialized shared input components expand the API surface
+  - `TKT-019` and `TKT-020` can run in parallel once `TKT-018` lands because they touch different component families
+  - `TKT-021` depends on the shared overlay documentation and portal behavior already established by the Storybook foundation and should avoid reopening package-boundary decisions
   - `TKT-017` should consume the delivered auth foundation instead of reopening auth-tool or session-wiring decisions
 - GitHub milestone / project view used for execution:
   - milestone: `next-foundation-sprint`
   - project status: sync after GitHub Issues are created
 - exit criteria:
-  - completed foundation tickets are reflected as delivered in backlog and GitHub
-  - `TKT-013` is closed with the accepted persistence ADR linked
-  - `TKT-014` is reflected as delivered in backlog and GitHub
-  - `TKT-015` is reflected as delivered in backlog and GitHub without reopening the accepted Prisma choice
-  - `TKT-016` is reflected as delivered in backlog and GitHub without reopening the accepted Better Auth choice
+  - `TKT-018` is implemented with stories and tests and becomes the approved baseline for subsequent form-related controls
+  - `TKT-019` and `TKT-020` can be executed independently without duplicating shared helpers or component taxonomy
+  - `TKT-021` is only started once overlay states and accessibility expectations are explicit in the shared docs and Storybook setup
+  - `TKT-017` remains ready for execution in parallel with the frontend track if backend capacity is available
