@@ -1,8 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { Button, buttonVariants } from "../src/index.js";
+import { Button, buttonVariants } from "./button.js";
 
-describe("ui package button", () => {
+describe("Button", () => {
   it("renders a button with the shared default styles", () => {
     const markup = renderToStaticMarkup(<Button>Save changes</Button>);
 

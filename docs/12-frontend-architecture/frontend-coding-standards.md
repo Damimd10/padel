@@ -30,6 +30,8 @@ Within a feature boundary, colocate related:
 
 Do not centralize unrelated frontend logic into generic top-level folders for convenience.
 
+For reusable UI modules in `packages/ui`, colocate tests beside the source file with `*.test.tsx` so component ownership remains obvious during review.
+
 ### 3. Components should be small in responsibility, not artificially tiny
 
 A component should usually do one of these:
