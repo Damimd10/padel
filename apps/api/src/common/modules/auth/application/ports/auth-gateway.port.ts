@@ -6,7 +6,11 @@ import type {
 
 export interface AuthSession {
   session: Record<string, unknown>;
-  user: Record<string, unknown>;
+  user: AuthenticatedUser;
+}
+
+export interface AuthenticatedUser extends Record<string, unknown> {
+  id: string;
 }
 
 export interface AuthGateway {
