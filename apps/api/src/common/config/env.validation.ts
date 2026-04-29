@@ -14,4 +14,6 @@ export const envValidationSchema = Joi.object({
   LOG_JSON: Joi.boolean().truthy("true").falsy("false").default(true),
   API_RATE_LIMIT_MAX: Joi.number().integer().positive().default(100),
   API_RATE_LIMIT_TTL_MS: Joi.number().integer().positive().default(60000),
+  BETTER_AUTH_SECRET: Joi.string().required(),
+  BETTER_AUTH_URL: Joi.string().uri().required(),
 });

@@ -14,7 +14,8 @@ Integration tests validate the "seams" of the application where different module
 
 - The default repository-backed database path is the checked-in Docker Compose PostgreSQL service at the repository root.
 - Developers should boot PostgreSQL with `pnpm run db:up`, configure `DATABASE_URL` from `.env.example`, and apply Prisma migrations with `pnpm --filter @padel/api prisma:migrate:deploy`.
-- The Prisma repository integration test is exercised with `pnpm --filter @padel/api test:integration:db` and should rely on the checked-in Prisma migration history rather than custom schema bootstrapping inside the test.
+- The PostgreSQL-backed integration suite is exercised with `pnpm --filter @padel/api test:integration:db` and should rely on the checked-in Prisma migration history rather than custom schema bootstrapping inside the test.
+- That suite currently covers both the Prisma competition repository adapter and the Better Auth session-establishment path in `apps/api`.
 
 ### Frontend Integration (Route & Data)
 - **TanStack Router + Query**: Test that navigating to a route triggers the correct query and renders the data.

@@ -25,7 +25,8 @@ If this document and the GitHub Project disagree, update both and record the rea
 - `TKT-013` is completed through `ADR-010`.
 - `TKT-014` is delivered as the first backend implementation slice for competition creation under `CORE-01`.
 - `TKT-015` is delivered as the local PostgreSQL infrastructure path for Prisma, NestJS integration, and repository-backed database tests.
-- The next recommended backend ticket after that is `TKT-016`, establishing the Better Auth foundation.
+- `TKT-016` is delivered as the Better Auth foundation for application authentication, including PostgreSQL-backed session persistence and documented local validation.
+- The next recommended backend ticket after that is `TKT-017`, protecting competition creation with authenticated organizer identity.
 
 ## Active Sprint Record
 
@@ -37,3 +38,12 @@ If this document and the GitHub Project disagree, update both and record the rea
 - current project status: `done`
 - blocked/unblocked state: `unblocked`
 - notes for carryover risk: `none; Better Auth foundation now depends on the delivered local PostgreSQL workflow instead of a remote/shared database`
+
+- ticket ID and title: `TKT-016` - Establish Better Auth foundation for application authentication
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `apps/web`
+- owner: `unassigned`
+- GitHub issue link: `https://github.com/Damimd10/padel/issues/15`
+- current project status: `done`
+- blocked/unblocked state: `unblocked`
+- notes for carryover risk: `none; the auth foundation is delivered and the next follow-up is protected competition behavior rather than more platform auth wiring`
