@@ -13,13 +13,23 @@ describe("competition schemas", () => {
         format: "elimination",
         startsAt: "2026-05-10T10:00:00.000Z",
         endsAt: "2026-05-12T18:00:00.000Z",
-        ownerId: "owner-1",
       }),
     ).toMatchObject({
       title: "Regional Open",
       format: "elimination",
-      ownerId: "owner-1",
     });
+  });
+
+  it("rejects a create-competition request that includes ownerId", () => {
+    expect(() =>
+      createCompetitionRequestSchema.parse({
+        title: "Regional Open",
+        format: "elimination",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-1",
+      }),
+    ).toThrow();
   });
 
   it("rejects a response with a non-draft status", () => {

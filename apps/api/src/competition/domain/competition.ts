@@ -1,5 +1,4 @@
-import type { CreateCompetitionInput } from "@padel/schemas";
-
+import type { CreateCompetitionCommand } from "../application/create-competition.command.js";
 import {
   type CompetitionFormat,
   assertCompetitionFormat,
@@ -19,7 +18,7 @@ export interface CompetitionProps {
 export class Competition {
   private constructor(private readonly props: CompetitionProps) {}
 
-  static createDraft(input: CreateCompetitionInput, id: string) {
+  static createDraft(input: CreateCompetitionCommand, id: string) {
     const title = input.title.trim();
     const ownerId = input.ownerId.trim();
 

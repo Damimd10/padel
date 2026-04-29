@@ -1,14 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import type { CreateCompetitionCommand } from "./create-competition.command.js";
 import { CreateCompetitionUseCase } from "./create-competition.use-case.js";
 import type { CompetitionRepository } from "./ports/competition-repository.js";
 
 class FakeCompetitionRepository implements CompetitionRepository {
-  created: ReturnType<
-    InstanceType<typeof CreateCompetitionUseCase>["execute"]
-  > extends Promise<infer _>
-    ? unknown[]
-    : never = [];
+  created: unknown[] = [];
 
   async nextId() {
     return "competition-123";
@@ -32,7 +29,7 @@ describe("CreateCompetitionUseCase", () => {
       startsAt: "2026-05-10T10:00:00.000Z",
       endsAt: "2026-05-12T18:00:00.000Z",
       ownerId: "owner-99",
-    });
+    } satisfies CreateCompetitionCommand);
 
     expect(result).toMatchObject({
       id: "competition-123",

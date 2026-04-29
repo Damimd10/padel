@@ -1,10 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
-import type {
-  CreateCompetitionInput,
-  CreateCompetitionResponse,
-} from "@padel/schemas";
+import type { CreateCompetitionResponse } from "@padel/schemas";
 
 import { Competition } from "../domain/competition.js";
+import type { CreateCompetitionCommand } from "./create-competition.command.js";
 import {
   type CompetitionRepository,
   CompetitionRepositoryToken,
@@ -18,7 +16,7 @@ export class CreateCompetitionUseCase {
   ) {}
 
   async execute(
-    input: CreateCompetitionInput,
+    input: CreateCompetitionCommand,
   ): Promise<CreateCompetitionResponse> {
     const id = await this.competitionRepository.nextId();
     const competition = Competition.createDraft(input, id);

@@ -11,8 +11,8 @@ export const createCompetitionRequestSchema = z
     format: z.enum(["elimination", "round-robin", "league"]),
     startsAt: z.iso.datetime(),
     endsAt: z.iso.datetime(),
-    ownerId: z.string().trim().min(1),
   })
+  .strict()
   .refine(
     ({ startsAt, endsAt }) =>
       new Date(startsAt).getTime() <= new Date(endsAt).getTime(),
@@ -32,7 +32,7 @@ export const createCompetitionResponseSchema = z.object({
   status: z.literal("draft"),
 });
 
-export type CreateCompetitionInput = z.infer<
+export type CreateCompetitionRequest = z.infer<
   typeof createCompetitionRequestSchema
 >;
 export type CreateCompetitionResponse = z.infer<
