@@ -13,8 +13,8 @@ import {
 } from "@padel/schemas";
 
 import type { AuthenticatedUser } from "../../../common/modules/auth/application/ports/auth-gateway.port.js";
-import { CurrentUser } from "../../../common/modules/auth/inbound/http/current-user.decorator.js";
 import { AuthenticatedGuard } from "../../../common/modules/auth/inbound/http/authenticated.guard.js";
+import { CurrentUser } from "../../../common/modules/auth/inbound/http/current-user.decorator.js";
 import { CreateCompetitionUseCase } from "../../application/create-competition.use-case.js";
 import { mapCreateCompetitionRequestToCommand } from "./create-competition-request.mapper.js";
 

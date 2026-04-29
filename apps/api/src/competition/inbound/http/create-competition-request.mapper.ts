@@ -1,6 +1,6 @@
 import { UnauthorizedException } from "@nestjs/common";
-import { createCompetitionRequestSchema } from "@padel/schemas";
-import { z } from "zod";
+import type { createCompetitionRequestSchema } from "@padel/schemas";
+import type { z } from "zod";
 
 import type { AuthenticatedUser } from "../../../common/modules/auth/application/ports/auth-gateway.port.js";
 import type { CreateCompetitionCommand } from "../../application/create-competition.command.js";

@@ -1,9 +1,9 @@
+import type { CreateCompetitionCommand } from "../application/create-competition.command.js";
 import {
   type CompetitionFormat,
   assertCompetitionFormat,
 } from "./competition-format.js";
 import { draftCompetitionStatus } from "./competition-status.js";
-import type { CreateCompetitionCommand } from "../application/create-competition.command.js";
 
 export interface CompetitionProps {
   id: string;
