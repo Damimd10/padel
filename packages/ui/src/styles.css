@@ -10,6 +10,10 @@
   --border: 146 18% 83%;
   --input: 146 18% 83%;
   --ring: 148 63% 32%;
+  --card: 48 33% 98%;
+  --card-foreground: 160 30% 13%;
+  --popover: 48 33% 98%;
+  --popover-foreground: 160 30% 13%;
   --primary: 148 63% 32%;
   --primary-foreground: 142 53% 97%;
   --secondary: 148 30% 92%;

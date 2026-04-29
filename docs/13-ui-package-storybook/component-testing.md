@@ -12,6 +12,7 @@ Define testing expectations for reusable UI components.
 - integration expectations when components depend on surrounding composition patterns
 - keyboard and focus-state coverage for Radix-driven interactions when applicable
 - variant and token parity checks for `shadcn/ui` and Tailwind-based styling contracts
+- reusable UI component tests should be colocated with the source file using `component.test.tsx` beside `component.tsx`
 
 ## Test file placement
 

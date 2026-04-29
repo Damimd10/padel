@@ -11,6 +11,22 @@ export {
   CardTitle,
 } from "./components/card.js";
 export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/dialog.js";
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/popover.js";
+export {
   Separator,
   type SeparatorProps,
 } from "./components/separator.js";
@@ -23,3 +39,9 @@ export { Label } from "./components/label.js";
 export type { LabelProps } from "./components/label.js";
 export { Textarea } from "./components/textarea.js";
 export type { TextareaProps } from "./components/textarea.js";
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./components/tooltip.js";

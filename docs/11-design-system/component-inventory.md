@@ -21,6 +21,8 @@ The component inventory should reflect actual workflow needs from the competitio
 - Tabs
 - Drawer
 - Modal / dialog
+- Popover
+- Tooltip
 
 ### Actions and form inputs
 
