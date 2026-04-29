@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && mkdir -p dist && cp src/styles.css dist/styles.css",
-    "lint": "biome check src .storybook test package.json tsconfig.json tsconfig.build.json",
+    "lint": "biome check src .storybook package.json tsconfig.json tsconfig.build.json",
     "storybook": "storybook dev -p 6006 --config-dir .storybook",
     "storybook:build": "CI=1 storybook build --config-dir .storybook",
     "typecheck": "tsc --noEmit -p tsconfig.json",
