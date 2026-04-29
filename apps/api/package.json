@@ -44,10 +44,6 @@
     "supertest": "^7.1.4"
   },
   "nx": {
-    "tags": [
-      "type:app",
-      "scope:api",
-      "platform:backend"
-    ]
+    "tags": ["type:app", "scope:api", "platform:backend"]
   }
 }

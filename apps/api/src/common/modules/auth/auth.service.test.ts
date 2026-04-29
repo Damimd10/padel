@@ -1,16 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigService } from '@nestjs/config';
-import { AuthService } from './auth.service.js';
-import { PrismaService } from '../../../prisma/prisma.service.js';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { ConfigService } from "@nestjs/config";
+import { Test, type TestingModule } from "@nestjs/testing";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { PrismaService } from "../../../prisma/prisma.service.js";
+import { AuthService } from "./auth.service.js";
 
-describe('AuthService', () => {
+describe("AuthService", () => {
   let service: AuthService;
 
   const mockConfigService = {
     getOrThrow: vi.fn((key: string) => {
-      if (key === 'BETTER_AUTH_SECRET') return 'test-secret';
-      if (key === 'BETTER_AUTH_URL') return 'http://localhost:3000';
+      if (key === "BETTER_AUTH_SECRET") return "test-secret";
+      if (key === "BETTER_AUTH_URL") return "http://localhost:3000";
       return null;
     }),
   };
@@ -29,7 +29,7 @@ describe('AuthService', () => {
     service = module.get<AuthService>(AuthService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
     expect(service.auth).toBeDefined();
   });
