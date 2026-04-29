@@ -5,6 +5,7 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { LoggerModule } from "nestjs-pino";
 
 import { envValidationSchema } from "./common/config/env.validation.js";
+import { AuthModule } from "./common/modules/auth/auth.module.js";
 import { CoreModule } from "./common/modules/core/core.module.js";
 import { CreateCompetitionUseCase } from "./competition/application/create-competition.use-case.js";
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
@@ -65,6 +66,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     }),
     CoreModule,
     PrismaModule,
+    AuthModule,
   ],
   controllers: [CompetitionController],
   providers: [
