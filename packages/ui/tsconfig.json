@@ -5,5 +5,5 @@
     "rootDir": ".",
     "outDir": "../../dist/packages/ui"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }
