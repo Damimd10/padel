@@ -11,6 +11,12 @@ export {
   CardTitle,
 } from "./components/card.js";
 export {
+  Checkbox,
+  checkboxIndicatorClassName,
+  checkboxRootClassName,
+} from "./components/checkbox.js";
+export type { CheckboxProps } from "./components/checkbox.js";
+export {
   Dialog,
   DialogClose,
   DialogContent,
@@ -37,6 +43,40 @@ export { Input } from "./components/input.js";
 export type { InputProps } from "./components/input.js";
 export { Label } from "./components/label.js";
 export type { LabelProps } from "./components/label.js";
+export {
+  RadioGroup,
+  RadioGroupItem,
+  radioGroupItemIndicatorClassName,
+  radioGroupItemRootClassName,
+  radioGroupRootClassName,
+} from "./components/radio-group.js";
+export type {
+  RadioGroupItemProps,
+  RadioGroupProps,
+} from "./components/radio-group.js";
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "./components/select.js";
+export type {
+  SelectContentProps,
+  SelectItemProps,
+  SelectLabelProps,
+  SelectSeparatorProps,
+  SelectTriggerProps,
+} from "./components/select.js";
+export {
+  Switch,
+  switchRootClassName,
+  switchThumbClassName,
+} from "./components/switch.js";
+export type { SwitchProps } from "./components/switch.js";
 export { Textarea } from "./components/textarea.js";
 export type { TextareaProps } from "./components/textarea.js";
 export {

@@ -32,6 +32,7 @@ Define the responsibility and technology baseline for `packages/ui` before imple
 
 - Storybook is mandatory for reusable components
 - every component change must define variants, states, accessibility behavior, story examples and test expectations
+- specialized component waves should land with their own explicit contract doc when the API surface or Storybook taxonomy would otherwise be ambiguous
 
 ## Recommended delivery path
 
@@ -47,3 +48,7 @@ To keep `packages/ui` parallelizable without breaking package boundaries, the ne
 - form primitives should establish the baseline field contract before more specialized controls build on top of it
 - Storybook categories and docs should mirror the approved ticket slicing so teams can work independently without inventing new taxonomy mid-implementation
 - overlays must keep Radix portal, focus and keyboard behavior inside the shared package boundary instead of pushing those concerns into consuming apps
+
+## Related docs
+
+- `docs/13-ui-package-storybook/selection-choice-controls.md`

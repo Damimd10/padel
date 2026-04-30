@@ -35,7 +35,7 @@ The component inventory should reflect actual workflow needs from the competitio
 - Combobox / searchable select
 - Checkbox
 - Radio group
-- Toggle
+- Switch
 - Date input
 - Date range input
 - Textarea
@@ -87,3 +87,4 @@ The component inventory should reflect actual workflow needs from the competitio
 
 - Classify each item as foundation, reusable primitive, reusable composite, or app composition before implementation.
 - Document which components are true shared UI and which stay feature-owned.
+- Keep `Switch` reserved for the shared binary on/off control and treat toggle-button patterns as a separate future decision if they appear.

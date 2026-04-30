@@ -22,3 +22,4 @@ Test individual React components or small clusters of components in isolation, f
 - **Query by Priority**: Always prefer `getByRole` or `getByLabelText` over `testid` or CSS selectors to mirror how users (and screen readers) perceive the UI.
 - **Avoid Implementation Details**: Do not test component internals (state/refs). Test the rendered output and user-observable behavior.
 - **Mocking Props**: Pass diverse sets of props to simulate various tournament configurations (e.g., Round Robin vs. Single Elimination layouts).
+- **Colocation**: For `packages/ui`, keep component tests beside the component file as `component-name.test.tsx` so reusable ownership, stories, and tests stay grouped together.
