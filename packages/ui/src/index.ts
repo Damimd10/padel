@@ -17,6 +17,12 @@ export {
 } from "./components/checkbox.js";
 export type { CheckboxProps } from "./components/checkbox.js";
 export {
+  DateInput,
+  type DateInputProps,
+} from "./components/date-input.js";
+export { DateRangeInput } from "./components/date-range-input.js";
+export type { DateRangeInputProps } from "./components/date-range-input.js";
+export {
   Dialog,
   DialogClose,
   DialogContent,
@@ -43,6 +49,10 @@ export { Input } from "./components/input.js";
 export type { InputProps } from "./components/input.js";
 export { Label } from "./components/label.js";
 export type { LabelProps } from "./components/label.js";
+export {
+  NumericInput,
+  type NumericInputProps,
+} from "./components/numeric-input.js";
 export {
   RadioGroup,
   RadioGroupItem,
