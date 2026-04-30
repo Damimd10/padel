@@ -33,7 +33,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement }) => {
+  play: async ({
+    canvasElement,
+  }: {
+    canvasElement: HTMLElement;
+  }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole("textbox", { name: /competition name/i });
 
@@ -48,7 +52,7 @@ export const InvalidAssociation: Story = {
     children: "Team captain email",
     htmlFor: "captain-email",
   },
-  render: (args) => (
+  render: (args: Story["args"]) => (
     <div className="grid w-[320px] gap-3">
       <Label {...args} />
       <Input
@@ -73,7 +77,7 @@ export const LongTextWrap: Story = {
       "Additional competition notes for organizers and referees reviewing registrations",
     htmlFor: "competition-notes",
   },
-  render: (args) => (
+  render: (args: Story["args"]) => (
     <div className="grid w-[320px] gap-3">
       <Label {...args} />
       <Input id="competition-notes" placeholder="Internal summary" />

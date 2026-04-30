@@ -28,6 +28,8 @@ Within a feature boundary, colocate related:
 - tests,
 - and app-specific subcomponents.
 
+For reusable UI work in `packages/ui`, colocate tests directly beside the component module they verify, for example `button.tsx` and `button.test.tsx`.
+
 Do not centralize unrelated frontend logic into generic top-level folders for convenience.
 
 For reusable UI modules in `packages/ui`, colocate tests beside the source file with `*.test.tsx` so component ownership remains obvious during review.
