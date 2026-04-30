@@ -114,6 +114,7 @@ This project is documentation-first. Code starts only after tickets are generate
 
 - `docs/13-ui-package-storybook/ui-package-overview.md`
 - `docs/13-ui-package-storybook/storybook-guidelines.md`
+- `docs/13-ui-package-storybook/selection-choice-controls.md`
 - `docs/13-ui-package-storybook/component-taxonomy.md`
 - `docs/13-ui-package-storybook/component-testing.md`
 - `docs/13-ui-package-storybook/release-versioning.md`

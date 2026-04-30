@@ -32,8 +32,6 @@ For reusable UI work in `packages/ui`, colocate tests directly beside the compon
 
 Do not centralize unrelated frontend logic into generic top-level folders for convenience.
 
-For reusable UI modules in `packages/ui`, colocate tests beside the source file with `*.test.tsx` so component ownership remains obvious during review.
-
 ### 3. Components should be small in responsibility, not artificially tiny
 
 A component should usually do one of these:
@@ -113,6 +111,7 @@ When code does not fit those boundaries cleanly, fix the design instead of forci
 - Effects whose only purpose is copying one state source into another.
 - Shared components that import app-specific feature modules.
 - Re-export barrels that hide domain ownership and bloat imports indiscriminately.
+- A package-level `test/` folder for unrelated UI component tests when file-local ownership would be clearer.
 
 ## Next Actions
 
