@@ -468,3 +468,41 @@ For each ticket, include:
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-foundation-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/24`
+
+### TKT-029 - Add advanced numeric and date-oriented form inputs to the shared UI package
+
+- ID: `TKT-029`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared numeric and date-oriented form inputs in packages/ui`
+- story/task description: Extend `packages/ui` with the next reusable input wave needed by competition creation and result-entry workflows. This ticket should add a shared `Numeric Input`, `Date Input`, and `Date Range Input` surface that stays generic to input semantics, works cleanly with the existing `Field` composition model, and documents the states needed for high-impact admin forms.
+- acceptance criteria:
+  - `packages/ui` exports reusable numeric and date-oriented input surfaces through the shared package entrypoint
+  - the public APIs stay generic and avoid feature-specific parsing, persistence, or workflow orchestration
+  - Storybook documents default, invalid, disabled, read-only and keyboard-relevant states for the shipped inputs
+  - `Date Range Input` documents the shared contract clearly enough that feature code can map it into TanStack Form without app-local reinvention
+  - tests validate the public rendering and interaction behavior of the shipped input surfaces
+- linked docs:
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+  - `/docs/13-ui-package-storybook/numeric-date-inputs.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate input semantics, invalid-state wiring and keyboard-relevant behavior
+  - integration: verify the new controls compose with `Field` and package entrypoints without app-specific dependencies
+  - e2e/manual: confirm Storybook demonstrates the state matrix needed for competition configuration and result-entry forms
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-ui-package-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/29`

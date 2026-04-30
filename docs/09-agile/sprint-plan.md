@@ -29,39 +29,30 @@ Every committed ticket must:
 
 ## Planning Snapshot
 
-- sprint goal: open a parallel `packages/ui` delivery track while keeping the next backend protection slice available
-- sprint dates or iteration label: `next-foundation-sprint`
+- sprint goal: deliver the next shared form-input wave in `packages/ui` so competition configuration and result-entry workflows can rely on approved numeric and date-oriented controls
+- sprint dates or iteration label: `next-ui-package-sprint`
 - capacity assumptions:
-  - monorepo, UI foundation, Storybook bootstrap, backend persistence, and the first competition-create backend slice are already delivered or accepted on `master`
-  - local PostgreSQL infrastructure and the Better Auth foundation are now delivered, so the next backend bottleneck is protected competition-management behavior
-  - `packages/ui` and Storybook are ready for the next reusable shared-component wave without reopening stack decisions
+  - the shared UI foundation, Storybook bootstrap, form foundations, choice controls, layout primitives, and overlay primitives are already delivered on `master`
+  - the next highest-value UI-package gap for product workflows is the numeric and date-oriented input wave documented under `TKT-029`
+  - implementation should stay focused on shared input semantics and should not expand into feature-specific parsing, persistence, or async date-picker behavior
 - committed tickets:
-  - `TKT-018` - establish the form foundations for reusable data-entry controls in `packages/ui`
+  - `TKT-029` - add advanced numeric and date-oriented form inputs in `packages/ui`
 - stretch tickets:
-  - `TKT-019` - add selection and choice controls in `packages/ui`
-  - `TKT-020` - add layout and feedback primitives in `packages/ui`
-  - `TKT-021` - add interactive overlays in `packages/ui`
-  - `TKT-017` - require authenticated identity at the competition-create inbound boundary
+  - none yet; keep the sprint focused on landing the numeric and date-oriented input contract cleanly before queueing the next shared-control wave
 - lane balance across frontend / backend / infrastructure:
-  - infrastructure: no new sprint-critical infrastructure work is required for this wave
-  - frontend: `TKT-018` opens the next shared UI lane, with `TKT-019` and `TKT-020` eligible to run in parallel after that baseline lands
-  - backend: `TKT-017` remains available as the next backend slice without blocking the UI package track
+  - infrastructure: no sprint-critical infrastructure work is required for this wave
+  - frontend: `TKT-029` is the only committed UI-package item and should own the sprint focus
+  - backend: no backend ticket is committed in this sprint snapshot
 - affected apps/packages summary:
-  - `TKT-017`: `apps/api`, `packages/schemas`
-  - `TKT-018`: `packages/ui`, `packages/config`
-  - `TKT-019`: `packages/ui`, `packages/config`
-  - `TKT-020`: `packages/ui`, `packages/config`
-  - `TKT-021`: `packages/ui`, `packages/config`
+  - `TKT-029`: `packages/ui`, `packages/config`
 - dependencies and blockers:
-  - `TKT-018` should establish the field-level baseline and Storybook documentation contract before more specialized shared input components expand the API surface
-  - `TKT-019` and `TKT-020` can run in parallel once `TKT-018` lands because they touch different component families
-  - `TKT-021` depends on the shared overlay documentation and portal behavior already established by the Storybook foundation and should avoid reopening package-boundary decisions
-  - `TKT-017` should consume the delivered auth foundation instead of reopening auth-tool or session-wiring decisions
+  - `TKT-029` depends on the delivered `Field` contract and previously shipped shared form primitives already present in `packages/ui`
+  - `Date Range Input` must stay generic enough to map into TanStack Form without introducing app-owned business rules into `packages/ui`
 - GitHub milestone / project view used for execution:
-  - milestone: `next-foundation-sprint`
-  - project status: sync after GitHub Issues are created
+  - milestone: `next-ui-package-sprint`
+  - project status: issue `#29` is in `Padel Delivery` with status `In Sprint`
 - exit criteria:
-  - `TKT-018` is implemented with stories and tests and becomes the approved baseline for subsequent form-related controls
-  - `TKT-019` and `TKT-020` can be executed independently without duplicating shared helpers or component taxonomy
-  - `TKT-021` is only started once overlay states and accessibility expectations are explicit in the shared docs and Storybook setup
-  - `TKT-017` remains ready for execution in parallel with the frontend track if backend capacity is available
+  - `TKT-029` lands with shared exports, Storybook coverage, and tests for `Numeric Input`, `Date Input`, and `Date Range Input`
+  - the shipped APIs remain generic and compose with `Field` without feature-specific parsing or submission logic
+  - Storybook documents invalid, disabled, read-only, and keyboard-relevant states clearly enough for competition-configuration and result-entry forms
+  - GitHub execution state stays synced so the sprint doc, issue metadata, and project board all reflect the same committed work
