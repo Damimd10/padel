@@ -88,6 +88,7 @@ export {
   TableBody,
   TableCaption,
   TableCell,
+  TableContainer,
   TableEmptyState,
   TableFooter,
   TableHead,
@@ -104,9 +105,9 @@ export type {
   TableHeadProps,
   TableHeaderProps,
   TableProps,
+  TableRowState,
   TableRowHeaderProps,
   TableRowProps,
-  TableRowState,
 } from "./components/table.js";
 export { Field } from "./components/field.js";
 export type { FieldProps } from "./components/field.js";
@@ -171,6 +172,18 @@ export {
 export type { SwitchProps } from "./components/switch.js";
 export { Textarea } from "./components/textarea.js";
 export type { TextareaProps } from "./components/textarea.js";
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableHeader,
+  TableRow,
+  type TableRowProps,
+  type TableRowState,
+} from "./components/table.js";
 export {
   Toast,
   ToastAction,

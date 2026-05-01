@@ -5,6 +5,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+<<<<<<< HEAD
   TableEmptyState,
   TableFooter,
   TableHead,
@@ -93,5 +94,39 @@ describe("Table", () => {
     expect(markup).toContain('data-state="invalid"');
     expect(markup).toContain("Invalid medical certificate");
     expect(markup).toContain('aria-label="Invalid registration row"');
+=======
+  TableContainer,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./table.js";
+
+describe("Table", () => {
+  it("renders semantic table foundations with row-state hooks", () => {
+    const markup = renderToStaticMarkup(
+      <TableContainer>
+        <Table>
+          <TableHeader>
+            <tr>
+              <TableHead scope="col">Competition</TableHead>
+            </tr>
+          </TableHeader>
+          <TableBody>
+            <TableRow state="warning">
+              <TableCell>Winter Open</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableCaption>Shared operational table foundation.</TableCaption>
+        </Table>
+      </TableContainer>,
+    );
+
+    expect(markup).toContain('data-slot="table-container"');
+    expect(markup).toContain('data-slot="table"');
+    expect(markup).toContain('data-slot="table-head"');
+    expect(markup).toContain('data-slot="table-cell"');
+    expect(markup).toContain('data-state="warning"');
+    expect(markup).toContain("<caption");
+>>>>>>> 20be765 (feat: add competition operations overview scaffold)
   });
 });

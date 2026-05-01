@@ -13,10 +13,13 @@
     "@padel/api-client": "workspace:*",
     "@padel/schemas": "workspace:*",
     "@padel/ui": "workspace:*",
+    "@tanstack/react-query": "^5.100.7",
+    "@tanstack/react-router": "^1.169.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2"
   },

@@ -4,11 +4,18 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+<<<<<<< HEAD
   TableEmptyState,
   TableHead,
   TableHeader,
   TableRow,
   TableRowHeader,
+=======
+  TableContainer,
+  TableHead,
+  TableHeader,
+  TableRow,
+>>>>>>> 20be765 (feat: add competition operations overview scaffold)
 } from "./components/table.js";
 
 const meta: Meta<typeof Table> = {
@@ -16,6 +23,7 @@ const meta: Meta<typeof Table> = {
   component: Table,
   tags: ["autodocs"],
   parameters: {
+<<<<<<< HEAD
     layout: "padded",
     docs: {
       description: {
@@ -38,6 +46,13 @@ Keep the foundation presentational. Use row-state styling and empty-state compos
 Known misuse patterns
 Avoid turning this into a generic data-grid abstraction or adding boolean flags for every workflow mode.
         `.trim(),
+=======
+    layout: "centered",
+    docs: {
+      description: {
+        component:
+          "Reusable table foundations for dense operational screens. Sorting, filtering, pagination, routing, and fetching stay outside the shared package.",
+>>>>>>> 20be765 (feat: add competition operations overview scaffold)
       },
     },
   },
@@ -47,6 +62,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+<<<<<<< HEAD
 export const Default: Story = {
   render: () => (
     <div className="overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm">
@@ -174,5 +190,51 @@ export const EmptyTable: Story = {
         </TableBody>
       </Table>
     </div>
+=======
+export const OperationalStates: Story = {
+  render: () => (
+    <TableContainer className="w-[960px] max-w-full">
+      <Table>
+        <TableHeader>
+          <tr>
+            <TableHead scope="col">Competition</TableHead>
+            <TableHead scope="col">Schedule</TableHead>
+            <TableHead scope="col">Operations</TableHead>
+            <TableHead scope="col">Next action</TableHead>
+          </tr>
+        </TableHeader>
+        <TableBody>
+          <TableRow state="danger">
+            <TableCell className="font-semibold">
+              North Circuit Masters
+            </TableCell>
+            <TableCell>May 3 to May 5</TableCell>
+            <TableCell>2 missing results, 1 invalid roster</TableCell>
+            <TableCell>Resolve blocked semifinal score</TableCell>
+          </TableRow>
+          <TableRow state="warning">
+            <TableCell className="font-semibold">
+              Club League Apertura
+            </TableCell>
+            <TableCell>May 8 to May 20</TableCell>
+            <TableCell>4 pending approvals</TableCell>
+            <TableCell>Review late category confirmations</TableCell>
+          </TableRow>
+          <TableRow state="selected">
+            <TableCell className="font-semibold">
+              Saturday Social Draw
+            </TableCell>
+            <TableCell>May 10</TableCell>
+            <TableCell>Ready for structure generation</TableCell>
+            <TableCell>Publish draw after organizer check</TableCell>
+          </TableRow>
+        </TableBody>
+        <TableCaption>
+          Keep table foundations presentational. Route-owned filtering and
+          workflow actions belong in `apps/web`.
+        </TableCaption>
+      </Table>
+    </TableContainer>
+>>>>>>> 20be765 (feat: add competition operations overview scaffold)
   ),
 };
