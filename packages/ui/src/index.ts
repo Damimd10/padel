@@ -75,12 +75,29 @@ export { Field } from "./components/field.js";
 export type { FieldProps } from "./components/field.js";
 export { Input } from "./components/input.js";
 export type { InputProps } from "./components/input.js";
+export {
+  InlineMetadataList,
+  type InlineMetadataItem,
+  type InlineMetadataListProps,
+  type InlineMetadataTone,
+} from "./components/inline-metadata-list.js";
+export {
+  KeyValueSummaryBlock,
+  type KeyValueSummaryBlockProps,
+  type KeyValueSummaryItem,
+  type SummaryTone,
+} from "./components/key-value-summary-block.js";
 export { Label } from "./components/label.js";
 export type { LabelProps } from "./components/label.js";
 export {
   NumericInput,
   type NumericInputProps,
 } from "./components/numeric-input.js";
+export {
+  ProgressIndicator,
+  type ProgressIndicatorProps,
+  type ProgressIndicatorTone,
+} from "./components/progress-indicator.js";
 export {
   RadioGroup,
   RadioGroupItem,

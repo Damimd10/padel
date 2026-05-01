@@ -506,3 +506,115 @@ For each ticket, include:
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-ui-package-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/29`
+
+### TKT-030 - Add shared operational feedback primitives to the shared UI package
+
+- ID: `TKT-030`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared operational feedback primitives in packages/ui`
+- story/task description: Add the shared feedback surfaces needed by operational workflows without pushing status semantics into app-local ad hoc markup. This ticket should introduce `Inline Alert`, `Toast`, and `Empty State` primitives that align with accessibility guidance, document when transient versus persistent feedback should be used, and keep workflow-specific resolution logic out of the shared package.
+- acceptance criteria:
+  - `packages/ui` exports reusable `Inline Alert`, `Toast`, and `Empty State` surfaces
+  - Storybook documents severity or status variants, empty-state usage guidance and the accessibility expectations for both transient and persistent messaging
+  - the shared package does not embed routing, data fetching or mutation logic into the feedback primitives
+  - the public APIs support the documented operational states relevant to admin workflows such as blocked, warning, success and informational messaging
+  - tests validate the critical public rendering and accessibility behavior of the shipped components
+- linked docs:
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/11-design-system/accessibility-guidelines.md`
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/11-design-system/storybook-documentation-strategy.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate severity or status variants plus accessibility-critical behavior such as alert semantics where relevant
+  - integration: verify feedback primitives remain package-local and can be consumed without coupling to app mutation or router layers
+  - e2e/manual: confirm Storybook distinguishes transient versus persistent messaging for operations-heavy workflows
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-ui-package-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/30`
+
+### TKT-031 - Add shared summary and metadata display primitives to the shared UI package
+
+- ID: `TKT-031`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared summary and metadata display primitives in packages/ui`
+- story/task description: Introduce the next shared data-display layer for admin-heavy screens before a full table abstraction is added. This ticket should add `Inline Metadata List`, `Key-Value Summary Block`, and `Progress Indicator` surfaces that make status and dense operational facts easy to render consistently across competition detail and review flows.
+- acceptance criteria:
+  - `packages/ui` exports reusable summary and metadata display primitives through the shared package entrypoint
+  - the components stay presentational and do not absorb domain-specific workflow rules or transport shapes
+  - Storybook documents dense, empty and status-relevant states where applicable
+  - the public APIs are explicit enough to support competition summaries, registration review context and result-entry support views without new ad hoc local patterns
+  - tests validate the public rendering contracts and any semantics that are part of the API
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/11-design-system/ux-guidelines.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+  - `/docs/13-ui-package-storybook/storybook-guidelines.md`
+  - `/docs/13-ui-package-storybook/summary-and-metadata-display.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate rendering contracts, status variants and semantic output where relevant
+  - integration: verify display primitives remain stable shared building blocks with no app-specific data concerns
+  - e2e/manual: confirm Storybook examples cover dense admin usage rather than only marketing-style empty examples
+- estimate: `S`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-ui-package-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/31`
+
+### TKT-032 - Add shared table foundations for dense operational views to the shared UI package
+
+- ID: `TKT-032`
+- type: `task`
+- epic: `ui-package-foundation`
+- delivery lane: `frontend`
+- affected apps/packages: `packages/ui`, `packages/config`
+- title: `Add shared table foundations for dense operational views in packages/ui`
+- story/task description: Add the first shared table-oriented admin composite once the surrounding feedback and display primitives are in place. This ticket should introduce a reusable table foundation for dense operational views, including table structure, row-state support and Storybook guidance for empty, selected, warning and invalid row scenarios without turning the shared package into a workflow-specific data grid.
+- acceptance criteria:
+  - `packages/ui` exports reusable table foundations suitable for dense admin workflows
+  - row and table states cover the documented operational needs relevant to warning, invalid, selected and default rows
+  - Storybook documents accessibility, density and misuse guidance for the table API
+  - the shared API stays presentational and does not embed sorting, filtering, routing or server-state ownership
+  - tests validate the public rendering and semantics of the table foundation
+- linked docs:
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/11-design-system/accessibility-guidelines.md`
+  - `/docs/11-design-system/component-inventory.md`
+  - `/docs/11-design-system/component-states.md`
+  - `/docs/11-design-system/storybook-documentation-strategy.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-008-monorepo-tooling.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: validate structural rendering and row-state semantics
+  - integration: verify the table foundations remain reusable shared UI rather than a route-owned data grid abstraction
+  - e2e/manual: confirm Storybook covers dense operational usage, empty states and row-state differences clearly
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
+- milestone/sprint: `next-ui-package-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/32`
