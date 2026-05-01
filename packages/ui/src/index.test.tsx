@@ -36,8 +36,12 @@ describe("ui package entrypoint", () => {
   it("exports data-display primitives for shared package consumption", () => {
     const markup = renderToStaticMarkup(
       <>
-        <InlineMetadataList items={[{ label: "Format", value: "Round robin" }]} />
-        <KeyValueSummaryBlock items={[{ label: "Registered pairs", value: "16" }]} />
+        <InlineMetadataList
+          items={[{ label: "Format", value: "Round robin" }]}
+        />
+        <KeyValueSummaryBlock
+          items={[{ label: "Registered pairs", value: "16" }]}
+        />
         <ProgressIndicator label="Review progress" max={10} value={7} />
       </>,
     );

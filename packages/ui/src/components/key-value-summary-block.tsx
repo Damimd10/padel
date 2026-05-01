@@ -70,10 +70,7 @@ export function KeyValueSummaryBlock({
         </header>
       ) : null}
       <dl
-        className={cn(
-          "grid gap-4 px-5 py-4",
-          summaryColumnClassNames[columns],
-        )}
+        className={cn("grid gap-4 px-5 py-4", summaryColumnClassNames[columns])}
         data-slot="key-value-summary-grid"
       >
         {items.map((item, index) => {

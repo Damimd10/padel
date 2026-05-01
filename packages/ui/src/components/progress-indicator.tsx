@@ -84,6 +84,7 @@ export function ProgressIndicator({
         className="h-2.5 overflow-hidden rounded-full bg-muted"
         data-slot="progress-indicator-track"
         role="progressbar"
+        tabIndex={0}
       >
         <div
           className={cn(

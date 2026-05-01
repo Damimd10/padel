@@ -30,7 +30,8 @@ export const Default: Story = {
         {
           label: "Registration status",
           value: "Review in progress",
-          description: "Three participants still need manual category confirmation.",
+          description:
+            "Three participants still need manual category confirmation.",
           tone: "warning",
         },
         {
