@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@padel/schemas": ["packages/schemas/dist/index.d.ts"]
+    },
     "rootDir": "./src"
   },
   "include": ["src/**/*.ts"],
