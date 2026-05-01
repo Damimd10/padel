@@ -34,6 +34,22 @@ export type TableRowState = NonNullable<
   VariantProps<typeof tableRowVariants>["state"]
 >;
 
+export function TableContainer({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        "overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm",
+        className,
+      )}
+      data-slot="table-container"
+      {...props}
+    />
+  );
+}
+
 export interface TableProps
   extends React.TableHTMLAttributes<HTMLTableElement> {}
 

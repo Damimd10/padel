@@ -88,6 +88,7 @@ export {
   TableBody,
   TableCaption,
   TableCell,
+  TableContainer,
   TableEmptyState,
   TableFooter,
   TableHead,
@@ -104,9 +105,9 @@ export type {
   TableHeadProps,
   TableHeaderProps,
   TableProps,
+  TableRowState,
   TableRowHeaderProps,
   TableRowProps,
-  TableRowState,
 } from "./components/table.js";
 export { Field } from "./components/field.js";
 export type { FieldProps } from "./components/field.js";

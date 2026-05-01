@@ -4,6 +4,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableContainer,
   TableEmptyState,
   TableHead,
   TableHeader,
@@ -49,7 +50,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <div className="overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm">
+    <TableContainer>
       <Table className="min-w-[760px]">
         <TableCaption>
           Dense operational table foundation with stable shared semantics.
@@ -83,7 +84,7 @@ export const Default: Story = {
           </TableRow>
         </TableBody>
       </Table>
-    </div>
+    </TableContainer>
   ),
 };
 
@@ -97,7 +98,7 @@ export const RowStates: Story = {
     },
   },
   render: () => (
-    <div className="overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm">
+    <TableContainer>
       <Table className="min-w-[820px]">
         <TableHeader>
           <TableRow>
@@ -138,7 +139,7 @@ export const RowStates: Story = {
           </TableRow>
         </TableBody>
       </Table>
-    </div>
+    </TableContainer>
   ),
 };
 
@@ -152,7 +153,7 @@ export const EmptyTable: Story = {
     },
   },
   render: () => (
-    <div className="overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm">
+    <TableContainer>
       <Table className="min-w-[760px]">
         <TableHeader>
           <TableRow>
@@ -173,6 +174,6 @@ export const EmptyTable: Story = {
           </TableRow>
         </TableBody>
       </Table>
-    </div>
+    </TableContainer>
   ),
 };

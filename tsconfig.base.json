@@ -4,6 +4,14 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ES2022", "DOM"],
+    "baseUrl": ".",
+    "paths": {
+      "@padel/api-client": ["packages/api-client/src/index.ts"],
+      "@padel/config": ["packages/config/src/index.ts"],
+      "@padel/schemas": ["packages/schemas/src/index.ts"],
+      "@padel/ui": ["packages/ui/src/index.ts"],
+      "@padel/ui/styles.css": ["packages/ui/src/styles.css"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

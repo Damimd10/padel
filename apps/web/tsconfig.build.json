@@ -1,6 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@padel/api-client": ["packages/api-client/dist/index.d.ts"],
+      "@padel/schemas": ["packages/schemas/dist/index.d.ts"],
+      "@padel/ui": ["packages/ui/dist/index.d.ts"],
+      "@padel/ui/styles.css": ["packages/ui/dist/styles.css"]
+    },
     "rootDir": "./src"
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],

@@ -5,10 +5,16 @@ export const sharedPingContract = z.object({
   version: z.literal("0.0.0"),
 });
 
+export const competitionFormatSchema = z.enum([
+  "elimination",
+  "round-robin",
+  "league",
+]);
+
 export const createCompetitionRequestSchema = z
   .object({
     title: z.string().trim().min(1),
-    format: z.enum(["elimination", "round-robin", "league"]),
+    format: competitionFormatSchema,
     startsAt: z.iso.datetime(),
     endsAt: z.iso.datetime(),
   })
@@ -25,7 +31,7 @@ export const createCompetitionRequestSchema = z
 export const createCompetitionResponseSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
-  format: z.enum(["elimination", "round-robin", "league"]),
+  format: competitionFormatSchema,
   startsAt: z.iso.datetime(),
   endsAt: z.iso.datetime(),
   ownerId: z.string(),
@@ -44,7 +50,7 @@ export const competitionOverviewItemSchema = z
   .object({
     id: z.string().uuid(),
     title: z.string(),
-    format: z.enum(["elimination", "round-robin", "league"]),
+    format: competitionFormatSchema,
     status: z.enum(["draft", "open", "closed"]),
     startsAt: z.iso.datetime(),
     endsAt: z.iso.datetime(),
@@ -62,6 +68,7 @@ export type CreateCompetitionRequest = z.infer<
 export type CreateCompetitionResponse = z.infer<
   typeof createCompetitionResponseSchema
 >;
+export type CompetitionFormat = z.infer<typeof competitionFormatSchema>;
 export type CompetitionOverviewOwner = z.infer<
   typeof competitionOverviewOwnerSchema
 >;
