@@ -8,9 +8,82 @@ import { describe, expect, it } from "vitest";
 
 import { AuthenticatedGuard } from "../../../common/modules/auth/inbound/http/authenticated.guard.js";
 import { CreateCompetitionUseCase } from "../../application/create-competition.use-case.js";
+import { ListCompetitionOverviewUseCase } from "../../application/list-competition-overview.use-case.js";
 import { CompetitionController } from "./competition.controller.js";
 
 describe("CompetitionController", () => {
+  it("lists competition overview rows through the authenticated HTTP boundary", async () => {
+    const moduleRef = await Test.createTestingModule({
+      controllers: [CompetitionController],
+      providers: [
+        {
+          provide: CreateCompetitionUseCase,
+          useValue: {
+            execute: async () => {
+              throw new Error("should not be called");
+            },
+          },
+        },
+        {
+          provide: ListCompetitionOverviewUseCase,
+          useValue: {
+            execute: async () => [
+              {
+                id: "11111111-1111-4111-8111-111111111111",
+                title: "Winter Open",
+                format: "elimination",
+                status: "open",
+                startsAt: "2026-05-10T10:00:00.000Z",
+                endsAt: "2026-05-12T18:00:00.000Z",
+                owner: {
+                  id: "user-1",
+                  name: "Competition User",
+                  email: "competition@example.com",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    })
+      .overrideGuard(AuthenticatedGuard)
+      .useValue({
+        canActivate(context: {
+          switchToHttp(): { getRequest(): { user?: { id: string } } };
+        }) {
+          context.switchToHttp().getRequest().user = { id: "user-1" };
+          return true;
+        },
+      })
+      .compile();
+
+    const app = moduleRef.createNestApplication(new ExpressAdapter());
+    await app.init();
+
+    await request(app.getHttpServer())
+      .get("/competitions")
+      .expect(200)
+      .expect(({ body }: { body: unknown }) => {
+        expect(body).toEqual([
+          {
+            id: "11111111-1111-4111-8111-111111111111",
+            title: "Winter Open",
+            format: "elimination",
+            status: "open",
+            startsAt: "2026-05-10T10:00:00.000Z",
+            endsAt: "2026-05-12T18:00:00.000Z",
+            owner: {
+              id: "user-1",
+              name: "Competition User",
+              email: "competition@example.com",
+            },
+          },
+        ]);
+      });
+
+    await app.close();
+  });
+
   it("creates a competition through the authenticated HTTP boundary", async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [CompetitionController],
@@ -29,6 +102,12 @@ describe("CompetitionController", () => {
               ...input,
               status: "draft",
             }),
+          },
+        },
+        {
+          provide: ListCompetitionOverviewUseCase,
+          useValue: {
+            execute: async () => [],
           },
         },
       ],
@@ -80,6 +159,14 @@ describe("CompetitionController", () => {
         {
           provide: CreateCompetitionUseCase,
           useValue: { execute },
+        },
+        {
+          provide: ListCompetitionOverviewUseCase,
+          useValue: {
+            execute: async () => {
+              throw new Error("should not be called");
+            },
+          },
         },
       ],
     })

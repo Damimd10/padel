@@ -16,6 +16,10 @@ class FakeCompetitionRepository implements CompetitionRepository {
   }): Promise<void> {
     this.created.push(competition.toPersistence());
   }
+
+  async listOverview() {
+    return [];
+  }
 }
 
 describe("CreateCompetitionUseCase", () => {

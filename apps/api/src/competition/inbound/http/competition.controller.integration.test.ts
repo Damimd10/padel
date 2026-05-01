@@ -96,6 +96,19 @@ describe.skipIf(!canRunDatabaseTests)(
         });
     });
 
+    it("rejects unauthenticated competition overview requests", async () => {
+      await request(app.getHttpServer())
+        .get("/competitions")
+        .expect(401)
+        .expect(({ body }: { body: unknown }) => {
+          expect(body).toMatchObject({
+            statusCode: 401,
+            message: "Unauthorized",
+            path: "/competitions",
+          });
+        });
+    });
+
     it("creates a competition for the authenticated user without requiring ownerId in the request", async () => {
       const agent = request.agent(app.getHttpServer());
       const email = `competition-${randomUUID()}@example.com`;
@@ -138,6 +151,45 @@ describe.skipIf(!canRunDatabaseTests)(
         ownerId: authenticatedUserId,
         status: "draft",
       });
+    });
+
+    it("returns the authenticated competition overview with owner context", async () => {
+      const agent = request.agent(app.getHttpServer());
+      const email = `competition-overview-${randomUUID()}@example.com`;
+
+      const signUpResponse = await agent
+        .post("/auth/sign-up/email")
+        .set("origin", "http://localhost:3000")
+        .send({
+          name: "Overview User",
+          email,
+          password: "password-1234",
+        })
+        .expect(200);
+
+      const authenticatedUserId = signUpResponse.body.user.id as string;
+
+      await agent.post("/competitions").send({
+        title: "Autumn Classic",
+        format: "round-robin",
+        startsAt: "2026-05-14T10:00:00.000Z",
+        endsAt: "2026-05-16T18:00:00.000Z",
+      });
+
+      const response = await agent.get("/competitions").expect(200);
+
+      expect(response.body).toEqual([
+        expect.objectContaining({
+          title: "Autumn Classic",
+          format: "round-robin",
+          status: "draft",
+          owner: {
+            id: authenticatedUserId,
+            name: "Overview User",
+            email,
+          },
+        }),
+      ]);
     });
   },
 );

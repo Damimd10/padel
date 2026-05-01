@@ -8,6 +8,7 @@ import { envValidationSchema } from "./common/config/env.validation.js";
 import { AuthModule } from "./common/modules/auth/auth.module.js";
 import { CoreModule } from "./common/modules/core/core.module.js";
 import { CreateCompetitionUseCase } from "./competition/application/create-competition.use-case.js";
+import { ListCompetitionOverviewUseCase } from "./competition/application/list-competition-overview.use-case.js";
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
 import { CompetitionController } from "./competition/inbound/http/competition.controller.js";
 import { PrismaCompetitionRepository } from "./competition/outbound/persistence/prisma-competition.repository.js";
@@ -71,6 +72,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
   controllers: [CompetitionController],
   providers: [
     CreateCompetitionUseCase,
+    ListCompetitionOverviewUseCase,
     PrismaCompetitionRepository,
     {
       provide: CompetitionRepositoryToken,
