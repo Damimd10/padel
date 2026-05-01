@@ -8,6 +8,14 @@ import {
   KeyValueSummaryBlock,
   Label,
   ProgressIndicator,
+  Table,
+  TableBody,
+  TableCell,
+  TableEmptyState,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableRowHeader,
   Textarea,
   ToastProvider,
 } from "./index.js";
@@ -43,11 +51,29 @@ describe("ui package entrypoint", () => {
           items={[{ label: "Registered pairs", value: "16" }]}
         />
         <ProgressIndicator label="Review progress" max={10} value={7} />
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow state="warning">
+              <TableRowHeader>Review queue</TableRowHeader>
+              <TableCell>3 pending</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableEmptyState colSpan={2} title="No archived competitions" />
+            </TableRow>
+          </TableBody>
+        </Table>
       </>,
     );
 
     expect(markup).toContain('data-slot="inline-metadata-list"');
     expect(markup).toContain('data-slot="key-value-summary-block"');
     expect(markup).toContain('data-slot="progress-indicator"');
+    expect(markup).toContain('data-slot="table"');
+    expect(markup).toContain('data-slot="table-empty-state"');
   });
 });

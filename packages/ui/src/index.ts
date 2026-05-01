@@ -83,6 +83,31 @@ export {
   type SeparatorProps,
 } from "./components/separator.js";
 export { Skeleton } from "./components/skeleton.js";
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableEmptyState,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableRowHeader,
+} from "./components/table.js";
+export type {
+  TableBodyProps,
+  TableCaptionProps,
+  TableCellProps,
+  TableEmptyStateProps,
+  TableFooterProps,
+  TableHeadProps,
+  TableHeaderProps,
+  TableProps,
+  TableRowHeaderProps,
+  TableRowProps,
+  TableRowState,
+} from "./components/table.js";
 export { Field } from "./components/field.js";
 export type { FieldProps } from "./components/field.js";
 export { Input } from "./components/input.js";

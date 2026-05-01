@@ -18,5 +18,8 @@ describe("ui package exports", () => {
     expect(ui.Select).toBeTruthy();
     expect(ui.SelectTrigger).toBeTruthy();
     expect(ui.Switch).toBeTruthy();
+    expect(ui.Table).toBeTruthy();
+    expect(ui.TableRow).toBeTruthy();
+    expect(ui.TableEmptyState).toBeTruthy();
   });
 });
