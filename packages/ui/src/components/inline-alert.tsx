@@ -76,7 +76,7 @@ export const InlineAlertTitle = React.forwardRef<
   return (
     <h3
       className={cn(
-        "flex items-center gap-2 text-sm font-semibold tracking-tight",
+        "grid items-start gap-x-3 gap-y-1 text-sm font-semibold tracking-tight sm:col-span-2 sm:grid-cols-[auto_1fr]",
         className,
       )}
       data-slot="inline-alert-title"
@@ -86,7 +86,7 @@ export const InlineAlertTitle = React.forwardRef<
       <span
         aria-hidden="true"
         className={cn(
-          "inline-flex min-w-16 rounded-full px-2 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em]",
+          "inline-flex min-w-0 items-center self-start rounded-full px-2.5 py-1 text-[0.68rem] leading-none font-semibold uppercase tracking-[0.12em]",
           resolvedVariant === "info" && "bg-primary/14 text-primary",
           resolvedVariant === "success" && "bg-primary text-primary-foreground",
           resolvedVariant === "warning" &&
@@ -97,7 +97,7 @@ export const InlineAlertTitle = React.forwardRef<
       >
         {inlineAlertStatusText[resolvedVariant]}
       </span>
-      <span>{children}</span>
+      <span className="leading-5">{children}</span>
     </h3>
   );
 });
@@ -113,7 +113,7 @@ export const InlineAlertDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     className={cn(
-      "text-sm leading-6 text-muted-foreground data-[variant=warning]:text-accent-foreground/80 data-[variant=blocked]:text-foreground/80",
+      "text-sm leading-6 text-muted-foreground sm:col-start-2 sm:-mt-1 data-[variant=warning]:text-accent-foreground/80 data-[variant=blocked]:text-foreground/80",
       className,
     )}
     data-slot="inline-alert-description"
