@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "../lib/utils.js";
@@ -34,6 +33,22 @@ const tableRowVariants = cva(
 export type TableRowState = NonNullable<
   VariantProps<typeof tableRowVariants>["state"]
 >;
+
+export function TableContainer({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        "overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm",
+        className,
+      )}
+      data-slot="table-container"
+      {...props}
+    />
+  );
+}
 
 export interface TableProps
   extends React.TableHTMLAttributes<HTMLTableElement> {}
@@ -242,137 +257,3 @@ export const TableEmptyState = React.forwardRef<
 ));
 
 TableEmptyState.displayName = "TableEmptyState";
-=======
-import type * as React from "react";
-import { cn } from "../lib/utils.js";
-
-const tableRowStateClassNames = {
-  default: "hover:bg-muted/45",
-  selected: "bg-secondary/80 text-secondary-foreground",
-  warning: "bg-accent/45 text-accent-foreground",
-  danger:
-    "bg-destructive/8 text-foreground shadow-[inset_4px_0_0_hsl(var(--destructive))]",
-} as const;
-
-export type TableRowState = keyof typeof tableRowStateClassNames;
-
-export function TableContainer({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-[1.5rem] border border-border/80 bg-card/90 shadow-sm",
-        className,
-      )}
-      data-slot="table-container"
-      {...props}
-    />
-  );
-}
-
-export function Table({
-  className,
-  ...props
-}: React.TableHTMLAttributes<HTMLTableElement>) {
-  return (
-    <div className="overflow-x-auto" data-slot="table-scroll">
-      <table
-        className={cn("min-w-full border-collapse text-left", className)}
-        data-slot="table"
-        {...props}
-      />
-    </div>
-  );
-}
-
-export function TableHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLTableSectionElement>) {
-  return (
-    <thead
-      className={cn("bg-muted/55", className)}
-      data-slot="table-header"
-      {...props}
-    />
-  );
-}
-
-export function TableBody({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLTableSectionElement>) {
-  return <tbody className={cn(className)} data-slot="table-body" {...props} />;
-}
-
-export interface TableRowProps
-  extends React.HTMLAttributes<HTMLTableRowElement> {
-  state?: TableRowState;
-}
-
-export function TableRow({
-  className,
-  state = "default",
-  ...props
-}: TableRowProps) {
-  return (
-    <tr
-      className={cn(
-        "border-t border-border/70 transition-colors duration-150 first:border-t-0",
-        tableRowStateClassNames[state],
-        className,
-      )}
-      data-slot="table-row"
-      data-state={state}
-      {...props}
-    />
-  );
-}
-
-export function TableHead({
-  className,
-  ...props
-}: React.ThHTMLAttributes<HTMLTableCellElement>) {
-  return (
-    <th
-      className={cn(
-        "px-4 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground",
-        className,
-      )}
-      data-slot="table-head"
-      {...props}
-    />
-  );
-}
-
-export function TableCell({
-  className,
-  ...props
-}: React.TdHTMLAttributes<HTMLTableCellElement>) {
-  return (
-    <td
-      className={cn("px-4 py-4 align-top text-sm leading-6", className)}
-      data-slot="table-cell"
-      {...props}
-    />
-  );
-}
-
-export function TableCaption({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLTableCaptionElement>) {
-  return (
-    <caption
-      className={cn(
-        "border-t border-border/70 px-4 py-3 text-sm text-muted-foreground caption-bottom",
-        className,
-      )}
-      data-slot="table-caption"
-      {...props}
-    />
-  );
-}
->>>>>>> 20be765 (feat: add competition operations overview scaffold)

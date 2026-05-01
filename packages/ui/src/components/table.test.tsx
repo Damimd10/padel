@@ -5,7 +5,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-<<<<<<< HEAD
+  TableContainer,
   TableEmptyState,
   TableFooter,
   TableHead,
@@ -17,35 +17,38 @@ import {
 describe("Table", () => {
   it("renders semantic structure for shared dense admin views", () => {
     const markup = renderToStaticMarkup(
-      <Table aria-label="Competition review table">
-        <TableCaption>Presentational table foundations only.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Competition</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Updated</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow state="selected">
-            <TableRowHeader>Autumn League</TableRowHeader>
-            <TableCell>Selected for bulk publish</TableCell>
-            <TableCell>Today, 14:10</TableCell>
-          </TableRow>
-          <TableRow state="warning">
-            <TableRowHeader>Junior Open</TableRowHeader>
-            <TableCell>2 waivers missing</TableCell>
-            <TableCell>8 minutes ago</TableCell>
-          </TableRow>
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>2 competitions shown</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>,
+      <TableContainer>
+        <Table aria-label="Competition review table">
+          <TableCaption>Presentational table foundations only.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Competition</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Updated</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow state="selected">
+              <TableRowHeader>Autumn League</TableRowHeader>
+              <TableCell>Selected for bulk publish</TableCell>
+              <TableCell>Today, 14:10</TableCell>
+            </TableRow>
+            <TableRow state="warning">
+              <TableRowHeader>Junior Open</TableRowHeader>
+              <TableCell>2 waivers missing</TableCell>
+              <TableCell>8 minutes ago</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>2 competitions shown</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>,
     );
 
+    expect(markup).toContain('data-slot="table-container"');
     expect(markup).toContain('data-slot="table"');
     expect(markup).toContain('data-slot="table-caption"');
     expect(markup).toContain('data-slot="table-header"');
@@ -94,39 +97,5 @@ describe("Table", () => {
     expect(markup).toContain('data-state="invalid"');
     expect(markup).toContain("Invalid medical certificate");
     expect(markup).toContain('aria-label="Invalid registration row"');
-=======
-  TableContainer,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./table.js";
-
-describe("Table", () => {
-  it("renders semantic table foundations with row-state hooks", () => {
-    const markup = renderToStaticMarkup(
-      <TableContainer>
-        <Table>
-          <TableHeader>
-            <tr>
-              <TableHead scope="col">Competition</TableHead>
-            </tr>
-          </TableHeader>
-          <TableBody>
-            <TableRow state="warning">
-              <TableCell>Winter Open</TableCell>
-            </TableRow>
-          </TableBody>
-          <TableCaption>Shared operational table foundation.</TableCaption>
-        </Table>
-      </TableContainer>,
-    );
-
-    expect(markup).toContain('data-slot="table-container"');
-    expect(markup).toContain('data-slot="table"');
-    expect(markup).toContain('data-slot="table-head"');
-    expect(markup).toContain('data-slot="table-cell"');
-    expect(markup).toContain('data-state="warning"');
-    expect(markup).toContain("<caption");
->>>>>>> 20be765 (feat: add competition operations overview scaffold)
   });
 });

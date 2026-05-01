@@ -42,4 +42,5 @@ export const competitionOverviewFixture: CompetitionOverviewCollection = [
   },
 ];
 
-export const emptyCompetitionOverviewFixture: CompetitionOverviewCollection = [];
+export const emptyCompetitionOverviewFixture: CompetitionOverviewCollection =
+  [];

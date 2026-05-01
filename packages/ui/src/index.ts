@@ -173,18 +173,6 @@ export type { SwitchProps } from "./components/switch.js";
 export { Textarea } from "./components/textarea.js";
 export type { TextareaProps } from "./components/textarea.js";
 export {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableHeader,
-  TableRow,
-  type TableRowProps,
-  type TableRowState,
-} from "./components/table.js";
-export {
   Toast,
   ToastAction,
   ToastClose,

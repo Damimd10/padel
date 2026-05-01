@@ -1,6 +1,6 @@
 import {
-  competitionOverviewCollectionSchema,
   type CompetitionOverviewCollection,
+  competitionOverviewCollectionSchema,
   sharedPingContract,
 } from "@padel/schemas";
 
