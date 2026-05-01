@@ -5,6 +5,7 @@ import { userEvent } from "@testing-library/user-event";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { DateRangeInput } from "./date-range-input.js";
+import { DateRangePicker } from "./date-range-picker.js";
 import { Field } from "./field.js";
 
 beforeAll(() => {
@@ -17,25 +18,33 @@ afterEach(() => {
   cleanup();
 });
 
-describe("DateRangeInput", () => {
-  it("renders a grouped shared date-range surface with derived field ids", () => {
+describe("DateRangePicker", () => {
+  it("keeps DateRangeInput as a compatibility alias", () => {
+    expect(DateRangeInput).toBe(DateRangePicker);
+  });
+
+  it("renders a shared date-range surface with canonical form submission support", () => {
     const markup = renderToStaticMarkup(
-      <DateRangeInput
+      <DateRangePicker
+        defaultValue={{
+          from: new Date(2026, 4, 1),
+          to: new Date(2026, 4, 10),
+        }}
+        fromName="startDate"
         id="registration-window"
-        startProps={{ defaultValue: "2026-05-01", name: "startDate" }}
-        endProps={{ defaultValue: "2026-05-10", name: "endDate" }}
+        toName="endDate"
       />,
     );
 
-    expect(markup).toContain("<fieldset");
-    expect(markup).toContain('data-slot="date-range-input"');
-    expect(markup).toContain('id="registration-window-start"');
-    expect(markup).toContain('id="registration-window-end"');
+    expect(markup).toContain('data-slot="date-range-picker"');
+    expect(markup).toContain('id="registration-window"');
     expect(markup).toContain('name="startDate"');
     expect(markup).toContain('name="endDate"');
+    expect(markup).toContain('value="2026-05-01"');
+    expect(markup).toContain('value="2026-05-10"');
   });
 
-  it("composes with Field and forwards shared invalid-state semantics to both dates", () => {
+  it("composes with Field and forwards shared invalid-state semantics to the trigger", () => {
     const markup = renderToStaticMarkup(
       <Field
         description="Use local competition dates rather than timestamp values."
@@ -43,7 +52,7 @@ describe("DateRangeInput", () => {
         id="registration-window"
         label="Registration window"
       >
-        <DateRangeInput />
+        <DateRangePicker />
       </Field>,
     );
 
@@ -51,25 +60,25 @@ describe("DateRangeInput", () => {
       'aria-describedby="registration-window-description registration-window-error"',
     );
     expect(markup).toContain('aria-invalid="true"');
-    expect(markup).toContain('id="registration-window-start"');
-    expect(markup).toContain('id="registration-window-end"');
+    expect(markup).toContain('id="registration-window"');
   });
 
-  it("keeps start and end dates keyboard reachable in sequence", async () => {
+  it("opens the range calendar and keeps the trigger keyboard reachable", async () => {
     render(
-      <DateRangeInput
+      <DateRangePicker
         aria-label="Competition dates"
-        startProps={{ "aria-label": "Start date" }}
-        endProps={{ "aria-label": "End date" }}
+        defaultValue={{
+          from: new Date(2026, 4, 1),
+          to: new Date(2026, 4, 12),
+        }}
       />,
     );
 
     await userEvent.tab();
-    const start = screen.getByLabelText(/start date/i);
-    expect(start.ownerDocument.activeElement).toBe(start);
+    const trigger = screen.getByRole("button", { name: /competition dates/i });
+    expect(trigger.ownerDocument.activeElement).toBe(trigger);
 
-    await userEvent.tab();
-    const end = screen.getByLabelText(/end date/i);
-    expect(end.ownerDocument.activeElement).toBe(end);
+    await userEvent.click(trigger);
+    expect((await screen.findAllByRole("grid")).length).toBeGreaterThan(0);
   });
 });

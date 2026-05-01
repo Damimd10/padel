@@ -34,7 +34,7 @@ Every committed ticket must:
 - capacity assumptions:
   - the shared UI foundation, Storybook bootstrap, form foundations, choice controls, layout primitives, and overlay primitives are already delivered on `master`
   - the next highest-value UI-package gap for product workflows is the numeric and date-oriented input wave documented under `TKT-029`
-  - implementation should stay focused on shared input semantics first, then expand into shared feedback and summary-display primitives without mixing in workflow-specific data shaping
+  - implementation should stay focused on shared input semantics and shadcn-style date-picker composition, and should not expand into feature-specific parsing, persistence, presets, or business-rule-specific date workflows
 - committed tickets:
   - `TKT-029` - add advanced numeric and date-oriented form inputs in `packages/ui`
 - stretch tickets:
@@ -52,14 +52,14 @@ Every committed ticket must:
   - `TKT-032`: `packages/ui`, `packages/config`
 - dependencies and blockers:
   - `TKT-029` depends on the delivered `Field` contract and previously shipped shared form primitives already present in `packages/ui`
-  - `Date Range Input` must stay generic enough to map into TanStack Form without introducing app-owned business rules into `packages/ui`
+  - `Date Picker` and `Date Range Picker` should build on shared `Popover` and calendar primitives while remaining generic enough to map into TanStack Form without introducing app-owned business rules into `packages/ui`
   - `TKT-031` should consume the shared status and feedback semantics clarified by `TKT-030` before hardening summary and progress display contracts
   - `TKT-032` should follow the feedback and summary-display wave so table states inherit a stable operational vocabulary
 - GitHub milestone / project view used for execution:
   - milestone: `next-ui-package-sprint`
   - project status: issue `#29` is in `Padel Delivery` with status `In Sprint`, and issue `#31` is represented on the board as `Planned`
 - exit criteria:
-  - `TKT-029` lands with shared exports, Storybook coverage, and tests for `Numeric Input`, `Date Input`, and `Date Range Input`
+  - `TKT-029` lands with shared exports, Storybook coverage, and tests for `Numeric Input`, `Date Picker`, and `Date Range Picker`
   - the shipped APIs remain generic and compose with `Field` without feature-specific parsing or submission logic
   - Storybook documents invalid, disabled, read-only, and keyboard-relevant states clearly enough for competition-configuration and result-entry forms
   - GitHub execution state stays synced so the sprint doc, issue metadata, and project board all reflect the same committed and planned work

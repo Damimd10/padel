@@ -32,7 +32,7 @@ If this document and the GitHub Project disagree, update both and record the rea
 
 ## Active Sprint Record
 
-- ticket ID and title: `TKT-029` - Add advanced numeric and date-oriented form inputs in `packages/ui`
+- ticket ID and title: `TKT-029` - Add advanced numeric and date-oriented form inputs in `packages/ui`, including shadcn-style date pickers adapted to our design system
 - delivery lane: `frontend`
 - affected apps/packages: `packages/ui`, `packages/config`
 - owner: `unassigned`

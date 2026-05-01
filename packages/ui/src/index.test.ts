@@ -4,8 +4,11 @@ import * as ui from "./index.js";
 describe("ui package exports", () => {
   it("exposes the foundation and selection control surfaces", () => {
     expect(ui.Button).toBeTruthy();
+    expect(ui.Calendar).toBeTruthy();
     expect(ui.DateInput).toBeTruthy();
+    expect(ui.DatePicker).toBeTruthy();
     expect(ui.DateRangeInput).toBeTruthy();
+    expect(ui.DateRangePicker).toBeTruthy();
     expect(ui.Field).toBeTruthy();
     expect(ui.Input).toBeTruthy();
     expect(ui.NumericInput).toBeTruthy();

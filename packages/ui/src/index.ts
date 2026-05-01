@@ -17,11 +17,23 @@ export {
 } from "./components/checkbox.js";
 export type { CheckboxProps } from "./components/checkbox.js";
 export {
+  Calendar,
+  type CalendarProps,
+} from "./components/calendar.js";
+export {
   DateInput,
   type DateInputProps,
 } from "./components/date-input.js";
+export {
+  DatePicker,
+  type DatePickerProps,
+} from "./components/date-picker.js";
 export { DateRangeInput } from "./components/date-range-input.js";
 export type { DateRangeInputProps } from "./components/date-range-input.js";
+export {
+  DateRangePicker,
+  type DateRangePickerProps,
+} from "./components/date-range-picker.js";
 export {
   Dialog,
   DialogClose,
