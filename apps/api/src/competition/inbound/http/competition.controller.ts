@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Inject,
@@ -8,6 +9,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import {
+  competitionOverviewCollectionSchema,
   createCompetitionRequestSchema,
   createCompetitionResponseSchema,
 } from "@padel/schemas";
@@ -16,6 +18,7 @@ import type { AuthenticatedUser } from "../../../common/modules/auth/application
 import { AuthenticatedGuard } from "../../../common/modules/auth/inbound/http/authenticated.guard.js";
 import { CurrentUser } from "../../../common/modules/auth/inbound/http/current-user.decorator.js";
 import { CreateCompetitionUseCase } from "../../application/create-competition.use-case.js";
+import { ListCompetitionOverviewUseCase } from "../../application/list-competition-overview.use-case.js";
 import { mapCreateCompetitionRequestToCommand } from "./create-competition-request.mapper.js";
 
 @Controller("competitions")
@@ -23,7 +26,17 @@ export class CompetitionController {
   constructor(
     @Inject(CreateCompetitionUseCase)
     private readonly createCompetitionUseCase: CreateCompetitionUseCase,
+    @Inject(ListCompetitionOverviewUseCase)
+    private readonly listCompetitionOverviewUseCase: ListCompetitionOverviewUseCase,
   ) {}
+
+  @Get()
+  @UseGuards(AuthenticatedGuard)
+  async listCompetitionOverview() {
+    const response = await this.listCompetitionOverviewUseCase.execute();
+
+    return competitionOverviewCollectionSchema.parse(response);
+  }
 
   @Post()
   @UseGuards(AuthenticatedGuard)
