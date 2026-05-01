@@ -53,3 +53,4 @@ To keep `packages/ui` parallelizable without breaking package boundaries, the ne
 
 - `docs/13-ui-package-storybook/selection-choice-controls.md`
 - `docs/13-ui-package-storybook/numeric-date-inputs.md`
+- `docs/13-ui-package-storybook/summary-and-metadata-display.md`
