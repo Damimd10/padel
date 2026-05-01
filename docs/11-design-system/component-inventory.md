@@ -36,8 +36,8 @@ The component inventory should reflect actual workflow needs from the competitio
 - Checkbox
 - Radio group
 - Switch
-- Date input
-- Date range input
+- Date picker
+- Date range picker
 - Textarea
 - Form field wrapper
 - Validation message

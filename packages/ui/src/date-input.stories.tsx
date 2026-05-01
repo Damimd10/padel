@@ -1,25 +1,25 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent } from "@storybook/test";
-import { DateInput } from "./components/date-input.js";
+import { expect } from "@storybook/test";
+import { DatePicker } from "./components/date-picker.js";
 import { Field } from "./components/field.js";
 
-const meta: Meta<typeof DateInput> = {
-  title: "Shared/Forms/Date Input",
-  component: DateInput,
+const meta: Meta<typeof DatePicker> = {
+  title: "Shared/Forms/Date Picker",
+  component: DatePicker,
   tags: ["autodocs"],
   args: {
-    defaultValue: "2026-05-10",
+    defaultValue: new Date(2026, 4, 10),
   },
   parameters: {
     layout: "centered",
     docs: {
       description: {
         component:
-          "Shared single-date primitive for native calendar-date entry. It stays intentionally close to browser date semantics while preserving the package's field, validation, and read-only conventions.",
+          "Shared single-date picker built with the package's field, popover, and calendar primitives. It follows shadcn-style composition while using the current design-system styling contract.",
       },
     },
   },
-  render: (args) => <DateInput className="w-[240px]" {...args} />,
+  render: (args) => <DatePicker className="w-[240px]" {...args} />,
 };
 
 export default meta;
@@ -27,12 +27,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement }) => {
-    const input = canvasElement.querySelector('input[type="date"]');
-    if (!input) {
-      throw new Error("Expected date input to render");
-    }
-
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByRole("textbox");
     await userEvent.tab();
     await expect(input).toHaveFocus();
   },
@@ -41,12 +37,6 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
-  },
-};
-
-export const ReadOnly: Story = {
-  args: {
-    readOnly: true,
   },
 };
 
@@ -59,7 +49,7 @@ export const Invalid: Story = {
       label="Competition start date"
       required
     >
-      <DateInput defaultValue="2026-05-02" />
+      <DatePicker defaultValue={new Date(2026, 4, 2)} />
     </Field>
   ),
 };

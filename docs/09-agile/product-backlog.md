@@ -477,12 +477,13 @@ For each ticket, include:
 - delivery lane: `frontend`
 - affected apps/packages: `packages/ui`, `packages/config`
 - title: `Add shared numeric and date-oriented form inputs in packages/ui`
-- story/task description: Extend `packages/ui` with the next reusable input wave needed by competition creation and result-entry workflows. This ticket should add a shared `Numeric Input`, `Date Input`, and `Date Range Input` surface that stays generic to input semantics, works cleanly with the existing `Field` composition model, and documents the states needed for high-impact admin forms.
+- story/task description: Extend `packages/ui` with the next reusable input wave needed by competition creation and result-entry workflows. This ticket should add a shared `Numeric Input`, `Date Picker`, and `Date Range Picker` surface that stays generic to input semantics, works cleanly with the existing `Field` composition model, and follows shadcn date-picker composition principles using our current design system primitives and styling.
 - acceptance criteria:
   - `packages/ui` exports reusable numeric and date-oriented input surfaces through the shared package entrypoint
   - the public APIs stay generic and avoid feature-specific parsing, persistence, or workflow orchestration
-  - Storybook documents default, invalid, disabled, read-only and keyboard-relevant states for the shipped inputs
-  - `Date Range Input` documents the shared contract clearly enough that feature code can map it into TanStack Form without app-local reinvention
+  - Storybook documents default, invalid, disabled, and keyboard-relevant states for the shipped inputs, including shadcn-style date-picker interaction flows expressed through our design system
+  - `Date Picker` and `Date Range Picker` use shared package composition around field, popover, and calendar primitives rather than relying on browser-native date inputs
+  - `Date Range Picker` documents the shared contract clearly enough that feature code can map it into TanStack Form without app-local reinvention
   - tests validate the public rendering and interaction behavior of the shipped input surfaces
 - linked docs:
   - `/docs/03-requirements/functional-requirements.md`
