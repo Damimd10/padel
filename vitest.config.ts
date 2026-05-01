@@ -8,7 +8,10 @@ export default defineConfig({
         __dirname,
         "packages/api-client/src/index.ts",
       ),
-      "@padel/schemas": path.resolve(__dirname, "packages/schemas/src/index.ts"),
+      "@padel/schemas": path.resolve(
+        __dirname,
+        "packages/schemas/src/index.ts",
+      ),
       "@padel/ui": path.resolve(__dirname, "packages/ui/src/index.ts"),
       "@padel/ui/styles.css": path.resolve(
         __dirname,

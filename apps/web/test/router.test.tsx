@@ -63,13 +63,14 @@ describe("competition operations route", () => {
   });
 
   it("renders the empty state when the overview query returns no competitions", async () => {
-    const { queryClient, router } = createTestRouter(async () =>
-      new Response(JSON.stringify(emptyCompetitionOverviewFixture), {
-        headers: {
-          "content-type": "application/json",
-        },
-        status: 200,
-      }),
+    const { queryClient, router } = createTestRouter(
+      async () =>
+        new Response(JSON.stringify(emptyCompetitionOverviewFixture), {
+          headers: {
+            "content-type": "application/json",
+          },
+          status: 200,
+        }),
     );
 
     render(<App queryClient={queryClient} router={router} />);
@@ -84,13 +85,14 @@ describe("competition operations route", () => {
       .spyOn(console, "error")
       .mockImplementation(() => undefined);
 
-    const { queryClient, router } = createTestRouter(async () =>
-      new Response(JSON.stringify({ message: "Backend unavailable" }), {
-        headers: {
-          "content-type": "application/json",
-        },
-        status: 503,
-      }),
+    const { queryClient, router } = createTestRouter(
+      async () =>
+        new Response(JSON.stringify({ message: "Backend unavailable" }), {
+          headers: {
+            "content-type": "application/json",
+          },
+          status: 503,
+        }),
     );
 
     render(<App queryClient={queryClient} router={router} />);
@@ -103,13 +105,14 @@ describe("competition operations route", () => {
   });
 
   it("renders the populated operational table with shared UI primitives", async () => {
-    const { queryClient, router } = createTestRouter(async () =>
-      new Response(JSON.stringify(competitionOverviewFixture), {
-        headers: {
-          "content-type": "application/json",
-        },
-        status: 200,
-      }),
+    const { queryClient, router } = createTestRouter(
+      async () =>
+        new Response(JSON.stringify(competitionOverviewFixture), {
+          headers: {
+            "content-type": "application/json",
+          },
+          status: 200,
+        }),
     );
 
     render(<App queryClient={queryClient} router={router} />);
