@@ -13,12 +13,12 @@ const DialogContent = React.forwardRef<
   <DialogPrimitive.Portal>
     <DialogPrimitive.Overlay
       className={cn(
-        "fixed inset-0 z-50 bg-foreground/30 backdrop-blur-[2px] transition-opacity duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100",
+        "fixed inset-0 z-50 bg-foreground/45 backdrop-blur-[3px] transition-opacity duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100",
       )}
     />
     <DialogPrimitive.Content
       className={cn(
-        "fixed left-1/2 top-1/2 z-50 grid w-[min(32rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-[calc(var(--radius)+0.2rem)] border bg-card p-6 text-card-foreground shadow-xl outline-hidden transition-[opacity,transform] duration-200 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
+        "fixed left-1/2 top-1/2 z-50 grid w-[min(32rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-[calc(var(--radius)+0.2rem)] border border-border/90 bg-background p-6 text-foreground shadow-[0_24px_60px_hsl(var(--foreground)/0.18)] outline-hidden ring-1 ring-background/70 transition-[opacity,transform] duration-200 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
         className,
       )}
       data-slot="dialog-content"
