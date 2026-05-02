@@ -7,6 +7,6 @@ export const CurrentUser = createParamDecorator(
     const request = context.switchToHttp().getRequest<RequestWithAuthContext>();
     const user = request.user;
 
-    return data ? user?.[data] : user;
+    return data ? user?.[data as keyof typeof user] : user;
   },
 );

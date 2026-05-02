@@ -74,25 +74,26 @@ describe.skipIf(!canRunDatabaseTests)("AuthController integration", () => {
     await prisma?.$disconnect();
   });
 
-  it("creates a persisted auth session and reads it back through Better Auth", async () => {
+  it("creates a persisted auth session and reads it back through the app-owned auth contract", async () => {
     const agent = request.agent(app.getHttpServer());
     const email = `auth-${randomUUID()}@example.com`;
 
     const signUpResponse = await agent
-      .post("/auth/sign-up/email")
+      .post("/auth/sign-up")
       .set("origin", "http://localhost:3000")
       .send({
         name: "Auth Test User",
         email,
         password: "password-1234",
       })
-      .expect(200);
+      .expect(201);
 
     expect(signUpResponse.body).toMatchObject({
       user: {
         email,
         name: "Auth Test User",
         emailVerified: false,
+        image: null,
       },
     });
     expect(signUpResponse.headers["set-cookie"]).toBeDefined();
@@ -112,17 +113,107 @@ describe.skipIf(!canRunDatabaseTests)("AuthController integration", () => {
     });
     expect(user.sessions).toHaveLength(1);
 
-    const sessionResponse = await agent.get("/auth/get-session").expect(200);
+    const sessionResponse = await agent.get("/auth/session").expect(200);
 
     expect(sessionResponse.body).toMatchObject({
+      authenticated: true,
       user: {
         id: user.id,
         email,
         name: "Auth Test User",
+        image: null,
       },
       session: {
+        id: user.sessions[0].id,
         userId: user.id,
+        expiresAt: user.sessions[0].expiresAt.toISOString(),
       },
+    });
+  });
+
+  it("returns an explicit invalid-credentials error for a failed sign-in", async () => {
+    const agent = request.agent(app.getHttpServer());
+    const email = `auth-${randomUUID()}@example.com`;
+
+    await agent
+      .post("/auth/sign-up")
+      .set("origin", "http://localhost:3000")
+      .send({
+        name: "Auth Test User",
+        email,
+        password: "password-1234",
+      })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post("/auth/sign-in")
+      .set("origin", "http://localhost:3000")
+      .send({
+        email,
+        password: "wrong-password",
+      })
+      .expect(401)
+      .expect(({ body }: { body: unknown }) => {
+        expect(body).toEqual({
+          code: "invalid_credentials",
+          message: "Email or password is incorrect.",
+        });
+      });
+  });
+
+  it("returns an explicit duplicate-account error for repeated sign-up", async () => {
+    const email = `auth-${randomUUID()}@example.com`;
+
+    await request(app.getHttpServer())
+      .post("/auth/sign-up")
+      .set("origin", "http://localhost:3000")
+      .send({
+        name: "Auth Test User",
+        email,
+        password: "password-1234",
+      })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post("/auth/sign-up")
+      .set("origin", "http://localhost:3000")
+      .send({
+        name: "Auth Test User",
+        email,
+        password: "password-1234",
+      })
+      .expect(409)
+      .expect(({ body }: { body: unknown }) => {
+        expect(body).toEqual({
+          code: "duplicate_email",
+          message: "An account with that email already exists.",
+        });
+      });
+  });
+
+  it("clears the session and reports an anonymous state after sign-out", async () => {
+    const agent = request.agent(app.getHttpServer());
+    const email = `auth-${randomUUID()}@example.com`;
+
+    await agent
+      .post("/auth/sign-up")
+      .set("origin", "http://localhost:3000")
+      .send({
+        name: "Auth Test User",
+        email,
+        password: "password-1234",
+      })
+      .expect(201);
+
+    const signOutResponse = await agent.post("/auth/sign-out").expect(200);
+
+    expect(signOutResponse.body).toEqual({
+      success: true,
+    });
+    expect(signOutResponse.headers["set-cookie"]).toBeDefined();
+
+    await agent.get("/auth/session").expect(200).expect({
+      authenticated: false,
     });
   });
 });

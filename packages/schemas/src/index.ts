@@ -10,7 +10,80 @@ export const competitionFormatSchema = z.enum([
   "round-robin",
   "league",
 ]);
+export const authUserSchema = z
+  .object({
+    id: z.string(),
+    email: z.email(),
+    name: z.string(),
+    emailVerified: z.boolean(),
+    image: z.url().nullable(),
+  })
+  .strict();
 
+export const authSessionSchema = z
+  .object({
+    id: z.string(),
+    userId: z.string(),
+    expiresAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const signUpWithEmailRequestSchema = z
+  .object({
+    name: z.string().trim().min(1),
+    email: z.email(),
+    password: z.string().min(8).max(128),
+  })
+  .strict();
+
+export const signInWithEmailRequestSchema = z
+  .object({
+    email: z.email(),
+    password: z.string().min(8).max(128),
+  })
+  .strict();
+
+export const authMutationResponseSchema = z
+  .object({
+    user: authUserSchema,
+  })
+  .strict();
+
+export const authenticatedSessionResponseSchema = z
+  .object({
+    authenticated: z.literal(true),
+    user: authUserSchema,
+    session: authSessionSchema,
+  })
+  .strict();
+
+export const anonymousSessionResponseSchema = z
+  .object({
+    authenticated: z.literal(false),
+  })
+  .strict();
+
+export const authSessionResponseSchema = z.union([
+  authenticatedSessionResponseSchema,
+  anonymousSessionResponseSchema,
+]);
+
+export const signOutResponseSchema = z
+  .object({
+    success: z.literal(true),
+  })
+  .strict();
+
+export const authErrorSchema = z
+  .object({
+    code: z.enum([
+      "duplicate_email",
+      "invalid_credentials",
+      "auth_unavailable",
+    ]),
+    message: z.string(),
+  })
+  .strict();
 export const createCompetitionRequestSchema = z
   .object({
     title: z.string().trim().min(1),
@@ -78,4 +151,19 @@ export type CompetitionOverviewItem = z.infer<
 export type CompetitionOverviewCollection = z.infer<
   typeof competitionOverviewCollectionSchema
 >;
+export type AuthError = z.infer<typeof authErrorSchema>;
+export type AuthMutationResponse = z.infer<typeof authMutationResponseSchema>;
+export type AuthSession = z.infer<typeof authSessionSchema>;
+export type AuthSessionResponse = z.infer<typeof authSessionResponseSchema>;
+export type AuthUser = z.infer<typeof authUserSchema>;
+export type AnonymousSessionResponse = z.infer<
+  typeof anonymousSessionResponseSchema
+>;
 export type SharedPingContract = z.infer<typeof sharedPingContract>;
+export type SignInWithEmailRequest = z.infer<
+  typeof signInWithEmailRequestSchema
+>;
+export type SignOutResponse = z.infer<typeof signOutResponseSchema>;
+export type SignUpWithEmailRequest = z.infer<
+  typeof signUpWithEmailRequestSchema
+>;
