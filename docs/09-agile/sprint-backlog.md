@@ -29,6 +29,7 @@ If this document and the GitHub Project disagree, update both and record the rea
 - `TKT-017` remains the next available backend slice, but it is not part of the current frontend-focused sprint snapshot.
 - `TKT-018`, `TKT-019`, `TKT-020`, and `TKT-021` are treated as delivered shared UI foundation work that enables the next input-focused wave.
 - `TKT-029` is now the active planned frontend sprint item for `next-ui-package-sprint`.
+- `TKT-042` is now in active delivery for `auth-self-service-foundation-sprint`, with GitHub issue `#42` moved into project status `In Progress` while the frontend auth routes and typed client wrappers are implemented.
 
 ## Active Sprint Record
 
@@ -40,3 +41,12 @@ If this document and the GitHub Project disagree, update both and record the rea
 - current project status: `In Sprint`
 - blocked/unblocked state: `unblocked`
 - notes for carryover risk: `none; GitHub issue metadata, project status, and sprint docs are aligned for implementation`
+
+- ticket ID and title: `TKT-042` - Build frontend login and registration routes on top of the backend auth contracts
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- owner: `codex`
+- GitHub issue link: `https://github.com/Damimd10/padel/issues/42`
+- current project status: `In Progress`
+- blocked/unblocked state: `unblocked`
+- notes for carryover risk: `depends on the backend self-service auth contract hardening ticket for final schema ownership convergence, but the current Better Auth endpoints already allow the frontend route and typed client slice to move forward`

@@ -10,13 +10,16 @@ export const competitionFormatSchema = z.enum([
   "round-robin",
   "league",
 ]);
+
 export const authUserSchema = z
   .object({
     id: z.string(),
     email: z.email(),
     name: z.string(),
     emailVerified: z.boolean(),
-    image: z.url().nullable(),
+    image: z.string().url().nullable().optional(),
+    createdAt: z.iso.datetime().optional(),
+    updatedAt: z.iso.datetime().optional(),
   })
   .strict();
 
@@ -25,6 +28,11 @@ export const authSessionSchema = z
     id: z.string(),
     userId: z.string(),
     expiresAt: z.iso.datetime(),
+    createdAt: z.iso.datetime().optional(),
+    updatedAt: z.iso.datetime().optional(),
+    token: z.string().optional(),
+    ipAddress: z.string().nullable().optional(),
+    userAgent: z.string().nullable().optional(),
   })
   .strict();
 
@@ -45,6 +53,9 @@ export const signInWithEmailRequestSchema = z
 
 export const authMutationResponseSchema = z
   .object({
+    redirect: z.boolean().optional(),
+    token: z.string().nullable().optional(),
+    url: z.string().optional(),
     user: authUserSchema,
   })
   .strict();
@@ -68,11 +79,26 @@ export const authSessionResponseSchema = z.union([
   anonymousSessionResponseSchema,
 ]);
 
+export const signUpEmailRequestSchema = signUpWithEmailRequestSchema;
+export const signUpEmailResponseSchema = authMutationResponseSchema;
+export const signInEmailRequestSchema = signInWithEmailRequestSchema;
+export const signInEmailResponseSchema = authMutationResponseSchema;
+
 export const signOutResponseSchema = z
   .object({
     success: z.literal(true),
   })
   .strict();
+
+export const currentSessionResponseSchema = authSessionResponseSchema.transform(
+  (value) =>
+    value.authenticated
+      ? {
+          session: value.session,
+          user: value.user,
+        }
+      : null,
+);
 
 export const authErrorSchema = z
   .object({
@@ -84,6 +110,7 @@ export const authErrorSchema = z
     message: z.string(),
   })
   .strict();
+
 export const createCompetitionRequestSchema = z
   .object({
     title: z.string().trim().min(1),
@@ -159,11 +186,18 @@ export type AuthUser = z.infer<typeof authUserSchema>;
 export type AnonymousSessionResponse = z.infer<
   typeof anonymousSessionResponseSchema
 >;
+export type CurrentSessionResponse = z.infer<
+  typeof currentSessionResponseSchema
+>;
 export type SharedPingContract = z.infer<typeof sharedPingContract>;
+export type SignInEmailRequest = z.infer<typeof signInEmailRequestSchema>;
+export type SignInEmailResponse = z.infer<typeof signInEmailResponseSchema>;
 export type SignInWithEmailRequest = z.infer<
   typeof signInWithEmailRequestSchema
 >;
 export type SignOutResponse = z.infer<typeof signOutResponseSchema>;
+export type SignUpEmailRequest = z.infer<typeof signUpEmailRequestSchema>;
+export type SignUpEmailResponse = z.infer<typeof signUpEmailResponseSchema>;
 export type SignUpWithEmailRequest = z.infer<
   typeof signUpWithEmailRequestSchema
 >;

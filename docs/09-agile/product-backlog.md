@@ -619,3 +619,41 @@ For each ticket, include:
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-ui-package-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/32`
+
+### TKT-042 - Build frontend login and registration routes on top of the backend auth contracts
+
+- ID: `TKT-042`
+- type: `task`
+- epic: `authentication-self-service`
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- title: `Build frontend login and registration routes on top of the backend auth contracts`
+- story/task description: Introduce the first user-facing authentication entry flows in `apps/web` by building login and registration screens on top of the backend contracts from the backend self-service auth slice. The scope should add typed auth client wrappers in `packages/api-client`, guest-only frontend route behavior, and validated form handling that composes existing shared `packages/ui` primitives without pushing auth-specific mutation logic into the UI package.
+- acceptance criteria:
+  - `packages/api-client` exposes typed client helpers or wrappers for the sign-up, sign-in, sign-out, and current-session contracts from `packages/schemas`
+  - `apps/web` includes login and registration routes with validated form handling and clear success, error, and pending states
+  - authenticated users are redirected away from guest-only entry routes and the flow preserves a credible post-login landing behavior
+  - the implementation uses shared `packages/ui` components without embedding auth-specific mutation logic into the UI package
+  - tests validate contract mapping, route behavior, and user-visible form-state handling
+  - forgot-password and reset-password flows remain out of scope for this ticket
+- linked docs:
+  - `/docs/12-frontend-architecture/routing.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/12-frontend-architecture/server-state.md`
+  - `/docs/12-frontend-architecture/frontend-overview.md`
+  - `/docs/16-backend-architecture/security-strategy.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-011-authentication-strategy.md`
+- testing expectations:
+  - unit: cover form-state handling, contract mapping, and guest-only redirect decisions
+  - integration: verify the route layer composes typed auth clients with shared UI primitives without package-boundary leaks
+  - e2e/manual: confirm a user can register and then sign in through the real frontend flow once the backend contracts are available
+- estimate: `M`
+- status: `in-sprint`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:platform`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
+- milestone/sprint: `auth-self-service-foundation-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/42`
