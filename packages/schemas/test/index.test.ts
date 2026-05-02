@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   authErrorSchema,
-  authSessionResponseSchema,
   authMutationResponseSchema,
+  authSessionResponseSchema,
   competitionOverviewCollectionSchema,
   createCompetitionRequestSchema,
   createCompetitionResponseSchema,
