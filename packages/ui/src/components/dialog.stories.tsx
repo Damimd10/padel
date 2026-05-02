@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./index.js";
+} from "../index.js";
 
 const meta = {
   title: "Shared/Overlays/Dialog",

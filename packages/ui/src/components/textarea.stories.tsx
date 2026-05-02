@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { Field } from "./components/field.js";
-import { Textarea } from "./components/textarea.js";
+import { Field } from "./field.js";
+import { Textarea } from "./textarea.js";
 
 const meta: Meta<typeof Textarea> = {
   title: "Shared/Forms/Textarea",

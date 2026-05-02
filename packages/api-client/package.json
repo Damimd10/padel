@@ -10,7 +10,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@padel/schemas": "workspace:*"
+    "@padel/schemas": "workspace:*",
+    "axios": "^1.16.0"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

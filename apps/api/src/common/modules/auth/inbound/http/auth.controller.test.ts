@@ -6,11 +6,27 @@ import request from "supertest";
 import { describe, expect, it } from "vitest";
 
 import { AuthGatewayError } from "../../application/auth-gateway.error.js";
+import { ForgetPasswordUseCase } from "../../application/forget-password.use-case.js";
 import { GetAuthSessionUseCase } from "../../application/get-auth-session.use-case.js";
+import { ResetPasswordUseCase } from "../../application/reset-password.use-case.js";
 import { SignInWithEmailUseCase } from "../../application/sign-in-with-email.use-case.js";
 import { SignOutUseCase } from "../../application/sign-out.use-case.js";
 import { SignUpWithEmailUseCase } from "../../application/sign-up-with-email.use-case.js";
 import { AuthController } from "./auth.controller.js";
+
+const forgetPasswordUseCaseMock = {
+  execute: async () => ({
+    data: { success: true },
+    headers: { setCookie: [] },
+  }),
+};
+
+const resetPasswordUseCaseMock = {
+  execute: async () => ({
+    data: { success: true },
+    headers: { setCookie: [] },
+  }),
+};
 
 describe("AuthController", () => {
   it("creates an app-owned sign-up response", async () => {
@@ -56,6 +72,14 @@ describe("AuthController", () => {
               headers: { setCookie: [] },
             }),
           },
+        },
+        {
+          provide: ForgetPasswordUseCase,
+          useValue: forgetPasswordUseCaseMock,
+        },
+        {
+          provide: ResetPasswordUseCase,
+          useValue: resetPasswordUseCaseMock,
         },
       ],
     }).compile();
@@ -129,6 +153,14 @@ describe("AuthController", () => {
             }),
           },
         },
+        {
+          provide: ForgetPasswordUseCase,
+          useValue: forgetPasswordUseCaseMock,
+        },
+        {
+          provide: ResetPasswordUseCase,
+          useValue: resetPasswordUseCaseMock,
+        },
       ],
     }).compile();
 
@@ -185,6 +217,14 @@ describe("AuthController", () => {
               headers: { setCookie: [] },
             }),
           },
+        },
+        {
+          provide: ForgetPasswordUseCase,
+          useValue: forgetPasswordUseCaseMock,
+        },
+        {
+          provide: ResetPasswordUseCase,
+          useValue: resetPasswordUseCaseMock,
         },
       ],
     }).compile();

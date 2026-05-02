@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { Input } from "./components/input.js";
-import { Label } from "./components/label.js";
+import { Input } from "./input.js";
+import { Label } from "./label.js";
 
 const meta: Meta<typeof Label> = {
   title: "Shared/Forms/Label",

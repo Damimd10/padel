@@ -14,6 +14,8 @@ import type {
   AuthResponse,
   AuthSession,
   AuthenticatedUser,
+  ForgetPasswordInput,
+  ResetPasswordInput,
   SignInWithEmailInput,
   SignUpWithEmailInput,
 } from "../application/ports/auth-gateway.port.js";
@@ -21,20 +23,26 @@ import type {
 @Injectable()
 export class BetterAuthGateway implements AuthGateway {
   private readonly auth;
+  private readonly baseUrl: string;
 
   constructor(
     @Inject(PrismaService) private readonly prisma: PrismaService,
     @Inject(ConfigService) private readonly configService: ConfigService,
   ) {
+    this.baseUrl = this.configService.getOrThrow<string>("BETTER_AUTH_URL");
     this.auth = betterAuth({
       database: prismaAdapter(this.prisma, {
         provider: "postgresql",
       }),
       secret: this.configService.getOrThrow<string>("BETTER_AUTH_SECRET"),
-      baseURL: this.configService.getOrThrow<string>("BETTER_AUTH_URL"),
+      baseURL: this.baseUrl,
       basePath: "/auth",
       emailAndPassword: {
         enabled: true,
+        requireEmailVerification: false,
+        sendResetPassword: async ({ url }) => {
+          void url;
+        },
       },
     });
   }
@@ -119,6 +127,110 @@ export class BetterAuthGateway implements AuthGateway {
     } catch (error) {
       throw this.mapError(error);
     }
+  }
+
+  async forgetPassword(
+    headers: IncomingHttpHeaders,
+    input: ForgetPasswordInput,
+  ): Promise<AuthResponse<{ success: true }>> {
+    const response = await fetch(`${this.baseUrl}/auth/forget-password`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: this.extractCookie(headers),
+      },
+      body: JSON.stringify(input),
+    });
+
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      throw this.mapHttpError(response.status, body);
+    }
+
+    return {
+      data: { success: true },
+      headers: this.mapFetchHeaders(response.headers),
+    };
+  }
+
+  async resetPassword(
+    headers: IncomingHttpHeaders,
+    input: ResetPasswordInput,
+  ): Promise<AuthResponse<{ success: true }>> {
+    const response = await fetch(`${this.baseUrl}/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: this.extractCookie(headers),
+      },
+      body: JSON.stringify(input),
+    });
+
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      throw this.mapHttpError(response.status, body);
+    }
+
+    return {
+      data: { success: true },
+      headers: this.mapFetchHeaders(response.headers),
+    };
+  }
+
+  private extractCookie(headers: IncomingHttpHeaders): string {
+    const cookie = headers.cookie as string | string[] | undefined;
+    if (typeof cookie === "string") return cookie;
+    if (Array.isArray(cookie)) return cookie.join("; ");
+    return "";
+  }
+
+  private mapFetchHeaders(headers: globalThis.Headers): {
+    location?: string;
+    setCookie: string[];
+  } {
+    return {
+      location: headers.get("location") ?? undefined,
+      setCookie: headers.getSetCookie(),
+    };
+  }
+
+  private mapHttpError(status: number, body: unknown) {
+    if (body && typeof body === "object" && "code" in body) {
+      const code = (body as { code: string }).code;
+      if (code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {
+        return new AuthGatewayError(
+          "duplicate_email",
+          409,
+          "An account with that email already exists.",
+        );
+      }
+      if (code === "INVALID_EMAIL_OR_PASSWORD") {
+        return new AuthGatewayError(
+          "invalid_credentials",
+          401,
+          "Email or password is incorrect.",
+        );
+      }
+      if (code === "INVALID_TOKEN") {
+        return new AuthGatewayError(
+          "invalid_token",
+          400,
+          "Invalid reset token.",
+        );
+      }
+      if (code === "EXPIRED_TOKEN") {
+        return new AuthGatewayError(
+          "expired_token",
+          400,
+          "Reset token has expired.",
+        );
+      }
+    }
+    return new AuthGatewayError(
+      "auth_unavailable",
+      status,
+      "Password reset operation failed.",
+    );
   }
 
   private mapError(error: unknown) {

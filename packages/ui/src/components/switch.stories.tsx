@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { Switch } from "./components/switch.js";
+import { Switch } from "./switch.js";
 
 const meta: Meta<typeof Switch> = {
   title: "Shared/Forms/Switch",

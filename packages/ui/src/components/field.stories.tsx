@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "@storybook/test";
-import { Field } from "./components/field.js";
-import { Input } from "./components/input.js";
-import { Textarea } from "./components/textarea.js";
+import { Field } from "./field.js";
+import { Input } from "./input.js";
+import { Textarea } from "./textarea.js";
 
 const meta: Meta<typeof Field> = {
   title: "Shared/Forms/Field",

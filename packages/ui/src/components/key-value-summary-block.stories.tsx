@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { KeyValueSummaryBlock } from "./components/key-value-summary-block.js";
+import { KeyValueSummaryBlock } from "./key-value-summary-block.js";
 
 const meta: Meta<typeof KeyValueSummaryBlock> = {
   title: "Shared/Data Display/Key-Value Summary Block",

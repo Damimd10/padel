@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { Checkbox } from "./components/checkbox.js";
+import { Checkbox } from "./checkbox.js";
 
 const meta: Meta<typeof Checkbox> = {
   title: "Shared/Forms/Checkbox",

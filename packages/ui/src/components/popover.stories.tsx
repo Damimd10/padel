@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { Button, Popover, PopoverContent, PopoverTrigger } from "./index.js";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "../index.js";
 
 const meta = {
   title: "Shared/Overlays/Popover",

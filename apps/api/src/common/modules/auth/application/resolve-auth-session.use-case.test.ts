@@ -30,6 +30,8 @@ describe("ResolveAuthSessionUseCase", () => {
       signInWithEmail: vi.fn(),
       signOut: vi.fn(),
       signUpWithEmail: vi.fn(),
+      forgetPassword: vi.fn(),
+      resetPassword: vi.fn(),
     };
     const headers: IncomingHttpHeaders = {
       cookie: "better-auth.session_token=test",

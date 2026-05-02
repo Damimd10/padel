@@ -80,10 +80,39 @@ export const authErrorSchema = z
       "duplicate_email",
       "invalid_credentials",
       "auth_unavailable",
+      "invalid_token",
+      "expired_token",
     ]),
     message: z.string(),
   })
   .strict();
+
+export const forgetPasswordRequestSchema = z
+  .object({
+    email: z.email(),
+    redirectTo: z.string().optional(),
+  })
+  .strict();
+
+export const forgetPasswordResponseSchema = z
+  .object({
+    success: z.literal(true),
+  })
+  .strict();
+
+export const resetPasswordRequestSchema = z
+  .object({
+    newPassword: z.string().min(8).max(128),
+    token: z.string().min(1),
+  })
+  .strict();
+
+export const resetPasswordResponseSchema = z
+  .object({
+    success: z.literal(true),
+  })
+  .strict();
+
 export const createCompetitionRequestSchema = z
   .object({
     title: z.string().trim().min(1),
@@ -167,3 +196,9 @@ export type SignOutResponse = z.infer<typeof signOutResponseSchema>;
 export type SignUpWithEmailRequest = z.infer<
   typeof signUpWithEmailRequestSchema
 >;
+export type ForgetPasswordRequest = z.infer<typeof forgetPasswordRequestSchema>;
+export type ForgetPasswordResponse = z.infer<
+  typeof forgetPasswordResponseSchema
+>;
+export type ResetPasswordRequest = z.infer<typeof resetPasswordRequestSchema>;
+export type ResetPasswordResponse = z.infer<typeof resetPasswordResponseSchema>;

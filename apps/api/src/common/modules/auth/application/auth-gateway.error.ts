@@ -1,7 +1,9 @@
 export type AuthGatewayErrorCode =
   | "auth_unavailable"
   | "duplicate_email"
-  | "invalid_credentials";
+  | "expired_token"
+  | "invalid_credentials"
+  | "invalid_token";
 
 export class AuthGatewayError extends Error {
   constructor(

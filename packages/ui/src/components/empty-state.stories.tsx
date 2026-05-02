@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./components/button.js";
+import { Button } from "./button.js";
 import {
   EmptyState,
   EmptyStateActions,
   EmptyStateDescription,
   EmptyStateEyebrow,
   EmptyStateTitle,
-} from "./components/empty-state.js";
+} from "./empty-state.js";
 
 const meta = {
   title: "Shared/Feedback/Empty State",

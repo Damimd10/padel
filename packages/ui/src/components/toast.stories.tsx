@@ -9,7 +9,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "./components/toast.js";
+} from "./toast.js";
 
 function ToastStoryDemo({
   variant = "info",

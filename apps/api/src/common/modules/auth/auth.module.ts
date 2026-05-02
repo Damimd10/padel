@@ -1,7 +1,9 @@
 import { Global, Module } from "@nestjs/common";
 import { PrismaModule } from "../../../prisma/prisma.module.js";
+import { ForgetPasswordUseCase } from "./application/forget-password.use-case.js";
 import { GetAuthSessionUseCase } from "./application/get-auth-session.use-case.js";
 import { AuthGatewayToken } from "./application/ports/auth-gateway.port.js";
+import { ResetPasswordUseCase } from "./application/reset-password.use-case.js";
 import { ResolveAuthSessionUseCase } from "./application/resolve-auth-session.use-case.js";
 import { SignInWithEmailUseCase } from "./application/sign-in-with-email.use-case.js";
 import { SignOutUseCase } from "./application/sign-out.use-case.js";
@@ -16,7 +18,9 @@ import { BetterAuthGateway } from "./outbound/better-auth.gateway.js";
   controllers: [AuthController],
   providers: [
     BetterAuthGateway,
+    ForgetPasswordUseCase,
     GetAuthSessionUseCase,
+    ResetPasswordUseCase,
     ResolveAuthSessionUseCase,
     SignInWithEmailUseCase,
     SignOutUseCase,
@@ -29,7 +33,9 @@ import { BetterAuthGateway } from "./outbound/better-auth.gateway.js";
   ],
   exports: [
     AuthGatewayToken,
+    ForgetPasswordUseCase,
     GetAuthSessionUseCase,
+    ResetPasswordUseCase,
     ResolveAuthSessionUseCase,
     SignInWithEmailUseCase,
     SignOutUseCase,

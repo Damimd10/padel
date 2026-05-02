@@ -40,6 +40,16 @@ export interface SignUpWithEmailInput {
   password: string;
 }
 
+export interface ForgetPasswordInput {
+  email: string;
+  redirectTo?: string;
+}
+
+export interface ResetPasswordInput {
+  newPassword: string;
+  token: string;
+}
+
 export interface AuthGateway {
   getSession(headers: IncomingHttpHeaders): Promise<AuthSession | null>;
   getSessionWithHeaders(
@@ -56,6 +66,14 @@ export interface AuthGateway {
     headers: IncomingHttpHeaders,
     input: SignUpWithEmailInput,
   ): Promise<AuthResponse<{ user: AuthenticatedUser }>>;
+  forgetPassword(
+    headers: IncomingHttpHeaders,
+    input: ForgetPasswordInput,
+  ): Promise<AuthResponse<{ success: true }>>;
+  resetPassword(
+    headers: IncomingHttpHeaders,
+    input: ResetPasswordInput,
+  ): Promise<AuthResponse<{ success: true }>>;
 }
 
 export const AuthGatewayToken = Symbol("AuthGateway");

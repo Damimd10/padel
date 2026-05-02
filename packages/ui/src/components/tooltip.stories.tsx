@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./index.js";
+} from "../index.js";
 
 const meta = {
   title: "Shared/Overlays/Tooltip",

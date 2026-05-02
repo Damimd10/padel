@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Card, CardContent, CardHeader } from "./components/card.js";
-import { Skeleton } from "./components/skeleton.js";
+import { Card, CardContent, CardHeader } from "./card.js";
+import { Skeleton } from "./skeleton.js";
 
 const meta: Meta<typeof Skeleton> = {
   title: "Shared/Feedback/Skeleton",

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { DateRangePicker } from "./components/date-range-picker.js";
-import { Field } from "./components/field.js";
+import { DateRangePicker } from "./date-range-picker.js";
+import { Field } from "./field.js";
 
 const meta: Meta<typeof DateRangePicker> = {
   title: "Shared/Forms/Date Range Picker",

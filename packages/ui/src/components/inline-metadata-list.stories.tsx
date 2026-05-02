@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { InlineMetadataList } from "./components/inline-metadata-list.js";
+import { InlineMetadataList } from "./inline-metadata-list.js";
 
 const meta: Meta<typeof InlineMetadataList> = {
   title: "Shared/Data Display/Inline Metadata List",

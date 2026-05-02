@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "@storybook/test";
-import { Button } from "./components/button.js";
+import { Button } from "./button.js";
 import {
   InlineAlert,
   InlineAlertActions,
   InlineAlertDescription,
   InlineAlertTitle,
-} from "./components/inline-alert.js";
+} from "./inline-alert.js";
 
 const meta = {
   title: "Shared/Feedback/Inline Alert",

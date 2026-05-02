@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, within } from "@storybook/test";
-import { Button } from "./components/button.js";
+import { Button } from "./button.js";
 
 const meta: Meta<typeof Button> = {
   title: "Shared/Actions/Button",

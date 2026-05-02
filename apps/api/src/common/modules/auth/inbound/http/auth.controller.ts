@@ -15,13 +15,17 @@ import {
   authErrorSchema,
   authMutationResponseSchema,
   authSessionResponseSchema,
+  forgetPasswordRequestSchema,
+  resetPasswordRequestSchema,
   signInWithEmailRequestSchema,
   signOutResponseSchema,
   signUpWithEmailRequestSchema,
 } from "@padel/schemas";
 
 import { AuthGatewayError } from "../../application/auth-gateway.error.js";
+import { ForgetPasswordUseCase } from "../../application/forget-password.use-case.js";
 import { GetAuthSessionUseCase } from "../../application/get-auth-session.use-case.js";
+import { ResetPasswordUseCase } from "../../application/reset-password.use-case.js";
 import { SignInWithEmailUseCase } from "../../application/sign-in-with-email.use-case.js";
 import { SignOutUseCase } from "../../application/sign-out.use-case.js";
 import { SignUpWithEmailUseCase } from "../../application/sign-up-with-email.use-case.js";
@@ -30,8 +34,12 @@ import { applyAuthResponseHeaders } from "./apply-auth-response-headers.js";
 @Controller("auth")
 export class AuthController {
   constructor(
+    @Inject(ForgetPasswordUseCase)
+    private readonly forgetPasswordUseCase: ForgetPasswordUseCase,
     @Inject(GetAuthSessionUseCase)
     private readonly getAuthSessionUseCase: GetAuthSessionUseCase,
+    @Inject(ResetPasswordUseCase)
+    private readonly resetPasswordUseCase: ResetPasswordUseCase,
     @Inject(SignUpWithEmailUseCase)
     private readonly signUpWithEmailUseCase: SignUpWithEmailUseCase,
     @Inject(SignInWithEmailUseCase)
@@ -118,6 +126,52 @@ export class AuthController {
       session: result.data.session,
       user: result.data.user,
     });
+  }
+
+  @Post("forget-password")
+  @HttpCode(HttpStatus.OK)
+  async forgetPassword(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+    @Body() body: unknown,
+  ) {
+    const authRequest = forgetPasswordRequestSchema.parse(body);
+
+    try {
+      const result = await this.forgetPasswordUseCase.execute(
+        request.headers,
+        authRequest,
+      );
+
+      applyAuthResponseHeaders(response, result.headers);
+
+      return result.data;
+    } catch (error) {
+      return this.handleAuthError(response, error);
+    }
+  }
+
+  @Post("reset-password")
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+    @Body() body: unknown,
+  ) {
+    const authRequest = resetPasswordRequestSchema.parse(body);
+
+    try {
+      const result = await this.resetPasswordUseCase.execute(
+        request.headers,
+        authRequest,
+      );
+
+      applyAuthResponseHeaders(response, result.headers);
+
+      return result.data;
+    } catch (error) {
+      return this.handleAuthError(response, error);
+    }
   }
 
   private handleAuthError(response: Response, error: unknown) {

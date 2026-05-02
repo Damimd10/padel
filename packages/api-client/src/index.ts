@@ -1,22 +1,37 @@
 import {
+  type AuthMutationResponse,
+  type AuthSessionResponse,
   type CompetitionOverviewCollection,
+  type ForgetPasswordRequest,
+  type ForgetPasswordResponse,
+  type ResetPasswordRequest,
+  type ResetPasswordResponse,
+  type SignInWithEmailRequest,
+  type SignOutResponse,
+  type SignUpWithEmailRequest,
+  authMutationResponseSchema,
+  authSessionResponseSchema,
   competitionOverviewCollectionSchema,
-  sharedPingContract,
+  forgetPasswordResponseSchema,
+  resetPasswordResponseSchema,
+  signOutResponseSchema,
 } from "@padel/schemas";
+import type { AxiosInstance } from "axios";
+import axios from "axios";
 
 export const competitionOverviewPath = "/competitions";
-
-export function sampleContractSummary() {
-  const parsed = sharedPingContract.parse({ status: "ok", version: "0.0.0" });
-
-  return `${parsed.status}:${parsed.version}`;
-}
+export const signUpPath = "/auth/sign-up";
+export const signInPath = "/auth/sign-in";
+export const signOutPath = "/auth/sign-out";
+export const sessionPath = "/auth/session";
+export const forgetPasswordPath = "/auth/forget-password";
+export const resetPasswordPath = "/auth/reset-password";
 
 export class ApiClientError extends Error {
   constructor(
     message: string,
     readonly status: number,
-    readonly responseBody: string,
+    readonly responseBody: unknown,
   ) {
     super(message);
     this.name = "ApiClientError";
@@ -29,65 +44,110 @@ export interface CompetitionOverviewRequestOptions {
 
 export interface CreateApiClientOptions {
   apiBaseUrl?: string;
-  fetch?: typeof globalThis.fetch;
 }
 
 export interface PadelApiClient {
   getCompetitionOverview(
     options?: CompetitionOverviewRequestOptions,
   ): Promise<CompetitionOverviewCollection>;
+
+  signUpWithEmail(
+    request: SignUpWithEmailRequest,
+  ): Promise<AuthMutationResponse>;
+
+  signInWithEmail(
+    request: SignInWithEmailRequest,
+  ): Promise<AuthMutationResponse>;
+
+  signOut(): Promise<SignOutResponse>;
+
+  getSession(): Promise<AuthSessionResponse>;
+
+  forgetPassword(
+    request: ForgetPasswordRequest,
+  ): Promise<ForgetPasswordResponse>;
+
+  resetPassword(request: ResetPasswordRequest): Promise<ResetPasswordResponse>;
 }
 
-function buildApiUrl(apiBaseUrl: string, path: string) {
-  const normalizedBaseUrl = apiBaseUrl.endsWith("/")
-    ? apiBaseUrl.slice(0, -1)
-    : apiBaseUrl;
-
-  return `${normalizedBaseUrl}${path}`;
-}
-
-async function parseJsonWithSchema<T>(
-  response: Response,
+function parseResponseWithSchema<T>(
+  data: unknown,
   schema: { parse(input: unknown): T },
-): Promise<T> {
-  const rawBody = await response.text();
-
-  if (!response.ok) {
-    throw new ApiClientError(
-      `API request failed with status ${response.status}.`,
-      response.status,
-      rawBody,
-    );
-  }
-
-  return schema.parse(JSON.parse(rawBody) as unknown);
+): T {
+  return schema.parse(data);
 }
 
 export function createApiClient({
   apiBaseUrl = "/api",
-  fetch = globalThis.fetch,
 }: CreateApiClientOptions = {}): PadelApiClient {
-  if (!fetch) {
-    throw new Error(
-      "A fetch implementation is required to create the API client.",
-    );
-  }
+  const client: AxiosInstance = axios.create({
+    baseURL: apiBaseUrl,
+    withCredentials: true,
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+    },
+  });
+
+  client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new ApiClientError(
+          `API request failed with status ${error.response.status}.`,
+          error.response.status,
+          error.response.data,
+        );
+      }
+      throw error;
+    },
+  );
 
   return {
     async getCompetitionOverview(options = {}) {
-      const response = await fetch(
-        buildApiUrl(apiBaseUrl, competitionOverviewPath),
-        {
-          credentials: "include",
-          headers: {
-            accept: "application/json",
-          },
-          method: "GET",
-          signal: options.signal,
-        },
+      const response = await client.get(competitionOverviewPath, {
+        signal: options.signal,
+      });
+      return parseResponseWithSchema(
+        response.data,
+        competitionOverviewCollectionSchema,
       );
+    },
 
-      return parseJsonWithSchema(response, competitionOverviewCollectionSchema);
+    async signUpWithEmail(request) {
+      const response = await client.post(signUpPath, request);
+      return parseResponseWithSchema(response.data, authMutationResponseSchema);
+    },
+
+    async signInWithEmail(request) {
+      const response = await client.post(signInPath, request);
+      return parseResponseWithSchema(response.data, authMutationResponseSchema);
+    },
+
+    async signOut() {
+      const response = await client.post(signOutPath);
+      return parseResponseWithSchema(response.data, signOutResponseSchema);
+    },
+
+    async getSession() {
+      const response = await client.get(sessionPath);
+      return parseResponseWithSchema(response.data, authSessionResponseSchema);
+    },
+
+    async forgetPassword(request) {
+      const response = await client.post(forgetPasswordPath, request);
+      return parseResponseWithSchema(
+        response.data,
+        forgetPasswordResponseSchema,
+      );
+    },
+
+    async resetPassword(request) {
+      const response = await client.post(resetPasswordPath, request);
+      return parseResponseWithSchema(
+        response.data,
+        resetPasswordResponseSchema,
+      );
     },
   };
 }

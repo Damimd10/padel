@@ -9,7 +9,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "./index.js";
+} from "../index.js";
 
 const meta: Meta<typeof SelectTrigger> = {
   title: "Shared/Forms/Select",

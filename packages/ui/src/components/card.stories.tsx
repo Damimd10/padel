@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Badge } from "./components/badge.js";
+import { Badge } from "./badge.js";
 import {
   Card,
   CardContent,
@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./components/card.js";
-import { Separator } from "./components/separator.js";
+} from "./card.js";
+import { Separator } from "./separator.js";
 
 const meta: Meta<typeof Card> = {
   title: "Shared/Layout/Card",

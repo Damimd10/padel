@@ -1,20 +1,46 @@
 // @vitest-environment jsdom
 
-import { createApiClient } from "@padel/api-client";
 import { QueryClient } from "@tanstack/react-query";
 import { createMemoryHistory } from "@tanstack/react-router";
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "../src/app.js";
 import {
   competitionOverviewFixture,
   emptyCompetitionOverviewFixture,
 } from "../src/features/competition-operations/competition-overview-fixtures.js";
 import { createWebRouter } from "../src/router.js";
+import { useAuthStore } from "../src/stores/auth-store.js";
+
+vi.mock("@padel/api-client", () => ({
+  createApiClient: () => ({
+    getCompetitionOverview: vi.fn(),
+    getSession: vi.fn(() =>
+      Promise.resolve({ authenticated: true, user: { id: "1", name: "Test", email: "test@test.com", emailVerified: false } }),
+    ),
+    signInWithEmail: vi.fn(),
+    signUpWithEmail: vi.fn(),
+    signOut: vi.fn(),
+    forgetPassword: vi.fn(),
+    resetPassword: vi.fn(),
+  }),
+}));
 
 (window as Window & { scrollTo: () => void }).scrollTo = () => {};
 
-function createTestRouter(fetchImplementation: typeof globalThis.fetch) {
+beforeEach(() => {
+  useAuthStore.setState({
+    user: null,
+    isAuthenticated: true,
+    isLoading: false,
+    error: null,
+  });
+});
+
+function createTestRouter(
+  fetchImplementation: typeof globalThis.fetch,
+  initialEntry = "/competitions/operations",
+) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -23,19 +49,51 @@ function createTestRouter(fetchImplementation: typeof globalThis.fetch) {
     },
   });
 
-  const apiClient = createApiClient({
-    fetch: fetchImplementation,
+  const apiClient = {
+    getCompetitionOverview: async () => {
+      const response = await fetchImplementation(
+        new Request("https://test.local/competitions"),
+      );
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}.`);
+      }
+      return response.json();
+    },
+    getSession: () =>
+      Promise.resolve({
+        authenticated: true,
+        user: {
+          id: "1",
+          name: "Test",
+          email: "test@test.com",
+          emailVerified: false,
+          image: null,
+        },
+      }),
+    signInWithEmail: vi.fn(),
+    signUpWithEmail: vi.fn(),
+    signOut: vi.fn(),
+    forgetPassword: vi.fn(),
+    resetPassword: vi.fn(),
+  };
+
+  useAuthStore.setState({
+    user: {
+      id: "1",
+      name: "Test",
+      email: "test@test.com",
+      emailVerified: false,
+          image: null,
+    },
+    isAuthenticated: true,
+    isLoading: false,
+    error: null,
   });
 
   const router = createWebRouter({
-    apiClient,
-    auth: {
-      isAuthenticated: true,
-      roleLabel: "Competition operations",
-      userName: "Operations desk",
-    },
+    apiClient: apiClient as never,
     history: createMemoryHistory({
-      initialEntries: ["/competitions/operations"],
+      initialEntries: [initialEntry],
     }),
     queryClient,
   });

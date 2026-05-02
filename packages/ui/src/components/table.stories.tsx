@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
   TableRowHeader,
-} from "./components/table.js";
+} from "./table.js";
 
 const meta: Meta<typeof Table> = {
   title: "Shared/Data Display/Table",
