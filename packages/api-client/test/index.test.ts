@@ -168,7 +168,7 @@ describe("api-client package", () => {
     const apiClient = createApiClient({
       axios: {
         defaults: {},
-        get: async (url, config) => {
+        get: async (url: string, config?: AxiosRequestConfig) => {
           expect(url).toBe(competitionOverviewPath);
           expect(config).toMatchObject({
             headers: {
@@ -234,8 +234,9 @@ describe("api-client package", () => {
     });
 
     await expect(apiClient.getCompetitionOverview()).rejects.toEqual(
-      expect.objectContaining<ApiClientError>({
+      expect.objectContaining({
         message: "Backend unavailable",
+        name: "ApiClientError",
         responseBody: '{"message":"Backend unavailable"}',
         status: 503,
       }),
