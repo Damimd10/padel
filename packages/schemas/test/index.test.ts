@@ -1,10 +1,87 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  authErrorSchema,
+  authSessionResponseSchema,
+  authMutationResponseSchema,
   competitionOverviewCollectionSchema,
   createCompetitionRequestSchema,
   createCompetitionResponseSchema,
+  signInWithEmailRequestSchema,
+  signOutResponseSchema,
+  signUpWithEmailRequestSchema,
 } from "../src/index.js";
+
+describe("auth schemas", () => {
+  it("parses a valid sign-up request", () => {
+    expect(
+      signUpWithEmailRequestSchema.parse({
+        name: "Operations User",
+        email: "ops@example.com",
+        password: "password-1234",
+      }),
+    ).toMatchObject({
+      email: "ops@example.com",
+      name: "Operations User",
+    });
+  });
+
+  it("rejects a sign-in request with a short password", () => {
+    expect(() =>
+      signInWithEmailRequestSchema.parse({
+        email: "ops@example.com",
+        password: "short",
+      }),
+    ).toThrow();
+  });
+
+  it("parses an authenticated auth response", () => {
+    expect(
+      authMutationResponseSchema.parse({
+        user: {
+          id: "user-1",
+          email: "ops@example.com",
+          name: "Operations User",
+          emailVerified: false,
+          image: null,
+        },
+      }),
+    ).toMatchObject({
+      user: {
+        id: "user-1",
+      },
+    });
+  });
+
+  it("parses an anonymous session response", () => {
+    expect(
+      authSessionResponseSchema.parse({
+        authenticated: false,
+      }),
+    ).toEqual({
+      authenticated: false,
+    });
+  });
+
+  it("parses an auth error payload", () => {
+    expect(
+      authErrorSchema.parse({
+        code: "invalid_credentials",
+        message: "Email or password is incorrect.",
+      }),
+    ).toMatchObject({
+      code: "invalid_credentials",
+    });
+  });
+
+  it("rejects a sign-out response that is not successful", () => {
+    expect(() =>
+      signOutResponseSchema.parse({
+        success: false,
+      }),
+    ).toThrow();
+  });
+});
 
 describe("competition schemas", () => {
   it("parses a valid create-competition request", () => {

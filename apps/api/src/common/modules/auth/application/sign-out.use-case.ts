@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from "node:http";
+import type { IncomingHttpHeaders } from "node:http";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -8,13 +8,13 @@ import {
 } from "./ports/auth-gateway.port.js";
 
 @Injectable()
-export class HandleAuthRequestUseCase {
+export class SignOutUseCase {
   constructor(
     @Inject(AuthGatewayToken)
     private readonly authGateway: AuthGateway,
   ) {}
 
-  async execute(request: IncomingMessage, response: ServerResponse) {
-    return this.authGateway.handleRequest(request, response);
+  async execute(headers: IncomingHttpHeaders) {
+    return this.authGateway.signOut(headers);
   }
 }

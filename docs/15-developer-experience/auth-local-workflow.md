@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document the local Better Auth setup, session policy, and the minimum validation flow for the authentication foundation.
+Document the local Better Auth setup, session policy, and the backend-owned self-service auth flow.
 
 ## Environment variables
 
@@ -21,14 +21,16 @@ BETTER_AUTH_URL=http://localhost:3000
 
 ## Local session and cookie baseline
 
-`TKT-016` establishes the first owned session path using Better Auth with PostgreSQL-backed persistence in `apps/api`.
+`TKT-016` established the Better Auth runtime foundation. `TKT-043` adds explicit backend-owned self-service auth contracts on top of that foundation in `apps/api`.
 
 Current local behavior:
 
 - email and password is the enabled baseline sign-in method
 - Better Auth owns the session, account, verification, and cookie mechanics at the platform edge
 - the backend consumes authenticated identity through explicit auth boundaries rather than importing Better Auth types into competition domain code
-- sign-up and sign-in create a persisted session row in PostgreSQL and set a session cookie on the HTTP response
+- `POST /auth/sign-up` and `POST /auth/sign-in` create a persisted session row in PostgreSQL and set a session cookie on the HTTP response
+- `POST /auth/sign-out` clears the current session cookie and deletes the session row when present
+- `GET /auth/session` returns `{ authenticated: false }` when no valid session is present
 
 Operational guidance:
 
@@ -74,8 +76,9 @@ pnpm --filter @padel/api test:integration:db
 That suite verifies:
 
 - Prisma-backed competition persistence against PostgreSQL
-- Better Auth sign-up creates user, account, and session rows in PostgreSQL
-- Better Auth can read the established session back through `/auth/get-session`
+- app-owned auth sign-up creates user, account, and session rows in PostgreSQL
+- invalid credentials and duplicate sign-up attempts return explicit auth error payloads
+- the established session can be read back through `GET /auth/session`
 
 ## Manual end-to-end session check
 
@@ -89,7 +92,7 @@ curl -i \
   -H 'Content-Type: application/json' \
   -c /tmp/padel-auth-cookie.txt \
   -d '{"name":"Local Auth User","email":"local-auth@example.com","password":"password-1234"}' \
-  http://localhost:3000/auth/sign-up/email
+  http://localhost:3000/auth/sign-up
 ```
 
 2. Read the current session using the stored cookie:
@@ -97,13 +100,31 @@ curl -i \
 ```bash
 curl -i \
   -b /tmp/padel-auth-cookie.txt \
-  http://localhost:3000/auth/get-session
+  http://localhost:3000/auth/session
+```
+
+3. Sign out and confirm the session is gone:
+
+```bash
+curl -i \
+  -b /tmp/padel-auth-cookie.txt \
+  -c /tmp/padel-auth-cookie.txt \
+  -X POST \
+  http://localhost:3000/auth/sign-out
+```
+
+```bash
+curl -i \
+  -b /tmp/padel-auth-cookie.txt \
+  http://localhost:3000/auth/session
 ```
 
 Expected result:
 
-- the first response returns a user payload and a `Set-Cookie` header
-- the second response returns a `session` object and the same user identity
+- the first response returns a backend-owned `{ user }` payload and a `Set-Cookie` header
+- the second response returns `{ authenticated: true, session, user }`
+- the sign-out response returns `{ success: true }` and a clearing `Set-Cookie` header
+- the final session check returns `{ authenticated: false }`
 - PostgreSQL contains corresponding `user`, `account`, and `session` rows
 
 ## Boundary reminder
