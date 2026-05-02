@@ -1,3 +1,4 @@
+import axios, { AxiosError, type AxiosInstance } from "axios";
 import {
   type CompetitionOverviewCollection,
   type CurrentSessionResponse,
@@ -40,8 +41,8 @@ export interface CompetitionOverviewRequestOptions {
 
 export interface ApiClientConfig {
   apiBaseUrl?: string;
+  axios?: AxiosInstance;
   baseUrl?: string;
-  fetch?: typeof globalThis.fetch;
 }
 
 export class ApiClientError extends Error {
@@ -79,120 +80,112 @@ function resolveBaseUrl(config: ApiClientConfig) {
   return normalizeBaseUrl(config.baseUrl ?? config.apiBaseUrl);
 }
 
-async function readJson(response: Response) {
-  const text = await response.text();
-
-  if (!text) {
-    return {
-      payload: null,
-      rawBody: "",
-    };
+function serializePayload(payload: unknown) {
+  if (typeof payload === "string") {
+    return payload;
   }
 
-  return {
-    payload: JSON.parse(text) as unknown,
-    rawBody: text,
-  };
+  if (payload === undefined) {
+    return undefined;
+  }
+
+  try {
+    return JSON.stringify(payload);
+  } catch {
+    return undefined;
+  }
 }
 
-async function parseJsonResponse<T>(
-  response: Response,
-  schema: z.ZodType<T>,
-): Promise<T> {
-  const { payload, rawBody } = await readJson(response);
+function mapAxiosError(error: unknown): ApiClientError {
+  if (error instanceof ApiClientError) {
+    return error;
+  }
 
-  if (!response.ok) {
+  if (error instanceof AxiosError) {
+    const payload = error.response?.data;
     const parsedError = authErrorPayloadSchema.safeParse(payload);
 
-    throw new ApiClientError(
+    return new ApiClientError(
       parsedError.success && parsedError.data.message
         ? parsedError.data.message
-        : `Request failed with status ${response.status}.`,
-      response.status,
+        : error.message,
+      error.response?.status ?? 500,
       parsedError.success ? parsedError.data.code : undefined,
       payload,
-      rawBody,
+      serializePayload(payload),
     );
   }
 
-  return schema.parse(payload);
+  if (error instanceof Error) {
+    return new ApiClientError(error.message, 500);
+  }
+
+  return new ApiClientError("Unknown API client error.", 500);
 }
 
-function buildUrl(baseUrl: string, path: string) {
-  return `${baseUrl}${path}`;
+async function parseAxiosResponse<T>(
+  request: Promise<{ data: unknown }>,
+  schema: z.ZodType<T>,
+): Promise<T> {
+  try {
+    const response = await request;
+    return schema.parse(response.data);
+  } catch (error) {
+    throw mapAxiosError(error);
+  }
 }
 
 export function createApiClient(config: ApiClientConfig = {}): PadelApiClient {
-  const request = config.fetch ?? globalThis.fetch;
-  const baseUrl = resolveBaseUrl(config);
-
-  if (!request) {
-    throw new Error(
-      "A fetch implementation is required to create the API client.",
-    );
-  }
+  const api =
+    config.axios ??
+    axios.create({
+      baseURL: resolveBaseUrl(config),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
   return {
     async signUp(input) {
       const payload = signUpEmailRequestSchema.parse(input);
-      const response = await request(buildUrl(baseUrl, "/auth/sign-up"), {
-        body: JSON.stringify(payload),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
 
-      return parseJsonResponse(response, signUpEmailResponseSchema);
+      return parseAxiosResponse(
+        api.post("/auth/sign-up", payload),
+        signUpEmailResponseSchema,
+      );
     },
 
     async signIn(input) {
       const payload = signInEmailRequestSchema.parse(input);
-      const response = await request(buildUrl(baseUrl, "/auth/sign-in"), {
-        body: JSON.stringify(payload),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
 
-      return parseJsonResponse(response, signInEmailResponseSchema);
+      return parseAxiosResponse(
+        api.post("/auth/sign-in", payload),
+        signInEmailResponseSchema,
+      );
     },
 
     async signOut() {
-      const response = await request(buildUrl(baseUrl, "/auth/sign-out"), {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-
-      return parseJsonResponse(response, signOutResponseSchema);
+      return parseAxiosResponse(api.post("/auth/sign-out"), signOutResponseSchema);
     },
 
     async getCurrentSession() {
-      const response = await request(buildUrl(baseUrl, "/auth/session"), {
-        credentials: "include",
-        method: "GET",
-      });
-
-      return parseJsonResponse(response, currentSessionResponseSchema);
+      return parseAxiosResponse(
+        api.get("/auth/session"),
+        currentSessionResponseSchema,
+      );
     },
 
     async getCompetitionOverview(options = {}) {
-      const response = await request(buildUrl(baseUrl, competitionOverviewPath), {
-        credentials: "include",
-        headers: {
-          accept: "application/json",
-        },
-        method: "GET",
-        signal: options.signal,
-      });
-
-      return parseJsonResponse(response, competitionOverviewCollectionSchema);
+      return parseAxiosResponse(
+        api.get(competitionOverviewPath, {
+          headers: {
+            accept: "application/json",
+          },
+          signal: options.signal,
+        }),
+        competitionOverviewCollectionSchema,
+      );
     },
   };
 }
