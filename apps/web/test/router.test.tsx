@@ -16,7 +16,15 @@ vi.mock("@padel/api-client", () => ({
   createApiClient: () => ({
     getCompetitionOverview: vi.fn(),
     getSession: vi.fn(() =>
-      Promise.resolve({ authenticated: true, user: { id: "1", name: "Test", email: "test@test.com", emailVerified: false } }),
+      Promise.resolve({
+        authenticated: true,
+        user: {
+          id: "1",
+          name: "Test",
+          email: "test@test.com",
+          emailVerified: false,
+        },
+      }),
     ),
     signInWithEmail: vi.fn(),
     signUpWithEmail: vi.fn(),
@@ -83,7 +91,7 @@ function createTestRouter(
       name: "Test",
       email: "test@test.com",
       emailVerified: false,
-          image: null,
+      image: null,
     },
     isAuthenticated: true,
     isLoading: false,
