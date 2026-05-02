@@ -63,3 +63,34 @@ Every committed ticket must:
   - the shipped APIs remain generic and compose with `Field` without feature-specific parsing or submission logic
   - Storybook documents invalid, disabled, read-only, and keyboard-relevant states clearly enough for competition-configuration and result-entry forms
   - GitHub execution state stays synced so the sprint doc, issue metadata, and project board all reflect the same committed and planned work
+
+## Supplemental Sprint Snapshot
+
+- sprint goal: deliver the first user-facing self-service authentication entry flow so the web app has real login, registration, guest-only routing, and a credible post-login landing path on top of the Better Auth backend surface
+- sprint dates or iteration label: `auth-self-service-foundation-sprint`
+- capacity assumptions:
+  - the Better Auth backend foundation is already delivered and running through `apps/api`
+  - frontend implementation can begin against the live Better Auth session endpoints while backend contract hardening continues in parallel
+  - this slice should stay focused on sign-up, sign-in, sign-out, current-session handling, and guest-only route behavior
+- committed tickets:
+  - `TKT-042` - build frontend login and registration routes on top of the backend auth contracts
+- stretch tickets:
+  - `TKT-043` - expose backend sign-up, sign-in, sign-out, and session contracts for self-service auth
+- lane balance across frontend / backend / infrastructure:
+  - frontend: `TKT-042` is the active implementation slice for authenticated entry and landing behavior
+  - backend: `TKT-043` remains the contract-hardening companion ticket for explicit schema ownership and auth error mapping
+  - infrastructure: no additional sprint-critical infrastructure work is required beyond the already delivered local PostgreSQL and Better Auth foundation
+- affected apps/packages summary:
+  - `TKT-042`: `apps/web`, `packages/api-client`, `packages/ui`
+  - `TKT-043`: `apps/api`, `packages/schemas`
+- dependencies and blockers:
+  - `TKT-042` depends on the delivered Better Auth runtime from `TKT-016` and can scaffold the frontend route layer before `TKT-043` is fully complete
+  - the frontend slice must keep auth-specific mutation logic in `apps/web` and `packages/api-client`, not in `packages/ui`
+  - final long-term ownership of the auth transport contracts should converge with `TKT-043` once the backend companion slice is complete
+- GitHub milestone / project view used for execution:
+  - milestone: `auth-self-service-foundation-sprint`
+  - project status: issue `#42` is represented in `Padel Delivery` as `In Progress`
+- exit criteria:
+  - `TKT-042` lands with typed auth client wrappers, login and registration routes, guest-only redirect behavior, and tests for route and form-state handling
+  - authenticated users reach a credible post-login landing route rather than remaining on guest-only entry screens
+  - the sprint doc, issue metadata, and GitHub project status remain aligned throughout delivery

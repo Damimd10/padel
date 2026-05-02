@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
   ApiClientError,
   competitionOverviewPath,
@@ -9,6 +10,142 @@ import {
 describe("api-client package", () => {
   it("reads the shared schema package", () => {
     expect(sampleContractSummary()).toBe("ok:0.0.0");
+  });
+
+  it("maps the sign-up contract and sends credentials", async () => {
+    const fetchStub = async (input: RequestInfo | URL, init?: RequestInit) => {
+      expect(input).toBe("http://localhost:3000/auth/sign-up");
+      expect(init?.credentials).toBe("include");
+      expect(init?.method).toBe("POST");
+      expect(init?.headers).toEqual({
+        "Content-Type": "application/json",
+      });
+      expect(JSON.parse(String(init?.body))).toEqual({
+        email: "player@example.com",
+        name: "Padel Player",
+        password: "password-1234",
+      });
+
+      return new Response(
+        JSON.stringify({
+          user: {
+            email: "player@example.com",
+            emailVerified: false,
+            id: "user-1",
+            image: null,
+            name: "Padel Player",
+          },
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          status: 201,
+        },
+      );
+    };
+
+    const apiClient = createApiClient({
+      baseUrl: "http://localhost:3000",
+      fetch: fetchStub as typeof fetch,
+    });
+
+    await expect(
+      apiClient.signUp({
+        email: "player@example.com",
+        name: "Padel Player",
+        password: "password-1234",
+      }),
+    ).resolves.toMatchObject({
+      user: {
+        email: "player@example.com",
+        name: "Padel Player",
+      },
+    });
+  });
+
+  it("maps the current session response into a nullable frontend shape", async () => {
+    const apiClient = createApiClient({
+      fetch: async () =>
+        new Response(
+          JSON.stringify({
+            authenticated: true,
+            session: {
+              expiresAt: "2026-05-10T00:00:00.000Z",
+              id: "session-1",
+              userId: "user-1",
+            },
+            user: {
+              email: "player@example.com",
+              emailVerified: false,
+              id: "user-1",
+              image: null,
+              name: "Padel Player",
+            },
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            status: 200,
+          },
+        ),
+    });
+
+    await expect(apiClient.getCurrentSession()).resolves.toMatchObject({
+      session: {
+        id: "session-1",
+      },
+      user: {
+        email: "player@example.com",
+      },
+    });
+  });
+
+  it("allows the current-session contract to return null", async () => {
+    const apiClient = createApiClient({
+      fetch: async () =>
+        new Response(JSON.stringify({ authenticated: false }), {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          status: 200,
+        }),
+    });
+
+    await expect(apiClient.getCurrentSession()).resolves.toBeNull();
+  });
+
+  it("maps backend auth failures into ApiClientError", async () => {
+    const apiClient = createApiClient({
+      fetch: async () =>
+        new Response(
+          JSON.stringify({
+            code: "invalid_credentials",
+            message: "Email or password is incorrect.",
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            status: 401,
+          },
+        ),
+    });
+
+    await expect(
+      apiClient.signIn({
+        email: "player@example.com",
+        password: "wrong-password",
+      }),
+    ).rejects.toEqual(
+      expect.objectContaining<ApiClientError>({
+        code: "invalid_credentials",
+        message: "Email or password is incorrect.",
+        name: "ApiClientError",
+        status: 401,
+      }),
+    );
   });
 
   it("parses the competition overview contract through the typed client", async () => {
@@ -45,8 +182,8 @@ describe("api-client package", () => {
 
     await expect(client.getCompetitionOverview()).resolves.toMatchObject([
       {
-        title: "North Circuit Masters",
         status: "open",
+        title: "North Circuit Masters",
       },
     ]);
   });
@@ -63,11 +200,11 @@ describe("api-client package", () => {
     });
 
     await expect(client.getCompetitionOverview()).rejects.toEqual(
-      new ApiClientError(
-        "API request failed with status 503.",
-        503,
-        '{"message":"Backend unavailable"}',
-      ),
+      expect.objectContaining<ApiClientError>({
+        message: "Request failed with status 503.",
+        responseBody: '{"message":"Backend unavailable"}',
+        status: 503,
+      }),
     );
   });
-});
+}
