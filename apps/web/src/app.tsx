@@ -1,5 +1,13 @@
-import { QueryClient, QueryClientProvider, type QueryClient as QueryClientType } from "@tanstack/react-query";
-import { type RouterHistory, RouterProvider } from "@tanstack/react-router";
+import {
+  QueryClient,
+  QueryClientProvider,
+  type QueryClient as QueryClientType,
+} from "@tanstack/react-query";
+import {
+  type AnyRouter,
+  type RouterHistory,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { useState } from "react";
 
 import { type PadelApiClient, createApiClient } from "@padel/api-client";
@@ -14,7 +22,7 @@ export interface AppRuntime {
 
 interface LegacyAppProps {
   queryClient: QueryClientType;
-  router: AppRouter;
+  router: AnyRouter;
 }
 
 interface RuntimeAppProps {

@@ -86,7 +86,7 @@ export const signInEmailResponseSchema = authMutationResponseSchema;
 
 export const signOutResponseSchema = z
   .object({
-    success: z.boolean(),
+    success: z.literal(true),
   })
   .strict();
 

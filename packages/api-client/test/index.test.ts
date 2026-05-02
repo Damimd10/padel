@@ -8,7 +8,7 @@ import {
 import { describe, expect, it } from "vitest";
 
 import {
-  ApiClientError,
+  type ApiClientError,
   competitionOverviewPath,
   createApiClient,
   sampleContractSummary,
@@ -235,10 +235,10 @@ describe("api-client package", () => {
 
     await expect(apiClient.getCompetitionOverview()).rejects.toEqual(
       expect.objectContaining<ApiClientError>({
-        message: "Request failed with status code 503",
+        message: "Backend unavailable",
         responseBody: '{"message":"Backend unavailable"}',
         status: 503,
       }),
     );
   });
-}
+});

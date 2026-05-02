@@ -12,6 +12,7 @@ import {
 } from "@padel/ui";
 import { type QueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import {
+  type AnyRouter,
   type ErrorComponentProps,
   Link,
   Outlet,
@@ -185,6 +186,6 @@ export function createWebRouter({
 
 declare module "@tanstack/react-router" {
   interface Register {
-    router: ReturnType<typeof createWebRouter>;
+    router: AnyRouter;
   }
 }

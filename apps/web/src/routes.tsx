@@ -138,7 +138,6 @@ function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
-      rememberMe: true,
     } satisfies SignInEmailRequest,
     onSubmit: async ({ value }) => {
       const parsed = signInEmailRequestSchema.safeParse(value);
@@ -303,7 +302,6 @@ function RegisterPage() {
       email: "",
       name: "",
       password: "",
-      rememberMe: true,
     } satisfies SignUpEmailRequest,
     onSubmit: async ({ value }) => {
       const parsed = signUpEmailRequestSchema.safeParse(value);
@@ -493,9 +491,9 @@ function DashboardPage() {
     },
   });
 
-  const flashMessage = queryClient.getQueryData<string>(
-    authFlashMessageQueryKey,
-  );
+  const flashMessage = queryClient.getQueryData(authFlashMessageQueryKey) as
+    | string
+    | undefined;
   const currentSession = sessionQuery.data;
 
   if (!currentSession) {
@@ -661,9 +659,3 @@ export function createAppRouter(
 }
 
 export type AppRouter = ReturnType<typeof createAppRouter>;
-
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: AppRouter;
-  }
-}

@@ -62,6 +62,7 @@ function createApiClientMock(
   overrides: Partial<PadelApiClient> = {},
 ): PadelApiClient {
   return {
+    getCompetitionOverview: vi.fn().mockResolvedValue([]),
     getCurrentSession: vi.fn().mockResolvedValue(null),
     signIn: vi.fn(),
     signOut: vi.fn().mockResolvedValue({ success: true }),
@@ -195,7 +196,6 @@ describe("auth routes", () => {
         email: "organizer@example.com",
         name: "Organizer One",
         password: "password-1234",
-        rememberMe: true,
       });
     });
   });

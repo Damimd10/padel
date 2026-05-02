@@ -1,4 +1,3 @@
-import axios, { AxiosError, type AxiosInstance } from "axios";
 import {
   type CompetitionOverviewCollection,
   type CurrentSessionResponse,
@@ -16,6 +15,7 @@ import {
   signUpEmailRequestSchema,
   signUpEmailResponseSchema,
 } from "@padel/schemas";
+import axios, { AxiosError, type AxiosInstance } from "axios";
 import { z } from "zod";
 
 export const competitionOverviewPath = "/competitions";
@@ -43,6 +43,7 @@ export interface ApiClientConfig {
   apiBaseUrl?: string;
   axios?: AxiosInstance;
   baseUrl?: string;
+  fetch?: typeof globalThis.fetch;
 }
 
 export class ApiClientError extends Error {
@@ -78,6 +79,22 @@ function normalizeBaseUrl(baseUrl?: string) {
 
 function resolveBaseUrl(config: ApiClientConfig) {
   return normalizeBaseUrl(config.baseUrl ?? config.apiBaseUrl);
+}
+
+async function readJson(response: Response) {
+  const rawBody = await response.text();
+
+  if (!rawBody) {
+    return {
+      payload: null,
+      rawBody,
+    };
+  }
+
+  return {
+    payload: JSON.parse(rawBody) as unknown,
+    rawBody,
+  };
 }
 
 function serializePayload(payload: unknown) {
@@ -135,16 +152,75 @@ async function parseAxiosResponse<T>(
   }
 }
 
+function createFetchTransport(
+  fetchImplementation: typeof globalThis.fetch,
+  baseUrl: string,
+) {
+  async function request(
+    path: string,
+    init: RequestInit & {
+      headers?: Record<string, string>;
+    } = {},
+  ) {
+    const response = await fetchImplementation(`${baseUrl}${path}`, {
+      credentials: "include",
+      ...init,
+    });
+    const { payload, rawBody } = await readJson(response);
+
+    if (!response.ok) {
+      const parsedError = authErrorPayloadSchema.safeParse(payload);
+
+      throw new ApiClientError(
+        parsedError.success && parsedError.data.message
+          ? parsedError.data.message
+          : `Request failed with status ${response.status}.`,
+        response.status,
+        parsedError.success ? parsedError.data.code : undefined,
+        payload,
+        rawBody,
+      );
+    }
+
+    return { data: payload };
+  }
+
+  return {
+    get(
+      path: string,
+      config?: { headers?: Record<string, string>; signal?: AbortSignal },
+    ) {
+      return request(path, {
+        headers: config?.headers,
+        method: "GET",
+        signal: config?.signal,
+      });
+    },
+    post(path: string, data?: unknown) {
+      return request(path, {
+        body: data === undefined ? undefined : JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    },
+  };
+}
+
 export function createApiClient(config: ApiClientConfig = {}): PadelApiClient {
+  const baseUrl = resolveBaseUrl(config);
   const api =
     config.axios ??
-    axios.create({
-      baseURL: resolveBaseUrl(config),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
+    (config.fetch
+      ? createFetchTransport(config.fetch, baseUrl)
+      : axios.create({
+          baseURL: baseUrl,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }));
 
   return {
     async signUp(input) {
@@ -166,7 +242,10 @@ export function createApiClient(config: ApiClientConfig = {}): PadelApiClient {
     },
 
     async signOut() {
-      return parseAxiosResponse(api.post("/auth/sign-out"), signOutResponseSchema);
+      return parseAxiosResponse(
+        api.post("/auth/sign-out"),
+        signOutResponseSchema,
+      );
     },
 
     async getCurrentSession() {
