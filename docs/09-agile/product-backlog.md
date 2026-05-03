@@ -315,7 +315,7 @@ For each ticket, include:
   - integration: verify the protected HTTP endpoint blocks unauthenticated requests and accepts authenticated ones
   - e2e/manual: confirm a signed-in user can create a competition without manually passing an ownership field
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:platform`, `area:competition`, `target:apps-api`, `target:packages-schemas`
 - milestone/sprint: `next-foundation-sprint`
@@ -502,7 +502,7 @@ For each ticket, include:
   - integration: verify the new controls compose with `Field` and package entrypoints without app-specific dependencies
   - e2e/manual: confirm Storybook demonstrates the state matrix needed for competition configuration and result-entry forms
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-ui-package-sprint`
@@ -539,7 +539,7 @@ For each ticket, include:
   - integration: verify feedback primitives remain package-local and can be consumed without coupling to app mutation or router layers
   - e2e/manual: confirm Storybook distinguishes transient versus persistent messaging for operations-heavy workflows
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-ui-package-sprint`
@@ -577,7 +577,7 @@ For each ticket, include:
   - integration: verify display primitives remain stable shared building blocks with no app-specific data concerns
   - e2e/manual: confirm Storybook examples cover dense admin usage rather than only marketing-style empty examples
 - estimate: `S`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-ui-package-sprint`
@@ -614,7 +614,7 @@ For each ticket, include:
   - integration: verify the table foundations remain reusable shared UI rather than a route-owned data grid abstraction
   - e2e/manual: confirm Storybook covers dense operational usage, empty states and row-state differences clearly
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:ui-package`, `area:storybook`, `target:packages-ui`, `target:packages-config`
 - milestone/sprint: `next-ui-package-sprint`
@@ -652,8 +652,282 @@ For each ticket, include:
   - integration: verify the route layer composes typed auth clients with shared UI primitives without package-boundary leaks
   - e2e/manual: confirm a user can register and then sign in through the real frontend flow once the backend contracts are available
 - estimate: `M`
-- status: `in-sprint`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:platform`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
 - milestone/sprint: `auth-self-service-foundation-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/42`
+
+### TKT-047 - Add backend category management under an existing competition
+
+- ID: `TKT-047`
+- type: `task`
+- epic: `competition-structure`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Add backend category management endpoints for competitions`
+- story/task description: Implement the backend slices needed to create, list, update, and delete categories within an existing competition. This ticket should extend the Competition aggregate with category management following hexagonal architecture, exposing inbound HTTP endpoints under the competition resource, request/response schemas in `packages/schemas`, and integration tests against PostgreSQL. Categories are a first-class domain entity that affect registration, match structure, and progression.
+- acceptance criteria:
+  - `apps/api` exposes endpoints for creating, listing, updating, and deleting categories scoped to a competition
+  - the category endpoints require an authenticated session and verify the user has permission to administer the target competition
+  - `packages/schemas` exposes request and response contracts for all category operations
+  - the Competition aggregate enforces invariants: categories belong to exactly one competition, cannot have duplicate labels within the same competition, and cannot be deleted if approved registrations reference them
+  - integration tests verify the repository adapter against real PostgreSQL and the HTTP endpoints through NestJS adapter tests
+  - category management stays within the competition administration boundary and does not absorb registration or match logic
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/05-architecture/domain-model.md`
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+  - `/docs/16-backend-architecture/hexagonal-architecture.md`
+  - `/docs/16-backend-architecture/backend-coding-standards.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-004-database-choice.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-010-backend-persistence-implementation.md`
+- testing expectations:
+  - unit: cover category domain invariants and the create/update/delete category use cases with fakes at the port boundary
+  - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
+  - e2e/manual: n/a until a frontend category management UI is delivered
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/49`
+
+### TKT-048 - Add backend division management under an existing competition
+
+- ID: `TKT-048`
+- type: `task`
+- epic: `competition-structure`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Add backend division management endpoints for competitions`
+- story/task description: Implement the backend slices needed to create, list, update, and delete divisions within an existing competition. Divisions represent sex-based or equivalent participant segmentation and are a first-class domain entity alongside categories. This ticket should follow hexagonal architecture with inbound HTTP endpoints under the competition resource, request/response schemas in `packages/schemas`, and integration tests against PostgreSQL.
+- acceptance criteria:
+  - `apps/api` exposes endpoints for creating, listing, updating, and deleting divisions scoped to a competition
+  - the division endpoints require an authenticated session and verify the user has permission to administer the target competition
+  - `packages/schemas` exposes request and response contracts for all division operations
+  - the Competition aggregate enforces invariants: divisions belong to exactly one competition, cannot have duplicate names within the same competition, and cannot be deleted if approved registrations reference them
+  - integration tests verify the repository adapter against real PostgreSQL and the HTTP endpoints through NestJS adapter tests
+  - division management stays within the competition administration boundary and does not absorb registration or match logic
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/05-architecture/domain-model.md`
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+  - `/docs/16-backend-architecture/hexagonal-architecture.md`
+  - `/docs/16-backend-architecture/backend-coding-standards.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-004-database-choice.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-010-backend-persistence-implementation.md`
+- testing expectations:
+  - unit: cover division domain invariants and the create/update/delete division use cases with fakes at the port boundary
+  - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
+  - e2e/manual: n/a until a frontend division management UI is delivered
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/50`
+
+### TKT-049 - Add backend participant registration endpoint
+
+- ID: `TKT-049`
+- type: `task`
+- epic: `participant-registration`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Add backend participant registration endpoint for competitions`
+- story/task description: Implement the backend slice for participant self-service registration into a competition. This ticket should create the CompetitionRegistration aggregate with its own lifecycle (registered, pending review, approved, rejected, withdrawn), expose an inbound HTTP endpoint for registration submission, and validate that the target competition is open for registration. The endpoint should accept the participant's requested category and division, persist the registration in pending review state, and return the registration response contract through `packages/schemas`.
+- acceptance criteria:
+  - `apps/api` exposes an endpoint for submitting a participant registration into a competition
+  - the registration endpoint requires an authenticated session and derives the participant identity from the authenticated user
+  - the system rejects registration if the competition is not in a registration-accepting state (draft, registration closed, in progress, completed, cancelled)
+  - `packages/schemas` exposes request and response contracts for the registration operation
+  - the CompetitionRegistration aggregate enforces invariants: a participant cannot have duplicate pending or approved registrations for the same competition, and the requested category and division must exist within the target competition
+  - integration tests verify the repository adapter against real PostgreSQL and the HTTP endpoint through NestJS adapter tests
+  - registration approval, rejection, and adjustment workflows remain out of scope for this ticket
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/05-architecture/domain-model.md`
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+  - `/docs/16-backend-architecture/hexagonal-architecture.md`
+  - `/docs/16-backend-architecture/backend-coding-standards.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-004-database-choice.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-010-backend-persistence-implementation.md`
+  - `/docs/07-adrs/adr-011-authentication-strategy.md`
+- testing expectations:
+  - unit: cover CompetitionRegistration domain invariants and the submit-registration use case with fakes at the port boundary
+  - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoint through NestJS adapter tests
+  - e2e/manual: n/a until a frontend registration UI is delivered
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `area:registration`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/52`
+
+### TKT-050 - Add backend registration review and approval endpoint
+
+- ID: `TKT-050`
+- type: `task`
+- epic: `participant-registration`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Add backend registration review, approval, and rejection endpoints`
+- story/task description: Implement the backend slices needed for competition organizers to review, approve, reject, or adjust participant registrations. This ticket should extend the CompetitionRegistration aggregate with status transition use cases, expose inbound HTTP endpoints for registration review operations, and enforce that only authorized competition administrators can perform these actions. The endpoints should validate status transitions (e.g., cannot approve a rejected registration without first reverting to pending) and enforce category/division assignment requirements for approved registrations.
+- acceptance criteria:
+  - `apps/api` exposes endpoints for approving, rejecting, and adjusting registrations scoped to a competition
+  - the review endpoints require an authenticated session and verify the user has permission to administer the target competition
+  - `packages/schemas` exposes request and response contracts for all review operations
+  - the CompetitionRegistration aggregate enforces valid status transitions and requires explicit category and division assignment for approved registrations
+  - a rejected registration cannot drive active match generation
+  - integration tests verify the repository adapter against real PostgreSQL and the HTTP endpoints through NestJS adapter tests
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/05-architecture/domain-model.md`
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+  - `/docs/16-backend-architecture/hexagonal-architecture.md`
+  - `/docs/16-backend-architecture/backend-coding-standards.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-004-database-choice.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-010-backend-persistence-implementation.md`
+- testing expectations:
+  - unit: cover CompetitionRegistration status transition invariants and the approve/reject/adjust use cases with fakes at the port boundary
+  - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
+  - e2e/manual: n/a until a frontend registration review UI is delivered
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `area:registration`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/54`
+
+### TKT-051 - Build frontend competition detail with category and division management
+
+- ID: `TKT-051`
+- type: `task`
+- epic: `competition-structure`
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- title: `Build frontend competition detail page with category and division management UI`
+- story/task description: Introduce the first competition detail page in `apps/web` that displays competition metadata and allows organizers to manage categories and divisions. The scope should add typed API client wrappers for category and division contracts from `packages/schemas`, compose existing shared `packages/ui` primitives (table foundations, form primitives, feedback components, overlays), and implement CRUD flows for categories and divisions within a competition context.
+- acceptance criteria:
+  - `packages/api-client` exposes typed client helpers for category and division CRUD contracts
+  - `apps/web` includes a competition detail route that shows competition metadata, categories, and divisions
+  - authenticated competition administrators can create, edit, and delete categories and divisions through the UI
+  - the implementation uses shared `packages/ui` components without embedding competition-specific mutation logic into the UI package
+  - tests validate contract mapping, route behavior, and user-visible form-state handling
+  - non-administrator users see a read-only view of categories and divisions
+- linked docs:
+  - `/docs/12-frontend-architecture/routing.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/12-frontend-architecture/server-state.md`
+  - `/docs/12-frontend-architecture/frontend-overview.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: cover form-state handling, contract mapping, and admin vs read-only view decisions
+  - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
+  - e2e/manual: confirm an administrator can create, edit, and delete categories and divisions through the real frontend flow
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/51`
+
+### TKT-052 - Build frontend participant registration flow
+
+- ID: `TKT-052`
+- type: `task`
+- epic: `participant-registration`
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- title: `Build frontend participant registration flow for competitions`
+- story/task description: Introduce the participant self-service registration flow in `apps/web` so authenticated players can register for open competitions. The scope should add typed API client wrappers for the registration contract, a registration form that loads available categories and divisions, validated form handling with TanStack Form, and clear success, error, and pending states using shared `packages/ui` primitives.
+- acceptance criteria:
+  - `packages/api-client` exposes typed client helpers for the registration submission contract
+  - `apps/web` includes a registration route or modal accessible from the competition detail view
+  - the registration form loads available categories and divisions for the target competition
+  - authenticated users can submit a registration with their requested category and division
+  - the implementation uses shared `packages/ui` components without embedding registration-specific mutation logic into the UI package
+  - tests validate contract mapping, form-state handling, and user-visible success/error states
+  - duplicate registration prevention is handled at the UI level (disabled submit if already registered)
+- linked docs:
+  - `/docs/12-frontend-architecture/routing.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/12-frontend-architecture/server-state.md`
+  - `/docs/12-frontend-architecture/frontend-overview.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: cover form-state handling, contract mapping, and duplicate registration prevention
+  - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
+  - e2e/manual: confirm a player can register for an open competition through the real frontend flow
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `area:registration`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/53`
+
+### TKT-053 - Build frontend registration review and approval UI
+
+- ID: `TKT-053`
+- type: `task`
+- epic: `participant-registration`
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- title: `Build frontend registration review and approval UI for competition administrators`
+- story/task description: Introduce the registration review interface in `apps/web` so competition administrators can view pending registrations, approve or reject them, and adjust category/division assignments. The scope should add typed API client wrappers for the review contracts, a table-based review view using shared table foundations, inline approval/rejection actions with feedback primitives, and clear status indicators for each registration.
+- acceptance criteria:
+  - `packages/api-client` exposes typed client helpers for listing and reviewing registrations
+  - `apps/web` includes a registration review view accessible from the competition detail page for administrators
+  - administrators can approve, reject, and adjust category/division assignments for pending registrations
+  - the implementation uses shared `packages/ui` table foundations, feedback primitives, and overlay components
+  - tests validate contract mapping, table rendering, and user-visible approval/rejection flow
+  - non-administrator users cannot access the review interface
+- linked docs:
+  - `/docs/12-frontend-architecture/routing.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/12-frontend-architecture/server-state.md`
+  - `/docs/12-frontend-architecture/frontend-overview.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: cover approval/rejection form-state handling and admin access guard
+  - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
+  - e2e/manual: confirm an administrator can review, approve, and reject registrations through the real frontend flow
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `area:registration`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
+- milestone/sprint: `competition-structure-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/55`
