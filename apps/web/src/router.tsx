@@ -1,5 +1,11 @@
 import type { PadelApiClient } from "@padel/api-client";
 import {
+  forgetPasswordRequestSchema,
+  resetPasswordRequestSchema,
+  signInWithEmailRequestSchema,
+  signUpWithEmailRequestSchema,
+} from "@padel/schemas";
+import {
   Button,
   Card,
   CardContent,
@@ -18,6 +24,7 @@ import {
   Input,
   Skeleton,
 } from "@padel/ui";
+import { useForm } from "@tanstack/react-form";
 import {
   type QueryClient,
   useMutation,
@@ -156,19 +163,27 @@ function SignInScreen() {
   const navigate = useNavigate();
   const apiClient = signInRoute.useRouteContext().apiClient;
   const { signIn, error, isLoading, clearError } = useAuthStore();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    clearError();
-    try {
-      await signIn(apiClient, email, password);
-      await navigate({ to: "/competitions/operations" });
-    } catch {
-      // Error is captured in store
-    }
-  }
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    validators: {
+      onChange: signInWithEmailRequestSchema,
+      onBlur: signInWithEmailRequestSchema,
+      onSubmit: signInWithEmailRequestSchema,
+    },
+    onSubmit: async ({ value }) => {
+      clearError();
+      try {
+        await signIn(apiClient, value.email, value.password);
+        await navigate({ to: "/competitions/operations" });
+      } catch {
+        // Error is captured in store
+      }
+    },
+  });
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.44))] px-6 py-12">
@@ -179,7 +194,13 @@ function SignInScreen() {
             Enter your email and password to access your account.
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
           <CardContent className="space-y-4">
             {error && (
               <InlineAlert variant="blocked">
@@ -187,33 +208,42 @@ function SignInScreen() {
                 <InlineAlertDescription>{error}</InlineAlertDescription>
               </InlineAlert>
             )}
-            <Field
-              id="sign-in-email"
-              label="Email"
-              required
-              error={
-                email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-                  ? "Enter a valid email address."
-                  : undefined
-              }
-            >
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                required
-              />
-            </Field>
-            <Field id="sign-in-password" label="Password" required>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                required
-              />
-            </Field>
+            <form.Field name="email">
+              {(field) => (
+                <Field
+                  id="sign-in-email"
+                  label="Email"
+                  required
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="email"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="email"
+                  />
+                </Field>
+              )}
+            </form.Field>
+            <form.Field name="password">
+              {(field) => (
+                <Field
+                  id="sign-in-password"
+                  label="Password"
+                  required
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="password"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="current-password"
+                  />
+                </Field>
+              )}
+            </form.Field>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-3">
             <Button type="submit" disabled={isLoading}>
@@ -244,20 +274,28 @@ function SignUpScreen() {
   const navigate = useNavigate();
   const apiClient = signUpRoute.useRouteContext().apiClient;
   const { signUp, error, isLoading, clearError } = useAuthStore();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    clearError();
-    try {
-      await signUp(apiClient, name, email, password);
-      await navigate({ to: "/competitions/operations" });
-    } catch {
-      // Error is captured in store
-    }
-  }
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    validators: {
+      onChange: signUpWithEmailRequestSchema,
+      onBlur: signUpWithEmailRequestSchema,
+      onSubmit: signUpWithEmailRequestSchema,
+    },
+    onSubmit: async ({ value }) => {
+      clearError();
+      try {
+        await signUp(apiClient, value.name, value.email, value.password);
+        await navigate({ to: "/competitions/operations" });
+      } catch {
+        // Error is captured in store
+      }
+    },
+  });
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.44))] px-6 py-12">
@@ -266,7 +304,13 @@ function SignUpScreen() {
           <CardTitle>Create an account</CardTitle>
           <CardDescription>Enter your details to get started.</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
           <CardContent className="space-y-4">
             {error && (
               <InlineAlert variant="blocked">
@@ -274,48 +318,61 @@ function SignUpScreen() {
                 <InlineAlertDescription>{error}</InlineAlertDescription>
               </InlineAlert>
             )}
-            <Field id="sign-up-name" label="Name" required>
-              <Input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                autoComplete="name"
-                required
-              />
-            </Field>
-            <Field
-              id="sign-up-email"
-              label="Email"
-              required
-              error={
-                email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-                  ? "Enter a valid email address."
-                  : undefined
-              }
-            >
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                required
-              />
-            </Field>
-            <Field
-              id="sign-up-password"
-              label="Password"
-              required
-              description="At least 8 characters."
-            >
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
-                minLength={8}
-                required
-              />
-            </Field>
+            <form.Field name="name">
+              {(field) => (
+                <Field
+                  id="sign-up-name"
+                  label="Name"
+                  required
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="text"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="name"
+                  />
+                </Field>
+              )}
+            </form.Field>
+            <form.Field name="email">
+              {(field) => (
+                <Field
+                  id="sign-up-email"
+                  label="Email"
+                  required
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="email"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="email"
+                  />
+                </Field>
+              )}
+            </form.Field>
+            <form.Field name="password">
+              {(field) => (
+                <Field
+                  id="sign-up-password"
+                  label="Password"
+                  required
+                  description="At least 8 characters."
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="password"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="new-password"
+                  />
+                </Field>
+              )}
+            </form.Field>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-3">
             <Button type="submit" disabled={isLoading}>
@@ -335,26 +392,23 @@ function SignUpScreen() {
 }
 
 function ForgetPasswordScreen() {
-  const navigate = useNavigate();
   const apiClient = forgetPasswordRoute.useRouteContext().apiClient;
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
-    try {
-      await apiClient.forgetPassword({ email });
+  const form = useForm({
+    defaultValues: {
+      email: "",
+    },
+    validators: {
+      onChange: forgetPasswordRequestSchema,
+      onBlur: forgetPasswordRequestSchema,
+      onSubmit: forgetPasswordRequestSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await apiClient.forgetPassword({ email: value.email });
       setIsSubmitted(true);
-    } catch {
-      setError("Unable to send reset link. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+    },
+  });
 
   if (isSubmitted) {
     return (
@@ -385,26 +439,36 @@ function ForgetPasswordScreen() {
             Enter your email to receive a password reset link.
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
           <CardContent className="space-y-4">
-            {error && (
-              <InlineAlert variant="blocked">
-                <InlineAlertDescription>{error}</InlineAlertDescription>
-              </InlineAlert>
-            )}
-            <Field id="forget-password-email" label="Email" required>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                required
-              />
-            </Field>
+            <form.Field name="email">
+              {(field) => (
+                <Field
+                  id="forget-password-email"
+                  label="Email"
+                  required
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="email"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="email"
+                  />
+                </Field>
+              )}
+            </form.Field>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-3">
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Sending..." : "Send reset link"}
+            <Button type="submit" disabled={form.state.isSubmitting}>
+              {form.state.isSubmitting ? "Sending..." : "Send reset link"}
             </Button>
             <Link
               to="/sign-in"
@@ -423,28 +487,23 @@ function ResetPasswordScreen() {
   const navigate = useNavigate();
   const apiClient = resetPasswordRoute.useRouteContext().apiClient;
   const { token } = useSearch({ from: "/reset-password" });
-  const [newPassword, setNewPassword] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setError(null);
-    if (!token) {
-      setError("Invalid reset link.");
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      await apiClient.resetPassword({ newPassword, token });
+  const form = useForm({
+    defaultValues: {
+      newPassword: "",
+    },
+    validators: {
+      onChange: resetPasswordRequestSchema,
+      onBlur: resetPasswordRequestSchema,
+      onSubmit: resetPasswordRequestSchema,
+    },
+    onSubmit: async ({ value }) => {
+      if (!token) return;
+      await apiClient.resetPassword({ newPassword: value.newPassword, token });
       setIsSubmitted(true);
-    } catch {
-      setError("Unable to reset password. The link may have expired.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+    },
+  });
 
   if (isSubmitted) {
     return (
@@ -466,6 +525,26 @@ function ResetPasswordScreen() {
     );
   }
 
+  if (!token) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.44))] px-6 py-12">
+        <Card className="w-full max-w-md bg-white/90">
+          <CardHeader>
+            <CardTitle>Invalid link</CardTitle>
+            <CardDescription>
+              This password reset link is invalid or has expired.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button asChild>
+              <Link to="/sign-in">Return to sign in</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </main>
+    );
+  }
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.44))] px-6 py-12">
       <Card className="w-full max-w-md bg-white/90">
@@ -475,32 +554,37 @@ function ResetPasswordScreen() {
             Enter a new password for your account.
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
           <CardContent className="space-y-4">
-            {error && (
-              <InlineAlert variant="blocked">
-                <InlineAlertDescription>{error}</InlineAlertDescription>
-              </InlineAlert>
-            )}
-            <Field
-              id="reset-password-new"
-              label="New password"
-              required
-              description="At least 8 characters."
-            >
-              <Input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                autoComplete="new-password"
-                minLength={8}
-                required
-              />
-            </Field>
+            <form.Field name="newPassword">
+              {(field) => (
+                <Field
+                  id="reset-password-new"
+                  label="New password"
+                  required
+                  description="At least 8 characters."
+                  error={field.state.meta.errors.join(", ")}
+                >
+                  <Input
+                    type="password"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    autoComplete="new-password"
+                  />
+                </Field>
+              )}
+            </form.Field>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-3">
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Resetting..." : "Reset password"}
+            <Button type="submit" disabled={form.state.isSubmitting}>
+              {form.state.isSubmitting ? "Resetting..." : "Reset password"}
             </Button>
             <Link
               to="/sign-in"

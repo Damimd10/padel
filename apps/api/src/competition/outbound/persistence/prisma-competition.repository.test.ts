@@ -51,6 +51,7 @@ describe.skipIf(!canRunDatabaseTests)("PrismaCompetitionRepository", () => {
   });
 
   afterAll(async () => {
+    await prisma.competition.deleteMany();
     await prisma.$disconnect();
   });
 

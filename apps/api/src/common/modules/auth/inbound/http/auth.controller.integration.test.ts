@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "reflect-metadata/Reflect.js";
 
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";

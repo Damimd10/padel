@@ -1,4 +1,4 @@
-import type { CategoryCollection } from "@padel/schemas";
+import type { CategoryCollection, CategoryResponse } from "@padel/schemas";
 
 import type { Category } from "../../domain/category.js";
 import type { CategoryRepository } from "./category-repository.js";
@@ -74,12 +74,12 @@ export class FakeCategoryRepository implements CategoryRepository {
   }
 
   private storeByCompetition(competitionId: string): CategoryCollection {
-    const categories: CategoryCollection = [];
+    const categories: CategoryResponse[] = [];
     for (const category of this.store.values()) {
       if (category.toResponse().competitionId === competitionId) {
         categories.push(category.toResponse());
       }
     }
-    return categories;
+    return categories as CategoryCollection;
   }
 }
