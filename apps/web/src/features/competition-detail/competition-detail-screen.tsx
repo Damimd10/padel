@@ -1,4 +1,8 @@
 import {
+  createCategoryRequestSchema,
+  updateCategoryRequestSchema,
+} from "@padel/schemas";
+import {
   Badge,
   Button,
   Card,
@@ -35,6 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@padel/ui";
+import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import type { CompetitionDetailPageViewModel } from "./competition-detail-view-model.js";
 
@@ -64,8 +69,6 @@ export function CompetitionDetailScreen({
   const [createOpen, setCreateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [newLabel, setNewLabel] = useState("");
-  const [editLabel, setEditLabel] = useState("");
   const [editingCategory, setEditingCategory] = useState<{
     id: string;
     label: string;
@@ -74,33 +77,62 @@ export function CompetitionDetailScreen({
     id: string;
     label: string;
   } | null>(null);
-  const [fieldError, setFieldError] = useState<string | null>(null);
 
-  function handleCreateSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setFieldError(null);
-    if (newLabel.trim().length === 0) {
-      setFieldError("Label is required.");
-      return;
-    }
-    onCreateCategory(newLabel.trim()).then(() => {
-      setNewLabel("");
+  const createForm = useForm({
+    defaultValues: { label: "" },
+    validators: {
+      onChange: createCategoryRequestSchema,
+      onBlur: createCategoryRequestSchema,
+      onSubmit: createCategoryRequestSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await onCreateCategory(value.label.trim());
       setCreateOpen(false);
-    });
+    },
+  });
+
+  const editForm = useForm({
+    defaultValues: { label: "" },
+    validators: {
+      onChange: updateCategoryRequestSchema,
+      onBlur: updateCategoryRequestSchema,
+      onSubmit: updateCategoryRequestSchema,
+    },
+    onSubmit: async ({ value }) => {
+      if (!editingCategory) return;
+      await onUpdateCategory(editingCategory.id, value.label.trim());
+      setEditOpen(false);
+    },
+  });
+
+  function handleCreateOpenChange(open: boolean) {
+    setCreateOpen(open);
+    if (open) {
+      clearError();
+      createForm.reset();
+    }
   }
 
-  function handleEditSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setFieldError(null);
-    if (!editingCategory || editLabel.trim().length === 0) {
-      setFieldError("Label is required.");
-      return;
-    }
-    onUpdateCategory(editingCategory.id, editLabel.trim()).then(() => {
+  function handleEditOpenChange(open: boolean) {
+    setEditOpen(open);
+    if (!open) {
       setEditingCategory(null);
-      setEditLabel("");
-      setEditOpen(false);
-    });
+      editForm.reset();
+    }
+  }
+
+  function openEdit(category: { id: string; label: string }) {
+    setEditingCategory(category);
+    editForm.reset();
+    editForm.setFieldValue("label", category.label);
+    setEditOpen(true);
+    clearError();
+  }
+
+  function openDelete(category: { id: string; label: string }) {
+    setDeletingCategory(category);
+    setDeleteOpen(true);
+    clearError();
   }
 
   function handleDeleteConfirm() {
@@ -111,44 +143,10 @@ export function CompetitionDetailScreen({
     });
   }
 
-  function openEdit(category: { id: string; label: string }) {
-    setEditingCategory(category);
-    setEditLabel(category.label);
-    setEditOpen(true);
-    clearError();
-    setFieldError(null);
-  }
-
-  function openDelete(category: { id: string; label: string }) {
-    setDeletingCategory(category);
-    setDeleteOpen(true);
-    clearError();
-    setFieldError(null);
-  }
-
-  function handleCreateOpenChange(open: boolean) {
-    setCreateOpen(open);
-    if (open) {
-      clearError();
-      setFieldError(null);
-      setNewLabel("");
-    }
-  }
-
-  function handleEditOpenChange(open: boolean) {
-    setEditOpen(open);
-    if (!open) {
-      setEditingCategory(null);
-      setEditLabel("");
-      setFieldError(null);
-    }
-  }
-
   function handleDeleteOpenChange(open: boolean) {
     setDeleteOpen(open);
     if (!open) {
       setDeletingCategory(null);
-      setFieldError(null);
     }
   }
 
@@ -192,7 +190,13 @@ export function CompetitionDetailScreen({
                 <Button size="sm">Add category</Button>
               </DialogTrigger>
               <DialogContent>
-                <form onSubmit={handleCreateSubmit}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    createForm.handleSubmit();
+                  }}
+                >
                   <DialogHeader>
                     <DialogTitle>Create category</DialogTitle>
                     <DialogDescription>
@@ -200,19 +204,24 @@ export function CompetitionDetailScreen({
                     </DialogDescription>
                   </DialogHeader>
                   <CardContent className="pt-4">
-                    <Field
-                      id="new-category-label"
-                      label="Label"
-                      required
-                      error={fieldError}
-                    >
-                      <Input
-                        value={newLabel}
-                        onChange={(e) => setNewLabel(e.target.value)}
-                        placeholder="e.g. Advanced, Intermediate, Beginner"
-                        autoFocus
-                      />
-                    </Field>
+                    <createForm.Field name="label">
+                      {(field) => (
+                        <Field
+                          id="new-category-label"
+                          label="Label"
+                          required
+                          error={field.state.meta.errors.join(", ")}
+                        >
+                          <Input
+                            value={field.state.value}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            onBlur={field.handleBlur}
+                            placeholder="e.g. Advanced, Intermediate, Beginner"
+                            autoFocus
+                          />
+                        </Field>
+                      )}
+                    </createForm.Field>
                   </CardContent>
                   <DialogFooter>
                     <DialogClose asChild>
@@ -317,7 +326,13 @@ export function CompetitionDetailScreen({
 
         <Dialog open={editOpen} onOpenChange={handleEditOpenChange}>
           <DialogContent>
-            <form onSubmit={handleEditSubmit}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                editForm.handleSubmit();
+              }}
+            >
               <DialogHeader>
                 <DialogTitle>Edit category</DialogTitle>
                 <DialogDescription>
@@ -325,19 +340,24 @@ export function CompetitionDetailScreen({
                 </DialogDescription>
               </DialogHeader>
               <CardContent className="pt-4">
-                <Field
-                  id="edit-category-label"
-                  label="Label"
-                  required
-                  error={fieldError}
-                >
-                  <Input
-                    value={editLabel}
-                    onChange={(e) => setEditLabel(e.target.value)}
-                    placeholder="Category label"
-                    autoFocus
-                  />
-                </Field>
+                <editForm.Field name="label">
+                  {(field) => (
+                    <Field
+                      id="edit-category-label"
+                      label="Label"
+                      required
+                      error={field.state.meta.errors.join(", ")}
+                    >
+                      <Input
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        placeholder="Category label"
+                        autoFocus
+                      />
+                    </Field>
+                  )}
+                </editForm.Field>
               </CardContent>
               <DialogFooter>
                 <DialogClose asChild>
