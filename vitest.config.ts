@@ -1,12 +1,17 @@
 import path from "node:path";
-import { defineConfig } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { defineConfig } from "vitest/config";
 
 function resolveJsToTs() {
   return {
     name: "resolve-js-to-ts",
     resolveId(id: string, importer: string | undefined) {
-      if (id.endsWith(".js") && importer && !id.startsWith("@") && !id.startsWith(".")) {
+      if (
+        id.endsWith(".js") &&
+        importer &&
+        !id.startsWith("@") &&
+        !id.startsWith(".")
+      ) {
         return null;
       }
       if (id.endsWith(".js") && importer) {

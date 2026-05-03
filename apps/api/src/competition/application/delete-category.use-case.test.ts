@@ -3,40 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { Category } from "../domain/category.js";
 import { DeleteCategoryUseCase } from "./delete-category.use-case.js";
-import type { CategoryRepository } from "./ports/category-repository.js";
-
-class FakeCategoryRepository implements CategoryRepository {
-  deleted: string[] = [];
-  private store = new Map<string, ReturnType<typeof Category.restore>>();
-
-  seed(category: ReturnType<typeof Category.restore>) {
-    this.store.set(category.toResponse().id, category);
-  }
-
-  async nextId() {
-    return "category-123";
-  }
-
-  async create(category: ReturnType<typeof Category.restore>) {
-    this.store.set(category.toResponse().id, category);
-  }
-
-  async listByCompetitionId() {
-    return [];
-  }
-
-  async findById(id: string) {
-    return this.store.get(id) ?? null;
-  }
-
-  async update() {
-    // no-op
-  }
-
-  async delete(id: string) {
-    this.deleted.push(id);
-  }
-}
+import { FakeCategoryRepository } from "./ports/fake-category-repository.js";
 
 describe("DeleteCategoryUseCase", () => {
   it("deletes an existing category", async () => {

@@ -2,39 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import type { CreateCategoryCommand } from "./create-category.use-case.js";
 import { CreateCategoryUseCase } from "./create-category.use-case.js";
-import type { CategoryRepository } from "./ports/category-repository.js";
-
-class FakeCategoryRepository implements CategoryRepository {
-  created: unknown[] = [];
-
-  async nextId() {
-    return "category-123";
-  }
-
-  async create(category: { toPersistence(): unknown }): Promise<void> {
-    this.created.push(category.toPersistence());
-  }
-
-  async listByCompetitionId() {
-    return [];
-  }
-
-  async findById() {
-    return null;
-  }
-
-  async update() {
-    // no-op
-  }
-
-  async delete() {
-    // no-op
-  }
-}
+import { FakeCategoryRepository } from "./ports/fake-category-repository.js";
 
 describe("CreateCategoryUseCase", () => {
   it("creates and persists a category", async () => {
-    const repository = new FakeCategoryRepository();
+    const repository = new FakeCategoryRepository({ nextId: "category-123" });
     const useCase = new CreateCategoryUseCase(repository);
 
     const result = await useCase.execute({

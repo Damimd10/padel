@@ -2,42 +2,8 @@ import { NotFoundException } from "@nestjs/common";
 import { describe, expect, it } from "vitest";
 
 import { Category } from "../domain/category.js";
-import type { CategoryRepository } from "./ports/category-repository.js";
+import { FakeCategoryRepository } from "./ports/fake-category-repository.js";
 import { UpdateCategoryUseCase } from "./update-category.use-case.js";
-
-class FakeCategoryRepository implements CategoryRepository {
-  updated: unknown[] = [];
-  private store = new Map<string, ReturnType<typeof Category.restore>>();
-
-  seed(category: ReturnType<typeof Category.restore>) {
-    this.store.set(category.toResponse().id, category);
-  }
-
-  async nextId() {
-    return "category-123";
-  }
-
-  async create(category: ReturnType<typeof Category.restore>) {
-    this.store.set(category.toResponse().id, category);
-  }
-
-  async listByCompetitionId() {
-    return [];
-  }
-
-  async findById(id: string) {
-    return this.store.get(id) ?? null;
-  }
-
-  async update(category: ReturnType<typeof Category.restore>) {
-    this.updated.push(category.toPersistence());
-    this.store.set(category.toResponse().id, category);
-  }
-
-  async delete() {
-    // no-op
-  }
-}
 
 describe("UpdateCategoryUseCase", () => {
   it("updates a category label", async () => {
