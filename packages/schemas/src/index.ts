@@ -202,3 +202,34 @@ export type ForgetPasswordResponse = z.infer<
 >;
 export type ResetPasswordRequest = z.infer<typeof resetPasswordRequestSchema>;
 export type ResetPasswordResponse = z.infer<typeof resetPasswordResponseSchema>;
+
+export const createCategoryRequestSchema = z
+  .object({
+    label: z.string().trim().min(1),
+  })
+  .strict();
+
+export const updateCategoryRequestSchema = z
+  .object({
+    label: z.string().trim().min(1),
+  })
+  .strict();
+
+export const categoryResponseSchema = z
+  .object({
+    id: z.string().uuid(),
+    competitionId: z.string().uuid(),
+    label: z.string(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const categoryCollectionSchema = z
+  .array(categoryResponseSchema)
+  .readonly();
+
+export type CreateCategoryRequest = z.infer<typeof createCategoryRequestSchema>;
+export type UpdateCategoryRequest = z.infer<typeof updateCategoryRequestSchema>;
+export type CategoryResponse = z.infer<typeof categoryResponseSchema>;
+export type CategoryCollection = z.infer<typeof categoryCollectionSchema>;

@@ -7,10 +7,17 @@ import { LoggerModule } from "nestjs-pino";
 import { envValidationSchema } from "./common/config/env.validation.js";
 import { AuthModule } from "./common/modules/auth/auth.module.js";
 import { CoreModule } from "./common/modules/core/core.module.js";
+import { CreateCategoryUseCase } from "./competition/application/create-category.use-case.js";
 import { CreateCompetitionUseCase } from "./competition/application/create-competition.use-case.js";
+import { DeleteCategoryUseCase } from "./competition/application/delete-category.use-case.js";
+import { ListCategoriesUseCase } from "./competition/application/list-categories.use-case.js";
 import { ListCompetitionOverviewUseCase } from "./competition/application/list-competition-overview.use-case.js";
+import { CategoryRepositoryToken } from "./competition/application/ports/category-repository.js";
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
+import { UpdateCategoryUseCase } from "./competition/application/update-category.use-case.js";
+import { CategoryController } from "./competition/inbound/http/category.controller.js";
 import { CompetitionController } from "./competition/inbound/http/competition.controller.js";
+import { PrismaCategoryRepository } from "./competition/outbound/persistence/prisma-category.repository.js";
 import { PrismaCompetitionRepository } from "./competition/outbound/persistence/prisma-competition.repository.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 
@@ -69,7 +76,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     PrismaModule,
     AuthModule,
   ],
-  controllers: [CompetitionController],
+  controllers: [CompetitionController, CategoryController],
   providers: [
     CreateCompetitionUseCase,
     ListCompetitionOverviewUseCase,
@@ -77,6 +84,15 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     {
       provide: CompetitionRepositoryToken,
       useExisting: PrismaCompetitionRepository,
+    },
+    CreateCategoryUseCase,
+    ListCategoriesUseCase,
+    UpdateCategoryUseCase,
+    DeleteCategoryUseCase,
+    PrismaCategoryRepository,
+    {
+      provide: CategoryRepositoryToken,
+      useExisting: PrismaCategoryRepository,
     },
     {
       provide: APP_GUARD,

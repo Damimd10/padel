@@ -1,7 +1,26 @@
 import path from "node:path";
 import { defineConfig } from "vitest/config";
+import tsconfigPaths from "vite-tsconfig-paths";
+
+function resolveJsToTs() {
+  return {
+    name: "resolve-js-to-ts",
+    resolveId(id: string, importer: string | undefined) {
+      if (id.endsWith(".js") && importer && !id.startsWith("@") && !id.startsWith(".")) {
+        return null;
+      }
+      if (id.endsWith(".js") && importer) {
+        const resolved = path.resolve(path.dirname(importer), id);
+        const tsPath = resolved.replace(/\.js$/, ".ts");
+        return tsPath;
+      }
+      return null;
+    },
+  };
+}
 
 export default defineConfig({
+  plugins: [tsconfigPaths(), resolveJsToTs()],
   resolve: {
     alias: {
       "@padel/api-client": path.resolve(
@@ -18,5 +37,8 @@ export default defineConfig({
         "packages/ui/src/styles.css",
       ),
     },
+  },
+  esbuild: {
+    target: "ES2022",
   },
 });

@@ -50,6 +50,11 @@ path.join(process.cwd(), "apps/api/src/generated/prisma/libquery_engine-darwin-a
  */
 export type Competition = Prisma.CompetitionModel
 /**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
  * Model User
  * 
  */
