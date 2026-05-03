@@ -30,6 +30,20 @@ model Competition {
   status    CompetitionStatus
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
+
+  categories Category[]
+}
+
+model Category {
+  id             String       @id @default(uuid())
+  competitionId  String
+  competition    Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  label          String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([competitionId, label])
+  @@index([competitionId])
 }
 
 model User {
