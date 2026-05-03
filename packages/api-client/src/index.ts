@@ -1,7 +1,10 @@
 import {
   type AuthMutationResponse,
   type AuthSessionResponse,
+  type CategoryCollection,
+  type CategoryResponse,
   type CompetitionOverviewCollection,
+  type CreateCategoryRequest,
   type ForgetPasswordRequest,
   type ForgetPasswordResponse,
   type ResetPasswordRequest,
@@ -9,8 +12,11 @@ import {
   type SignInWithEmailRequest,
   type SignOutResponse,
   type SignUpWithEmailRequest,
+  type UpdateCategoryRequest,
   authMutationResponseSchema,
   authSessionResponseSchema,
+  categoryCollectionSchema,
+  categoryResponseSchema,
   competitionOverviewCollectionSchema,
   forgetPasswordResponseSchema,
   resetPasswordResponseSchema,
@@ -27,6 +33,17 @@ export const sessionPath = "/auth/session";
 export const forgetPasswordPath = "/auth/forget-password";
 export const resetPasswordPath = "/auth/reset-password";
 
+export function competitionCategoriesPath(competitionId: string) {
+  return `/competitions/${competitionId}/categories`;
+}
+
+export function competitionCategoryPath(
+  competitionId: string,
+  categoryId: string,
+) {
+  return `/competitions/${competitionId}/categories/${categoryId}`;
+}
+
 export class ApiClientError extends Error {
   constructor(
     message: string,
@@ -39,6 +56,22 @@ export class ApiClientError extends Error {
 }
 
 export interface CompetitionOverviewRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface ListCategoriesRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface CreateCategoryRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface UpdateCategoryRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface DeleteCategoryRequestOptions {
   signal?: AbortSignal;
 }
 
@@ -68,6 +101,30 @@ export interface PadelApiClient {
   ): Promise<ForgetPasswordResponse>;
 
   resetPassword(request: ResetPasswordRequest): Promise<ResetPasswordResponse>;
+
+  listCategories(
+    competitionId: string,
+    options?: ListCategoriesRequestOptions,
+  ): Promise<CategoryCollection>;
+
+  createCategory(
+    competitionId: string,
+    request: CreateCategoryRequest,
+    options?: CreateCategoryRequestOptions,
+  ): Promise<CategoryResponse>;
+
+  updateCategory(
+    competitionId: string,
+    categoryId: string,
+    request: UpdateCategoryRequest,
+    options?: UpdateCategoryRequestOptions,
+  ): Promise<CategoryResponse>;
+
+  deleteCategory(
+    competitionId: string,
+    categoryId: string,
+    options?: DeleteCategoryRequestOptions,
+  ): Promise<void>;
 }
 
 function parseResponseWithSchema<T>(
@@ -148,6 +205,38 @@ export function createApiClient({
         response.data,
         resetPasswordResponseSchema,
       );
+    },
+
+    async listCategories(competitionId, options = {}) {
+      const response = await client.get(
+        competitionCategoriesPath(competitionId),
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, categoryCollectionSchema);
+    },
+
+    async createCategory(competitionId, request, options = {}) {
+      const response = await client.post(
+        competitionCategoriesPath(competitionId),
+        request,
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, categoryResponseSchema);
+    },
+
+    async updateCategory(competitionId, categoryId, request, options = {}) {
+      const response = await client.patch(
+        competitionCategoryPath(competitionId, categoryId),
+        request,
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, categoryResponseSchema);
+    },
+
+    async deleteCategory(competitionId, categoryId, options = {}) {
+      await client.delete(competitionCategoryPath(competitionId, categoryId), {
+        signal: options.signal,
+      });
     },
   };
 }

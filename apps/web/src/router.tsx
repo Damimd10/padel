@@ -18,7 +18,12 @@ import {
   Input,
   Skeleton,
 } from "@padel/ui";
-import { type QueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  type QueryClient,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import {
   type AnyRouter,
   type ErrorComponentProps,
@@ -35,6 +40,12 @@ import {
   useSearch,
 } from "@tanstack/react-router";
 import { useState } from "react";
+import {
+  competitionCategoriesQueryOptions,
+  ensureCompetitionCategories,
+} from "./features/competition-detail/competition-categories-query.js";
+import { CompetitionDetailScreen } from "./features/competition-detail/competition-detail-screen.js";
+import { mapToCompetitionDetailPageModel } from "./features/competition-detail/competition-detail-view-model.js";
 import { CompetitionOperationsScreen } from "./features/competition-operations/competition-operations-screen.js";
 import { competitionOverviewQueryOptions } from "./features/competition-operations/competition-overview-query.js";
 import { mapCompetitionOverviewToPageModel } from "./features/competition-operations/competition-overview-view-model.js";
@@ -107,12 +118,30 @@ const competitionOperationsRoute = createRoute({
   component: CompetitionOperationsRouteScreen,
 });
 
+const competitionDetailRoute = createRoute({
+  getParentRoute: () => authenticatedRoute,
+  path: "/competitions/$competitionId",
+  loader: ({ params, context }) =>
+    ensureCompetitionCategories(
+      context.queryClient,
+      context.apiClient,
+      params.competitionId,
+    ),
+  pendingComponent: CompetitionDetailPending,
+  pendingMs: 0,
+  errorComponent: CompetitionDetailError,
+  component: CompetitionDetailRouteScreen,
+});
+
 const routeTree = rootRoute.addChildren([
   signInRoute,
   signUpRoute,
   forgetPasswordRoute,
   resetPasswordRoute,
-  authenticatedRoute.addChildren([competitionOperationsRoute]),
+  authenticatedRoute.addChildren([
+    competitionOperationsRoute,
+    competitionDetailRoute,
+  ]),
 ]);
 
 function RootLayout() {
@@ -526,6 +555,112 @@ function CompetitionOperationsError({ error }: ErrorComponentProps) {
       <InlineAlert className="max-w-2xl bg-white/90" variant="blocked">
         <InlineAlertTitle variant="blocked">
           Competition overview could not be loaded
+        </InlineAlertTitle>
+        <InlineAlertDescription>{message}</InlineAlertDescription>
+      </InlineAlert>
+    </main>
+  );
+}
+
+function CompetitionDetailRouteScreen() {
+  const { apiClient, queryClient } = competitionDetailRoute.useRouteContext();
+  const { competitionId } = competitionDetailRoute.useParams();
+  const { data } = useSuspenseQuery(
+    competitionCategoriesQueryOptions(apiClient, competitionId),
+  );
+
+  const [error, setError] = useState<string | null>(null);
+
+  const createMutation = useMutation({
+    mutationFn: (label: string) =>
+      apiClient.createCategory(competitionId, { label }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "categories"],
+      });
+    },
+    onError: () => {
+      setError("Failed to create category. Please try again.");
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, label }: { id: string; label: string }) =>
+      apiClient.updateCategory(competitionId, id, { label }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "categories"],
+      });
+    },
+    onError: () => {
+      setError("Failed to update category. Please try again.");
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => apiClient.deleteCategory(competitionId, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "categories"],
+      });
+    },
+    onError: () => {
+      setError(
+        "Failed to delete category. It may be referenced by registrations.",
+      );
+    },
+  });
+
+  return (
+    <CompetitionDetailScreen
+      model={mapToCompetitionDetailPageModel(competitionId, data)}
+      onCreateCategory={async (label) => {
+        await createMutation.mutateAsync(label);
+      }}
+      onUpdateCategory={async (id, label) => {
+        await updateMutation.mutateAsync({ id, label });
+      }}
+      onDeleteCategory={async (id) => {
+        await deleteMutation.mutateAsync(id);
+      }}
+      isCreating={createMutation.isPending}
+      isUpdating={updateMutation.isPending}
+      isDeleting={deleteMutation.isPending}
+      error={error}
+      clearError={() => setError(null)}
+    />
+  );
+}
+
+function CompetitionDetailPending() {
+  return (
+    <main className="min-h-screen bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.52))] px-4 py-8 sm:px-6 lg:px-10">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <div className="rounded-[2rem] border border-border/70 bg-white/80 p-6 shadow-sm sm:p-8">
+          <div className="space-y-4">
+            <Skeleton className="h-4 w-40" />
+            <Skeleton className="h-14 w-full max-w-3xl" />
+            <Skeleton className="h-6 w-full max-w-2xl" />
+          </div>
+        </div>
+        <Skeleton className="h-40 w-full rounded-[1.5rem]" />
+        <Skeleton className="h-80 w-full rounded-[1.5rem]" />
+      </div>
+    </main>
+  );
+}
+
+function CompetitionDetailError({ error }: ErrorComponentProps) {
+  const message =
+    error instanceof Error
+      ? error.message
+      : "Unable to load competition detail.";
+
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.52))] px-6 py-12">
+      <InlineAlert className="max-w-2xl bg-white/90" variant="blocked">
+        <InlineAlertTitle variant="blocked">
+          Competition detail could not be loaded
         </InlineAlertTitle>
         <InlineAlertDescription>{message}</InlineAlertDescription>
       </InlineAlert>
