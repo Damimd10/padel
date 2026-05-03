@@ -109,9 +109,13 @@ export function CompetitionOperationsScreen({
                   <TableRow key={row.id} state={row.rowState}>
                     <TableCell className="space-y-3">
                       <div className="space-y-1">
-                        <p className="font-serif text-xl leading-none tracking-tight">
+                        <Link
+                          to="/competitions/$competitionId"
+                          params={{ competitionId: row.id }}
+                          className="font-serif text-xl leading-none tracking-tight text-foreground hover:underline"
+                        >
                           {row.title}
-                        </p>
+                        </Link>
                         <p className="font-mono text-[0.72rem] uppercase tracking-[0.24em] text-muted-foreground">
                           {row.statusLabel}
                         </p>

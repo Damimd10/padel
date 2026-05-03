@@ -102,8 +102,8 @@ const authenticatedRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: "authenticated",
   beforeLoad: ({ context }) => {
-    const isAuthenticated = selectIsAuthenticated(useAuthStore.getState());
-    if (!isAuthenticated) {
+    const state = useAuthStore.getState();
+    if (!selectAuthIsLoading(state) && !selectIsAuthenticated(state)) {
       throw redirect({
         to: "/sign-in",
       });
@@ -156,7 +156,35 @@ function RootLayout() {
 }
 
 function AuthenticatedLayout() {
+  const isLoading = useAuthStore(selectAuthIsLoading);
+  const isAuthenticated = useAuthStore(selectIsAuthenticated);
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return <Outlet />;
+}
+
+function getFieldError(errors: unknown[]): string {
+  return errors
+    .map((err) => {
+      if (typeof err === "string") return err;
+      if (err && typeof err === "object" && "message" in err) {
+        return String((err as { message: unknown }).message);
+      }
+      return "";
+    })
+    .filter(Boolean)
+    .join(", ");
 }
 
 function SignInScreen() {
@@ -214,7 +242,7 @@ function SignInScreen() {
                   id="sign-in-email"
                   label="Email"
                   required
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="email"
@@ -232,7 +260,7 @@ function SignInScreen() {
                   id="sign-in-password"
                   label="Password"
                   required
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="password"
@@ -324,7 +352,7 @@ function SignUpScreen() {
                   id="sign-up-name"
                   label="Name"
                   required
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="text"
@@ -342,7 +370,7 @@ function SignUpScreen() {
                   id="sign-up-email"
                   label="Email"
                   required
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="email"
@@ -361,7 +389,7 @@ function SignUpScreen() {
                   label="Password"
                   required
                   description="At least 8 characters."
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="password"
@@ -453,7 +481,7 @@ function ForgetPasswordScreen() {
                   id="forget-password-email"
                   label="Email"
                   required
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="email"
@@ -569,7 +597,7 @@ function ResetPasswordScreen() {
                   label="New password"
                   required
                   description="At least 8 characters."
-                  error={field.state.meta.errors.join(", ")}
+                  error={getFieldError(field.state.meta.errors)}
                 >
                   <Input
                     type="password"
