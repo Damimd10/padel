@@ -225,11 +225,38 @@ export const categoryResponseSchema = z
   })
   .strict();
 
-export const categoryCollectionSchema = z
-  .array(categoryResponseSchema)
-  .readonly();
+export const categoryCollectionSchema = z.array(categoryResponseSchema);
 
 export type CreateCategoryRequest = z.infer<typeof createCategoryRequestSchema>;
 export type UpdateCategoryRequest = z.infer<typeof updateCategoryRequestSchema>;
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>;
 export type CategoryCollection = z.infer<typeof categoryCollectionSchema>;
+
+export const createDivisionRequestSchema = z
+  .object({
+    name: z.string().trim().min(1),
+  })
+  .strict();
+
+export const updateDivisionRequestSchema = z
+  .object({
+    name: z.string().trim().min(1),
+  })
+  .strict();
+
+export const divisionResponseSchema = z
+  .object({
+    id: z.string().uuid(),
+    competitionId: z.string().uuid(),
+    name: z.string(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const divisionCollectionSchema = z.array(divisionResponseSchema);
+
+export type CreateDivisionRequest = z.infer<typeof createDivisionRequestSchema>;
+export type UpdateDivisionRequest = z.infer<typeof updateDivisionRequestSchema>;
+export type DivisionResponse = z.infer<typeof divisionResponseSchema>;
+export type DivisionCollection = z.infer<typeof divisionCollectionSchema>;
