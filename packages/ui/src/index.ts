@@ -16,18 +16,14 @@ export {
   checkboxRootClassName,
 } from "./components/checkbox.js";
 export type { CheckboxProps } from "./components/checkbox.js";
+export { Calendar, type CalendarProps } from "./components/calendar.js";
 export {
-  Calendar,
-  type CalendarProps,
-} from "./components/calendar.js";
-export {
-  DateInput,
-  type DateInputProps,
-} from "./components/date-input.js";
-export {
-  DatePicker,
-  type DatePickerProps,
-} from "./components/date-picker.js";
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "./components/collapsible.js";
+export { DateInput, type DateInputProps } from "./components/date-input.js";
+export { DatePicker, type DatePickerProps } from "./components/date-picker.js";
 export { DateRangeInput } from "./components/date-range-input.js";
 export type { DateRangeInputProps } from "./components/date-range-input.js";
 export {
@@ -78,10 +74,7 @@ export {
   PopoverContent,
   PopoverTrigger,
 } from "./components/popover.js";
-export {
-  Separator,
-  type SeparatorProps,
-} from "./components/separator.js";
+export { Separator, type SeparatorProps } from "./components/separator.js";
 export { Skeleton } from "./components/skeleton.js";
 export {
   Table,
@@ -241,9 +234,4 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-} from "./components/sidebar.js";
-export type {
-  SidebarMenuButtonProps,
-  SidebarMenuSubButtonProps,
-  SidebarProviderProps,
 } from "./components/sidebar.js";
