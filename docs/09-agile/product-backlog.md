@@ -931,3 +931,153 @@ For each ticket, include:
 - GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `area:registration`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
 - milestone/sprint: `registration-completion-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/55`
+
+### TKT-056 - Add competition status transitions backend endpoints
+
+- ID: `TKT-056`
+- type: `task`
+- epic: `competition-lifecycle`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Add backend endpoints for competition status transitions (open, close, cancel)`
+- story/task description: Implement the backend slices needed for competition organizers to transition a competition through its lifecycle: from `draft` to `open` (accepting registrations), from `open` to `closed` (registration closed, matches can proceed), and from any state to `cancelled`. The Competition aggregate should enforce valid status transitions and the endpoints should require authenticated competition administrator identity.
+- acceptance criteria:
+  - `apps/api` exposes endpoints for opening, closing, and cancelling a competition
+  - the status transition endpoints require an authenticated session and verify the user has permission to administer the target competition
+  - `packages/schemas` exposes request and response contracts for status transitions
+  - the Competition aggregate enforces valid status transitions: draft -> open, open -> closed, any -> cancelled
+  - opening a competition requires at least one category and one division to exist
+  - integration tests verify the repository adapter against real PostgreSQL and the HTTP endpoints through NestJS adapter tests
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/05-architecture/domain-model.md`
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/03-requirements/business-rules.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+  - `/docs/16-backend-architecture/hexagonal-architecture.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-004-database-choice.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-010-backend-persistence-implementation.md`
+- testing expectations:
+  - unit: cover Competition status transition invariants and the open/close/cancel use cases with fakes at the port boundary
+  - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
+- estimate: `M`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `match-scheduling-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/56`
+
+### TKT-057 - Add competition status management UI for organizers
+
+- ID: `TKT-057`
+- type: `task`
+- epic: `competition-lifecycle`
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- title: `Add frontend UI for competition status management (open, close, cancel)`
+- story/task description: Introduce the competition status management UI in `apps/web` so organizers can open, close, or cancel their competitions. The scope should add typed API client wrappers for status transition contracts, status action buttons on the competition detail page, and clear visual indicators for the current competition state.
+- acceptance criteria:
+  - `packages/api-client` exposes typed client helpers for status transition contracts
+  - competition detail page displays the current status and available actions based on state
+  - organizers can open a draft competition (with validation that categories and divisions exist)
+  - organizers can close an open competition or cancel any competition
+  - the implementation uses shared `packages/ui` components with confirmation dialogs for destructive actions
+  - tests validate contract mapping, route behavior, and user-visible state transitions
+- linked docs:
+  - `/docs/12-frontend-architecture/routing.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/12-frontend-architecture/server-state.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: cover status action availability based on current state and confirmation dialog behavior
+  - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
+  - e2e/manual: confirm an organizer can transition a competition through its lifecycle states
+- estimate: `S`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
+- milestone/sprint: `match-scheduling-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/57`
+
+### TKT-058 - Add match generation backend from approved registrations
+
+- ID: `TKT-058`
+- type: `task`
+- epic: `match-scheduling`
+- delivery lane: `backend`
+- affected apps/packages: `apps/api`, `packages/schemas`
+- title: `Add backend match generation from approved registrations for a competition`
+- story/task description: Implement the backend slices needed to generate matches from approved registrations in a closed competition. This ticket should introduce the Match aggregate with its own lifecycle (scheduled, in_progress, completed, cancelled), a match generation use case that creates matches based on competition format (round-robin, elimination, league), and inbound HTTP endpoints for match management. Matches should be scoped to a competition and reference the participating registrations.
+- acceptance criteria:
+  - `apps/api` exposes endpoints for generating, listing, updating, and deleting matches scoped to a competition
+  - the match generation endpoint requires an authenticated session and verifies the user has permission to administer the target competition
+  - match generation requires the competition to be in `closed` status and have at least two approved registrations
+  - `packages/schemas` exposes request and response contracts for all match operations
+  - the Match aggregate enforces invariants: matches belong to one competition, reference valid registrations, and have a valid status
+  - integration tests verify the repository adapter against real PostgreSQL and the HTTP endpoints through NestJS adapter tests
+- linked docs:
+  - `/docs/04-use-cases/use-cases.md`
+  - `/docs/05-architecture/domain-model.md`
+  - `/docs/03-requirements/functional-requirements.md`
+  - `/docs/16-backend-architecture/backend-overview.md`
+  - `/docs/16-backend-architecture/hexagonal-architecture.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-003-backend-architecture.md`
+  - `/docs/07-adrs/adr-004-database-choice.md`
+  - `/docs/07-adrs/adr-005-api-communication-pattern.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+  - `/docs/07-adrs/adr-010-backend-persistence-implementation.md`
+- testing expectations:
+  - unit: cover Match domain invariants and the match generation use case with fakes at the port boundary
+  - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
+- estimate: `L`
+- status: `approved`
+- implementation workflow: `backend`
+- GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `area:matches`, `target:apps-api`, `target:packages-schemas`
+- milestone/sprint: `match-scheduling-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/58`
+
+### TKT-059 - Add match scheduling and result entry UI
+
+- ID: `TKT-059`
+- type: `task`
+- epic: `match-scheduling`
+- delivery lane: `frontend`
+- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
+- title: `Add frontend match scheduling and result entry UI for competition administrators`
+- story/task description: Introduce the match management UI in `apps/web` so competition administrators can view generated matches, schedule match dates/times, and record match results. The scope should add typed API client wrappers for match contracts, a match list view using shared table foundations, inline scheduling controls, and a result entry form with score validation.
+- acceptance criteria:
+  - `packages/api-client` exposes typed client helpers for match listing, scheduling, and result entry contracts
+  - `apps/web` includes a match management view accessible from the competition detail page for administrators
+  - administrators can view all matches for a competition with their current status
+  - administrators can schedule matches by setting date/time
+  - administrators can record match results with score validation
+  - the implementation uses shared `packages/ui` table foundations, form primitives, and feedback components
+  - tests validate contract mapping, table rendering, and user-visible scheduling/result entry flow
+- linked docs:
+  - `/docs/12-frontend-architecture/routing.md`
+  - `/docs/12-frontend-architecture/forms-and-validation.md`
+  - `/docs/12-frontend-architecture/server-state.md`
+  - `/docs/12-frontend-architecture/ui-composition.md`
+- linked ADRs:
+  - `/docs/07-adrs/adr-001-frontend-data-loading-and-contract-coordination.md`
+  - `/docs/07-adrs/adr-002-frontend-architecture.md`
+  - `/docs/07-adrs/adr-009-testing-stack.md`
+- testing expectations:
+  - unit: cover scheduling form-state handling, result validation, and admin access guard
+  - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
+  - e2e/manual: confirm an administrator can schedule matches and record results through the real frontend flow
+- estimate: `L`
+- status: `approved`
+- implementation workflow: `frontend`
+- GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `area:matches`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
+- milestone/sprint: `match-scheduling-sprint`
+- GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/59`

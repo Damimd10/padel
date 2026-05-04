@@ -47,11 +47,15 @@ If this document and the GitHub Project disagree, update both and record the rea
 - `TKT-052` — **DONE**: Frontend participant registration flow delivered. Registration form with category/division selection, typed API client wrappers, and success/error states.
 - `TKT-053` — **DONE**: Frontend registration review and approval UI delivered. Table-based review view, approve/reject actions with category/division adjustment, admin-only access.
 
-## Active Sprint Record: `registration-completion-sprint`
+## Completed Sprint: `registration-completion-sprint`
 
-All tickets from the `competition-structure-sprint` have been completed and merged. The registration lifecycle is now fully implemented end-to-end:
+All tickets from the `competition-structure-sprint` have been completed and merged via PR #61. The registration lifecycle is now fully implemented end-to-end:
 
 - Players can self-register for competitions in `open` status
 - Registrations start in `pending_review` status
 - Administrators can approve (with optional category/division adjustment) or reject registrations
 - Competition detail page shows categories, divisions, registration form, and pending registrations for review
+
+## Next Sprint: `match-scheduling-sprint`
+
+The next sprint should focus on competition status transitions and match generation. See `sprint-plan.md` for the full recommendation.
