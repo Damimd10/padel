@@ -196,3 +196,54 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/tooltip.js";
+export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar.js";
+export {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "./components/dropdown-menu.js";
+export type {
+  DropdownMenuItemProps,
+  DropdownMenuLabelProps,
+} from "./components/dropdown-menu.js";
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+} from "./components/sidebar.js";
+export type {
+  SidebarMenuButtonProps,
+  SidebarMenuSubButtonProps,
+  SidebarProviderProps,
+} from "./components/sidebar.js";

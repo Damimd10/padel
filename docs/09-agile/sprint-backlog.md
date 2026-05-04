@@ -37,16 +37,6 @@ If this document and the GitHub Project disagree, update both and record the rea
 - `TKT-045` (backend forgot-password and reset-password flows) and `TKT-046` (frontend forgot-password and reset-password screens) are delivered as part of the auth self-service sprint.
 - Both `next-ui-package-sprint` and `auth-self-service-foundation-sprint` milestones are complete.
 
-## Completed Sprint: `competition-structure-sprint`
-
-- `TKT-047` — **DONE**: Category CRUD endpoints delivered (PR #56). Domain, use cases, controller, Prisma repo, schemas, tests all present.
-- `TKT-048` — **DONE**: Division CRUD endpoints delivered (PR #58). Domain, use cases, controller, Prisma repo, schemas, tests all present.
-- `TKT-049` — **DONE**: Registration aggregate + create + list delivered (PR #60). Status changed to `pending_review` on creation. Validation for competition state and category/division existence added.
-- `TKT-050` — **DONE**: Registration review/approve/reject endpoints delivered. Status transition use cases, HTTP endpoints, and schemas implemented.
-- `TKT-051` — **DONE**: Competition detail page with category and division management UI delivered. Division CRUD, registration form, and registration review UI included.
-- `TKT-052` — **DONE**: Frontend participant registration flow delivered. Registration form with category/division selection, typed API client wrappers, and success/error states.
-- `TKT-053` — **DONE**: Frontend registration review and approval UI delivered. Table-based review view, approve/reject actions with category/division adjustment, admin-only access.
-
 ## Completed Sprint: `registration-completion-sprint`
 
 All tickets from the `competition-structure-sprint` have been completed and merged via PR #61. The registration lifecycle is now fully implemented end-to-end:
@@ -56,6 +46,20 @@ All tickets from the `competition-structure-sprint` have been completed and merg
 - Administrators can approve (with optional category/division adjustment) or reject registrations
 - Competition detail page shows categories, divisions, registration form, and pending registrations for review
 
+## Completed Sprint: `admin-dashboard-sprint`
+
+Admin dashboard layout and navigation delivered. Key deliverables:
+
+- `packages/ui`: Added Avatar, DropdownMenu, and Sidebar components with full accessibility support
+- `apps/web`: Admin layout with collapsible sidebar, user menu, breadcrumb navigation
+- Admin routes: `/admin`, `/admin/competitions`, `/admin/competitions/create`, `/admin/categories`, `/admin/participants`, `/admin/matches`
+- Placeholder screens for all admin sections with "coming soon" messaging
+
 ## Next Sprint: `match-scheduling-sprint`
 
 The next sprint should focus on competition status transitions and match generation. See `sprint-plan.md` for the full recommendation.
+
+- TKT-056: Competition status transitions backend
+- TKT-057: Competition status UI frontend
+- TKT-058: Match generation backend
+- TKT-059: Match scheduling and result entry UI

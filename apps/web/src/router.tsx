@@ -47,6 +47,9 @@ import {
   useSearch,
 } from "@tanstack/react-router";
 import { useState } from "react";
+import { AdminDashboardScreen } from "./features/admin/admin-dashboard-screen.js";
+import { AdminLayout } from "./features/admin/admin-layout.js";
+import { mapToAdminPageViewModel } from "./features/admin/admin-view-model.js";
 import {
   competitionCategoriesQueryOptions,
   ensureCompetitionCategories,
@@ -66,6 +69,7 @@ import { competitionOverviewQueryOptions } from "./features/competition-operatio
 import { mapCompetitionOverviewToPageModel } from "./features/competition-operations/competition-overview-view-model.js";
 import {
   selectAuthIsLoading,
+  selectAuthUser,
   selectIsAuthenticated,
   useAuthStore,
 } from "./stores/auth-store.js";
@@ -162,6 +166,48 @@ const competitionDetailRoute = createRoute({
   component: CompetitionDetailRouteScreen,
 });
 
+const adminRoute = createRoute({
+  getParentRoute: () => authenticatedRoute,
+  id: "admin",
+  component: AdminRouteScreen,
+});
+
+const adminDashboardRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin",
+  component: AdminDashboardRouteScreen,
+});
+
+const adminCompetitionsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin/competitions",
+  component: AdminCompetitionsPlaceholderScreen,
+});
+
+const adminCreateCompetitionRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin/competitions/create",
+  component: AdminCreateCompetitionPlaceholderScreen,
+});
+
+const adminCategoriesRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin/categories",
+  component: AdminCategoriesPlaceholderScreen,
+});
+
+const adminParticipantsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin/participants",
+  component: AdminParticipantsPlaceholderScreen,
+});
+
+const adminMatchesRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin/matches",
+  component: AdminMatchesPlaceholderScreen,
+});
+
 const routeTree = rootRoute.addChildren([
   signInRoute,
   signUpRoute,
@@ -170,6 +216,14 @@ const routeTree = rootRoute.addChildren([
   authenticatedRoute.addChildren([
     competitionOperationsRoute,
     competitionDetailRoute,
+    adminRoute.addChildren([
+      adminDashboardRoute,
+      adminCompetitionsRoute,
+      adminCreateCompetitionRoute,
+      adminCategoriesRoute,
+      adminParticipantsRoute,
+      adminMatchesRoute,
+    ]),
   ]),
 ]);
 
@@ -693,6 +747,123 @@ function CompetitionOperationsError({ error }: ErrorComponentProps) {
         <InlineAlertDescription>{message}</InlineAlertDescription>
       </InlineAlert>
     </main>
+  );
+}
+
+function AdminRouteScreen() {
+  const { apiClient } = adminRoute.useRouteContext();
+  const { signOut } = useAuthStore();
+  const user = useAuthStore(selectAuthUser);
+  const model = mapToAdminPageViewModel(user);
+
+  return (
+    <AdminLayout
+      model={model}
+      onSignOut={async () => {
+        await signOut(apiClient);
+        window.location.href = "/sign-in";
+      }}
+    >
+      <Outlet />
+    </AdminLayout>
+  );
+}
+
+function AdminDashboardRouteScreen() {
+  return <AdminDashboardScreen />;
+}
+
+function AdminCompetitionsPlaceholderScreen() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">Competitions</h1>
+        <p className="text-muted-foreground">Manage your competitions.</p>
+      </div>
+      <EmptyState variant="info">
+        <EmptyStateEyebrow>Competitions</EmptyStateEyebrow>
+        <EmptyStateTitle>Coming soon</EmptyStateTitle>
+        <EmptyStateDescription>
+          Competition management UI is under development.
+        </EmptyStateDescription>
+      </EmptyState>
+    </div>
+  );
+}
+
+function AdminCreateCompetitionPlaceholderScreen() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Create Competition
+        </h1>
+        <p className="text-muted-foreground">Set up a new competition.</p>
+      </div>
+      <EmptyState variant="info">
+        <EmptyStateEyebrow>Create</EmptyStateEyebrow>
+        <EmptyStateTitle>Coming soon</EmptyStateTitle>
+        <EmptyStateDescription>
+          Competition creation UI is under development.
+        </EmptyStateDescription>
+      </EmptyState>
+    </div>
+  );
+}
+
+function AdminCategoriesPlaceholderScreen() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">Categories</h1>
+        <p className="text-muted-foreground">Manage competition categories.</p>
+      </div>
+      <EmptyState variant="info">
+        <EmptyStateEyebrow>Categories</EmptyStateEyebrow>
+        <EmptyStateTitle>Coming soon</EmptyStateTitle>
+        <EmptyStateDescription>
+          Category management UI is under development.
+        </EmptyStateDescription>
+      </EmptyState>
+    </div>
+  );
+}
+
+function AdminParticipantsPlaceholderScreen() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">Participants</h1>
+        <p className="text-muted-foreground">
+          Manage competition participants.
+        </p>
+      </div>
+      <EmptyState variant="info">
+        <EmptyStateEyebrow>Participants</EmptyStateEyebrow>
+        <EmptyStateTitle>Coming soon</EmptyStateTitle>
+        <EmptyStateDescription>
+          Participant management UI is under development.
+        </EmptyStateDescription>
+      </EmptyState>
+    </div>
+  );
+}
+
+function AdminMatchesPlaceholderScreen() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">Matches</h1>
+        <p className="text-muted-foreground">Manage competition matches.</p>
+      </div>
+      <EmptyState variant="info">
+        <EmptyStateEyebrow>Matches</EmptyStateEyebrow>
+        <EmptyStateTitle>Coming soon</EmptyStateTitle>
+        <EmptyStateDescription>
+          Match management UI is under development.
+        </EmptyStateDescription>
+      </EmptyState>
+    </div>
   );
 }
 
