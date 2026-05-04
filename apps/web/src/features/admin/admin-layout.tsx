@@ -159,7 +159,7 @@ function NavItem({
                     asChild
                     isActive={pathname === subItem.url}
                   >
-                    <Link href={subItem.url}>{subItem.title}</Link>
+                    <Link to={subItem.url}>{subItem.title}</Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
               ))}
@@ -221,7 +221,7 @@ export function AdminLayout({ model, children, onSignOut }: AdminSidebarProps) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
-                <Link href="/admin">
+                <Link to="/admin">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <Medal className="size-4" />
                   </div>
@@ -260,7 +260,7 @@ export function AdminLayout({ model, children, onSignOut }: AdminSidebarProps) {
                       tooltip={item.title}
                       isActive={pathname === item.url}
                     >
-                      <Link href={item.url}>
+                      <Link to={item.url}>
                         <item.icon className="size-4" />
                         <span>{item.title}</span>
                       </Link>
@@ -318,14 +318,14 @@ export function AdminLayout({ model, children, onSignOut }: AdminSidebarProps) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/admin/account">
+                    <Link to="/admin/account">
                       <Settings className="mr-2 size-4" />
                       Account Settings
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/">
+                    <Link to="/">
                       <LogOut className="mr-2 size-4" />
                       Sign Out
                     </Link>
