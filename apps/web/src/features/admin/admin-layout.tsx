@@ -289,7 +289,7 @@ export function AdminLayout({ model, children, onSignOut }: AdminSidebarProps) {
 
         <SidebarRail />
       </Sidebar>
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col md:ml-[--sidebar-width] group-data-[state=collapsed]/sidebar-wrapper:md:ml-[--sidebar-width-icon] transition-[margin] duration-200 ease-linear">
         <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4">
           <SidebarTrigger className="-ml-1" />
           <div className="h-4 w-px bg-border" />
