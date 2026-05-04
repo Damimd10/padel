@@ -143,7 +143,6 @@ export function CompetitionDetailScreen({
   const createCategoryForm = useForm({
     defaultValues: { label: "" },
     validators: {
-      onChange: createCategoryRequestSchema,
       onBlur: createCategoryRequestSchema,
       onSubmit: createCategoryRequestSchema,
     },
@@ -156,7 +155,6 @@ export function CompetitionDetailScreen({
   const editCategoryForm = useForm({
     defaultValues: { label: "" },
     validators: {
-      onChange: updateCategoryRequestSchema,
       onBlur: updateCategoryRequestSchema,
       onSubmit: updateCategoryRequestSchema,
     },
@@ -168,28 +166,26 @@ export function CompetitionDetailScreen({
   });
 
   const createDivisionForm = useForm({
-    defaultValues: { name: "" },
+    defaultValues: { name: "" as "" | "masculino" | "femenino" | "mixto" },
     validators: {
-      onChange: createDivisionRequestSchema,
       onBlur: createDivisionRequestSchema,
       onSubmit: createDivisionRequestSchema,
     },
     onSubmit: async ({ value }) => {
-      await onCreateDivision(value.name.trim());
+      await onCreateDivision(value.name);
       setCreateDivisionOpen(false);
     },
   });
 
   const editDivisionForm = useForm({
-    defaultValues: { name: "" },
+    defaultValues: { name: "" as "" | "masculino" | "femenino" | "mixto" },
     validators: {
-      onChange: updateDivisionRequestSchema,
       onBlur: updateDivisionRequestSchema,
       onSubmit: updateDivisionRequestSchema,
     },
     onSubmit: async ({ value }) => {
       if (!editingDivision) return;
-      await onUpdateDivision(editingDivision.id, value.name.trim());
+      await onUpdateDivision(editingDivision.id, value.name);
       setEditDivisionOpen(false);
     },
   });
@@ -197,7 +193,6 @@ export function CompetitionDetailScreen({
   const registrationForm = useForm({
     defaultValues: { categoryId: "", divisionId: "" },
     validators: {
-      onChange: createRegistrationRequestSchema,
       onBlur: createRegistrationRequestSchema,
       onSubmit: createRegistrationRequestSchema,
     },
@@ -284,7 +279,21 @@ export function CompetitionDetailScreen({
   function openEditDivision(division: { id: string; name: string }) {
     setEditingDivision(division);
     editDivisionForm.reset();
-    editDivisionForm.setFieldValue("name", division.name);
+    const nameMap: Record<string, string> = {
+      Masculino: "masculino",
+      Femenino: "femenino",
+      Mixto: "mixto",
+      masculino: "masculino",
+      femenino: "femenino",
+      mixto: "mixto",
+    };
+    editDivisionForm.setFieldValue(
+      "name",
+      (nameMap[division.name] ?? division.name) as
+        | "masculino"
+        | "femenino"
+        | "mixto",
+    );
     setEditDivisionOpen(true);
     clearError();
   }
@@ -824,16 +833,23 @@ export function CompetitionDetailScreen({
                       {(field) => (
                         <Field
                           id="new-division-name"
-                          label="Name"
+                          label="Division"
                           required
                           error={getFieldError(field.state.meta.errors)}
                         >
-                          <Input
+                          <Select
                             value={field.state.value}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                            placeholder="e.g. Men, Women, Mixed"
-                            autoFocus
-                          />
+                            onValueChange={(value) =>
+                              field.handleChange(
+                                value as "masculino" | "femenino" | "mixto",
+                              )
+                            }
+                          >
+                            <option value="">Select a division</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="mixto">Mixto</option>
+                          </Select>
                         </Field>
                       )}
                     </createDivisionForm.Field>
@@ -1045,16 +1061,23 @@ export function CompetitionDetailScreen({
                   {(field) => (
                     <Field
                       id="edit-division-name"
-                      label="Name"
+                      label="Division"
                       required
                       error={getFieldError(field.state.meta.errors)}
                     >
-                      <Input
+                      <Select
                         value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Division name"
-                        autoFocus
-                      />
+                        onValueChange={(value) =>
+                          field.handleChange(
+                            value as "masculino" | "femenino" | "mixto",
+                          )
+                        }
+                      >
+                        <option value="">Select a division</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="mixto">Mixto</option>
+                      </Select>
                     </Field>
                   )}
                 </editDivisionForm.Field>

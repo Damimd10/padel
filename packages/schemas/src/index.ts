@@ -241,15 +241,17 @@ export type UpdateCategoryRequest = z.infer<typeof updateCategoryRequestSchema>;
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>;
 export type CategoryCollection = z.infer<typeof categoryCollectionSchema>;
 
+export const divisionNameSchema = z.enum(["masculino", "femenino", "mixto"]);
+
 export const createDivisionRequestSchema = z
   .object({
-    name: z.string().trim().min(1),
+    name: divisionNameSchema,
   })
   .strict();
 
 export const updateDivisionRequestSchema = z
   .object({
-    name: z.string().trim().min(1),
+    name: divisionNameSchema,
   })
   .strict();
 
@@ -257,7 +259,7 @@ export const divisionResponseSchema = z
   .object({
     id: z.string().uuid(),
     competitionId: z.string().uuid(),
-    name: z.string(),
+    name: divisionNameSchema,
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
   })
@@ -265,6 +267,7 @@ export const divisionResponseSchema = z
 
 export const divisionCollectionSchema = z.array(divisionResponseSchema);
 
+export type DivisionName = z.infer<typeof divisionNameSchema>;
 export type CreateDivisionRequest = z.infer<typeof createDivisionRequestSchema>;
 export type UpdateDivisionRequest = z.infer<typeof updateDivisionRequestSchema>;
 export type DivisionResponse = z.infer<typeof divisionResponseSchema>;

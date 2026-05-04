@@ -41,7 +41,7 @@ export function TableContainer({
   return (
     <div
       className={cn(
-        "overflow-x-auto rounded-[1.6rem] border border-border/80 bg-card p-3 shadow-sm",
+        "overflow-x-auto rounded-lg border border-border/80 bg-card p-3 shadow-sm",
         className,
       )}
       data-slot="table-container"

@@ -11,13 +11,13 @@ describe("CreateDivisionUseCase", () => {
 
     const result = await useCase.execute({
       competitionId: "comp-1",
-      name: "Masculino",
+      name: "masculino",
     } satisfies CreateDivisionCommand);
 
     expect(result).toMatchObject({
       id: "division-123",
       competitionId: "comp-1",
-      name: "Masculino",
+      name: "masculino",
     });
     expect(repository.created).toHaveLength(1);
   });

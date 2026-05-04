@@ -1,6 +1,7 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import type { DivisionResponse } from "@padel/schemas";
 
+import { Division, type DivisionName } from "../domain/division.js";
 import {
   type DivisionRepository,
   DivisionRepositoryToken,
@@ -8,7 +9,7 @@ import {
 
 export interface UpdateDivisionCommand {
   divisionId: string;
-  name: string;
+  name: DivisionName;
 }
 
 @Injectable()

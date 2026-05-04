@@ -35,7 +35,7 @@ export function InlineMetadataList({
   return (
     <dl
       className={cn(
-        "flex flex-wrap gap-x-6 gap-y-4 rounded-2xl border border-border/70 bg-card/70 px-4 py-3",
+        "flex flex-wrap gap-x-6 gap-y-4 rounded-lg border border-border/70 bg-card/70 px-4 py-3",
         className,
       )}
       data-slot="inline-metadata-list"

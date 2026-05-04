@@ -50,6 +50,7 @@ import { useState } from "react";
 import { AdminDashboardScreen } from "./features/admin/admin-dashboard-screen.js";
 import { AdminLayout } from "./features/admin/admin-layout.js";
 import { mapToAdminPageViewModel } from "./features/admin/admin-view-model.js";
+import { AdminCategoriesScreen } from "./features/admin/categories/admin-categories-screen.js";
 import {
   competitionMatchesQueryOptions,
   ensureCompetitionMatches,
@@ -131,8 +132,8 @@ const authenticatedRoute = createRoute({
 });
 
 const competitionOperationsRoute = createRoute({
-  getParentRoute: () => authenticatedRoute,
-  path: "/competitions/operations",
+  getParentRoute: () => adminRoute,
+  path: "/competitions",
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(
       competitionOverviewQueryOptions(context.apiClient),
@@ -144,7 +145,7 @@ const competitionOperationsRoute = createRoute({
 });
 
 const competitionDetailRoute = createRoute({
-  getParentRoute: () => authenticatedRoute,
+  getParentRoute: () => adminRoute,
   path: "/competitions/$competitionId",
   loader: async ({ params, context }) => {
     const [overview, categories, divisions, registrations] = await Promise.all([
@@ -183,49 +184,37 @@ const competitionDetailRoute = createRoute({
 
 const adminRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
-  id: "admin",
+  path: "/admin",
   component: AdminRouteScreen,
 });
 
 const adminDashboardRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: "/admin",
+  path: "/",
   component: AdminDashboardRouteScreen,
-});
-
-const adminCompetitionsRoute = createRoute({
-  getParentRoute: () => adminRoute,
-  path: "/admin/competitions",
-  component: AdminCompetitionsPlaceholderScreen,
-});
-
-const adminCreateCompetitionRoute = createRoute({
-  getParentRoute: () => adminRoute,
-  path: "/admin/competitions/create",
-  component: AdminCreateCompetitionPlaceholderScreen,
 });
 
 const adminCategoriesRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: "/admin/categories",
-  component: AdminCategoriesPlaceholderScreen,
+  path: "/categories",
+  component: AdminCategoriesScreen,
 });
 
 const adminParticipantsRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: "/admin/participants",
+  path: "/participants",
   component: AdminParticipantsPlaceholderScreen,
 });
 
 const adminMatchesRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: "/admin/matches",
+  path: "/matches",
   component: AdminMatchesPlaceholderScreen,
 });
 
 const adminCompetitionMatchRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: "/admin/competitions/$competitionId/matches",
+  path: "/competitions/$competitionId/matches",
   loader: async ({ params, context }) => {
     const matches = await ensureCompetitionMatches(
       context.queryClient,
@@ -246,12 +235,10 @@ const routeTree = rootRoute.addChildren([
   forgetPasswordRoute,
   resetPasswordRoute,
   authenticatedRoute.addChildren([
-    competitionOperationsRoute,
-    competitionDetailRoute,
     adminRoute.addChildren([
       adminDashboardRoute,
-      adminCompetitionsRoute,
-      adminCreateCompetitionRoute,
+      competitionOperationsRoute,
+      competitionDetailRoute,
       adminCategoriesRoute,
       adminParticipantsRoute,
       adminMatchesRoute,
@@ -315,7 +302,7 @@ function SignInScreen() {
       clearError();
       try {
         await signIn(apiClient, value.email, value.password);
-        await navigate({ to: "/competitions/operations" });
+        await navigate({ to: "/admin" });
       } catch {
         // Error is captured in store
       }
@@ -427,7 +414,7 @@ function SignUpScreen() {
       clearError();
       try {
         await signUp(apiClient, value.name, value.email, value.password);
-        await navigate({ to: "/competitions/operations" });
+        await navigate({ to: "/admin" });
       } catch {
         // Error is captured in store
       }
@@ -844,24 +831,6 @@ function AdminCreateCompetitionPlaceholderScreen() {
   );
 }
 
-function AdminCategoriesPlaceholderScreen() {
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Categories</h1>
-        <p className="text-muted-foreground">Manage competition categories.</p>
-      </div>
-      <EmptyState variant="info">
-        <EmptyStateEyebrow>Categories</EmptyStateEyebrow>
-        <EmptyStateTitle>Coming soon</EmptyStateTitle>
-        <EmptyStateDescription>
-          Category management UI is under development.
-        </EmptyStateDescription>
-      </EmptyState>
-    </div>
-  );
-}
-
 function AdminParticipantsPlaceholderScreen() {
   return (
     <div className="space-y-6">
@@ -904,6 +873,7 @@ function CompetitionDetailRouteScreen() {
   const { apiClient, queryClient } = competitionDetailRoute.useRouteContext();
   const { competitionId } = competitionDetailRoute.useParams();
   const loaderData = competitionDetailRoute.useLoaderData();
+  const navigate = useNavigate();
   const { data: categories } = useSuspenseQuery(
     competitionCategoriesQueryOptions(apiClient, competitionId),
   );
@@ -1082,6 +1052,7 @@ function CompetitionDetailRouteScreen() {
       queryClient.invalidateQueries({
         queryKey: ["competitions"],
       });
+      navigate({ to: "/admin" });
     },
     onError: () => {
       setError("Failed to cancel competition. Please try again.");

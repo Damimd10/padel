@@ -27,7 +27,7 @@ export type AggregateDivision = {
 export type DivisionMinAggregateOutputType = {
   id: string | null
   competitionId: string | null
-  name: string | null
+  name: $Enums.DivisionName | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -35,7 +35,7 @@ export type DivisionMinAggregateOutputType = {
 export type DivisionMaxAggregateOutputType = {
   id: string | null
   competitionId: string | null
-  name: string | null
+  name: $Enums.DivisionName | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -150,7 +150,7 @@ export type DivisionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type DivisionGroupByOutputType = {
   id: string
   competitionId: string
-  name: string
+  name: $Enums.DivisionName
   createdAt: Date
   updatedAt: Date
   _count: DivisionCountAggregateOutputType | null
@@ -179,7 +179,7 @@ export type DivisionWhereInput = {
   NOT?: Prisma.DivisionWhereInput | Prisma.DivisionWhereInput[]
   id?: Prisma.StringFilter<"Division"> | string
   competitionId?: Prisma.StringFilter<"Division"> | string
-  name?: Prisma.StringFilter<"Division"> | string
+  name?: Prisma.EnumDivisionNameFilter<"Division"> | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   competition?: Prisma.XOR<Prisma.CompetitionScalarRelationFilter, Prisma.CompetitionWhereInput>
@@ -201,7 +201,7 @@ export type DivisionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DivisionWhereInput[]
   NOT?: Prisma.DivisionWhereInput | Prisma.DivisionWhereInput[]
   competitionId?: Prisma.StringFilter<"Division"> | string
-  name?: Prisma.StringFilter<"Division"> | string
+  name?: Prisma.EnumDivisionNameFilter<"Division"> | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   competition?: Prisma.XOR<Prisma.CompetitionScalarRelationFilter, Prisma.CompetitionWhereInput>
@@ -224,14 +224,14 @@ export type DivisionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DivisionScalarWhereWithAggregatesInput | Prisma.DivisionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Division"> | string
   competitionId?: Prisma.StringWithAggregatesFilter<"Division"> | string
-  name?: Prisma.StringWithAggregatesFilter<"Division"> | string
+  name?: Prisma.EnumDivisionNameWithAggregatesFilter<"Division"> | $Enums.DivisionName
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Division"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Division"> | Date | string
 }
 
 export type DivisionCreateInput = {
   id?: string
-  name: string
+  name: $Enums.DivisionName
   createdAt?: Date | string
   updatedAt?: Date | string
   competition: Prisma.CompetitionCreateNestedOneWithoutDivisionsInput
@@ -240,14 +240,14 @@ export type DivisionCreateInput = {
 export type DivisionUncheckedCreateInput = {
   id?: string
   competitionId: string
-  name: string
+  name: $Enums.DivisionName
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type DivisionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   competition?: Prisma.CompetitionUpdateOneRequiredWithoutDivisionsNestedInput
@@ -256,7 +256,7 @@ export type DivisionUpdateInput = {
 export type DivisionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competitionId?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -264,14 +264,14 @@ export type DivisionUncheckedUpdateInput = {
 export type DivisionCreateManyInput = {
   id?: string
   competitionId: string
-  name: string
+  name: $Enums.DivisionName
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type DivisionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -279,7 +279,7 @@ export type DivisionUpdateManyMutationInput = {
 export type DivisionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competitionId?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -296,7 +296,7 @@ export type DivisionOrderByRelationAggregateInput = {
 
 export type DivisionCompetitionIdNameCompoundUniqueInput = {
   competitionId: string
-  name: string
+  name: $Enums.DivisionName
 }
 
 export type DivisionCountOrderByAggregateInput = {
@@ -365,16 +365,20 @@ export type DivisionUncheckedUpdateManyWithoutCompetitionNestedInput = {
   deleteMany?: Prisma.DivisionScalarWhereInput | Prisma.DivisionScalarWhereInput[]
 }
 
+export type EnumDivisionNameFieldUpdateOperationsInput = {
+  set?: $Enums.DivisionName
+}
+
 export type DivisionCreateWithoutCompetitionInput = {
   id?: string
-  name: string
+  name: $Enums.DivisionName
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type DivisionUncheckedCreateWithoutCompetitionInput = {
   id?: string
-  name: string
+  name: $Enums.DivisionName
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -411,35 +415,35 @@ export type DivisionScalarWhereInput = {
   NOT?: Prisma.DivisionScalarWhereInput | Prisma.DivisionScalarWhereInput[]
   id?: Prisma.StringFilter<"Division"> | string
   competitionId?: Prisma.StringFilter<"Division"> | string
-  name?: Prisma.StringFilter<"Division"> | string
+  name?: Prisma.EnumDivisionNameFilter<"Division"> | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Division"> | Date | string
 }
 
 export type DivisionCreateManyCompetitionInput = {
   id?: string
-  name: string
+  name: $Enums.DivisionName
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type DivisionUpdateWithoutCompetitionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DivisionUncheckedUpdateWithoutCompetitionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DivisionUncheckedUpdateManyWithoutCompetitionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.EnumDivisionNameFieldUpdateOperationsInput | $Enums.DivisionName
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -500,7 +504,7 @@ export type $DivisionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     competitionId: string
-    name: string
+    name: $Enums.DivisionName
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["division"]>
@@ -929,7 +933,7 @@ export interface Prisma__DivisionClient<T, Null = never, ExtArgs extends runtime
 export interface DivisionFieldRefs {
   readonly id: Prisma.FieldRef<"Division", 'String'>
   readonly competitionId: Prisma.FieldRef<"Division", 'String'>
-  readonly name: Prisma.FieldRef<"Division", 'String'>
+  readonly name: Prisma.FieldRef<"Division", 'DivisionName'>
   readonly createdAt: Prisma.FieldRef<"Division", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Division", 'DateTime'>
 }

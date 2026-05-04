@@ -3,7 +3,7 @@ import { divisionCollectionSchema } from "@padel/schemas";
 
 import { PrismaService } from "../../../prisma/prisma.service.js";
 import type { DivisionRepository } from "../../application/ports/division-repository.js";
-import { Division } from "../../domain/division.js";
+import { Division, type DivisionName } from "../../domain/division.js";
 
 @Injectable()
 export class PrismaDivisionRepository implements DivisionRepository {
@@ -56,7 +56,7 @@ export class PrismaDivisionRepository implements DivisionRepository {
     return Division.restore({
       id: row.id,
       competitionId: row.competitionId,
-      name: row.name,
+      name: row.name as DivisionName,
       createdAt: row.createdAt.toISOString(),
       updatedAt: row.updatedAt.toISOString(),
     });

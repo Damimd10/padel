@@ -9,7 +9,7 @@ describe("UpdateDivisionUseCase", () => {
   it("updates an existing division", async () => {
     const repository = new FakeDivisionRepository();
     const division = Division.create(
-      { competitionId: "comp-1", name: "Masculino" },
+      { competitionId: "comp-1", name: "masculino" },
       "div-1",
       new Date().toISOString(),
     );
@@ -19,12 +19,12 @@ describe("UpdateDivisionUseCase", () => {
 
     const result = await useCase.execute({
       divisionId: "div-1",
-      name: "Femenino",
+      name: "femenino",
     } satisfies UpdateDivisionCommand);
 
     expect(result).toMatchObject({
       id: "div-1",
-      name: "Femenino",
+      name: "femenino",
     });
     expect(repository.updated).toHaveLength(1);
   });
@@ -36,7 +36,7 @@ describe("UpdateDivisionUseCase", () => {
     await expect(
       useCase.execute({
         divisionId: "non-existent",
-        name: "Femenino",
+        name: "femenino",
       } satisfies UpdateDivisionCommand),
     ).rejects.toThrow("Division not found.");
   });

@@ -46,7 +46,7 @@ export function KeyValueSummaryBlock({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-border/80 bg-card text-card-foreground shadow-sm",
+        "rounded-lg border border-border/80 bg-card text-card-foreground shadow-sm",
         className,
       )}
       data-slot="key-value-summary-block"

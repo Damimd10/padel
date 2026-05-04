@@ -106,6 +106,23 @@ export type EnumCompetitionStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumCompetitionStatusFilter<$PrismaModel>
 }
 
+export type EnumDivisionNameFilter<$PrismaModel = never> = {
+  equals?: $Enums.DivisionName | Prisma.EnumDivisionNameFieldRefInput<$PrismaModel>
+  in?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDivisionNameFilter<$PrismaModel> | $Enums.DivisionName
+}
+
+export type EnumDivisionNameWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DivisionName | Prisma.EnumDivisionNameFieldRefInput<$PrismaModel>
+  in?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDivisionNameWithAggregatesFilter<$PrismaModel> | $Enums.DivisionName
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDivisionNameFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDivisionNameFilter<$PrismaModel>
+}
+
 export type EnumRegistrationStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.RegistrationStatus | Prisma.EnumRegistrationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.RegistrationStatus[] | Prisma.ListEnumRegistrationStatusFieldRefInput<$PrismaModel>
@@ -342,6 +359,23 @@ export type NestedEnumCompetitionStatusWithAggregatesFilter<$PrismaModel = never
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumCompetitionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumCompetitionStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumDivisionNameFilter<$PrismaModel = never> = {
+  equals?: $Enums.DivisionName | Prisma.EnumDivisionNameFieldRefInput<$PrismaModel>
+  in?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDivisionNameFilter<$PrismaModel> | $Enums.DivisionName
+}
+
+export type NestedEnumDivisionNameWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DivisionName | Prisma.EnumDivisionNameFieldRefInput<$PrismaModel>
+  in?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DivisionName[] | Prisma.ListEnumDivisionNameFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDivisionNameWithAggregatesFilter<$PrismaModel> | $Enums.DivisionName
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDivisionNameFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDivisionNameFilter<$PrismaModel>
 }
 
 export type NestedEnumRegistrationStatusFilter<$PrismaModel = never> = {

@@ -63,12 +63,18 @@ export function mapCategoriesToRowViewModel(
   }));
 }
 
+const DIVISION_LABELS: Record<string, string> = {
+  masculino: "Masculino",
+  femenino: "Femenino",
+  mixto: "Mixto",
+};
+
 export function mapDivisionsToRowViewModel(
   divisions: DivisionCollection,
 ): DivisionRowViewModel[] {
   return divisions.map((division: DivisionResponse) => ({
     id: division.id,
-    name: division.name,
+    name: DIVISION_LABELS[division.name] ?? division.name,
     createdAt: division.createdAt,
     updatedAt: division.updatedAt,
     rowState: "default",

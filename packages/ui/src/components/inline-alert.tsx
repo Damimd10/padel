@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "../lib/utils.js";
 
 export const inlineAlertVariants = cva(
-  "grid gap-3 rounded-xl border px-4 py-4 shadow-sm",
+  "grid gap-3 rounded-lg border px-4 py-4 shadow-sm",
   {
     variants: {
       variant: {

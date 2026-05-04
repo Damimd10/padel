@@ -1335,6 +1335,20 @@ export type ListEnumCompetitionStatusFieldRefInput<$PrismaModel> = FieldRefInput
 
 
 /**
+ * Reference to a field of type 'DivisionName'
+ */
+export type EnumDivisionNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DivisionName'>
+    
+
+
+/**
+ * Reference to a field of type 'DivisionName[]'
+ */
+export type ListEnumDivisionNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DivisionName[]'>
+    
+
+
+/**
  * Reference to a field of type 'RegistrationStatus'
  */
 export type EnumRegistrationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RegistrationStatus'>

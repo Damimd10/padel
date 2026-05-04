@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import type { DivisionResponse } from "@padel/schemas";
 
-import { Division } from "../domain/division.js";
+import { Division, type DivisionName } from "../domain/division.js";
 import {
   type DivisionRepository,
   DivisionRepositoryToken,
@@ -9,7 +9,7 @@ import {
 
 export interface CreateDivisionCommand {
   competitionId: string;
-  name: string;
+  name: DivisionName;
 }
 
 @Injectable()

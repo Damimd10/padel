@@ -11,7 +11,7 @@ describe("ListDivisionsUseCase", () => {
           {
             id: "div-1",
             competitionId: "comp-1",
-            name: "Masculino",
+            name: "masculino",
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           },
@@ -25,7 +25,7 @@ describe("ListDivisionsUseCase", () => {
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject({
       id: "div-1",
-      name: "Masculino",
+      name: "masculino",
     });
   });
 

@@ -21,6 +21,12 @@ enum CompetitionStatus {
   cancelled
 }
 
+enum DivisionName {
+  masculino
+  femenino
+  mixto
+}
+
 enum RegistrationStatus {
   registered
   pending_review
@@ -69,7 +75,7 @@ model Division {
   id             String       @id @default(uuid())
   competitionId  String
   competition    Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
-  name           String
+  name           DivisionName
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 

@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 
 import {
   type CompetitionRepository,
@@ -27,7 +32,14 @@ export class CancelCompetitionUseCase {
       throw new NotFoundException("Competition not found.");
     }
 
-    competition.cancel();
+    try {
+      competition.cancel();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
 
     await this.competitionRepository.save(competition);
 

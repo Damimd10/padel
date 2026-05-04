@@ -14,7 +14,7 @@ const PopoverContent = React.forwardRef<
     <PopoverPrimitive.Content
       align={align}
       className={cn(
-        "z-50 w-72 rounded-[calc(var(--radius)+0.1rem)] border bg-card p-4 text-card-foreground shadow-xl outline-hidden transition-[opacity,transform] duration-150 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
+        "z-50 w-72 rounded-lg border bg-card p-4 text-card-foreground shadow-xl outline-hidden transition-[opacity,transform] duration-150 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
         className,
       )}
       data-slot="popover-content"

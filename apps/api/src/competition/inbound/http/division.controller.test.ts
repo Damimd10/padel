@@ -31,7 +31,7 @@ describe("DivisionController", () => {
               {
                 id: "11111111-1111-4111-8111-111111111113",
                 competitionId,
-                name: "Masculino",
+                name: "masculino",
                 createdAt: "2026-05-03T10:00:00.000Z",
                 updatedAt: "2026-05-03T10:00:00.000Z",
               },
@@ -68,7 +68,7 @@ describe("DivisionController", () => {
       .expect(({ body }: { body: unknown }) => {
         expect(body).toHaveLength(1);
         expect((body as Array<Record<string, unknown>>)[0]).toMatchObject({
-          name: "Masculino",
+          name: "masculino",
         });
       });
 
@@ -124,13 +124,13 @@ describe("DivisionController", () => {
 
     await request(app.getHttpServer())
       .post(`/competitions/${competitionId}/divisions`)
-      .send({ name: "Femenino" })
+      .send({ name: "femenino" })
       .expect(201)
       .expect(({ body }: { body: unknown }) => {
         expect(body).toMatchObject({
           id: "11111111-1111-4111-8111-111111111112",
           competitionId,
-          name: "Femenino",
+          name: "femenino",
         });
       });
 
@@ -184,12 +184,12 @@ describe("DivisionController", () => {
 
     await request(app.getHttpServer())
       .patch(`/competitions/${competitionId}/divisions/${divisionId}`)
-      .send({ name: "Mixto" })
+      .send({ name: "mixto" })
       .expect(200)
       .expect(({ body }: { body: unknown }) => {
         expect(body).toMatchObject({
           id: "11111111-1111-4111-8111-111111111114",
-          name: "Mixto",
+          name: "mixto",
         });
       });
 

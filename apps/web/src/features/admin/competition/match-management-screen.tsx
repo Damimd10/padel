@@ -90,7 +90,6 @@ export function MatchManagementScreen({
   const scheduleForm = useForm({
     defaultValues: { scheduledAt: "" },
     validators: {
-      onChange: scheduleMatchRequestSchema,
       onBlur: scheduleMatchRequestSchema,
       onSubmit: scheduleMatchRequestSchema,
     },
@@ -104,7 +103,6 @@ export function MatchManagementScreen({
   const completeForm = useForm({
     defaultValues: { scoreA: 0, scoreB: 0 },
     validators: {
-      onChange: completeMatchRequestSchema,
       onBlur: completeMatchRequestSchema,
       onSubmit: completeMatchRequestSchema,
     },
