@@ -291,10 +291,20 @@ export const registrationResponseSchema = z
 
 export const registrationCollectionSchema = z.array(registrationResponseSchema);
 
+export const reviewRegistrationRequestSchema = z
+  .object({
+    categoryId: z.string().uuid().optional(),
+    divisionId: z.string().uuid().optional(),
+  })
+  .strict();
+
 export type CreateRegistrationRequest = z.infer<
   typeof createRegistrationRequestSchema
 >;
 export type RegistrationResponse = z.infer<typeof registrationResponseSchema>;
 export type RegistrationCollection = z.infer<
   typeof registrationCollectionSchema
+>;
+export type ReviewRegistrationRequest = z.infer<
+  typeof reviewRegistrationRequestSchema
 >;

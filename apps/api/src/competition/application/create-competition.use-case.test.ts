@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 
+import type { Competition } from "../domain/competition.js";
 import type { CreateCompetitionCommand } from "./create-competition.command.js";
 import { CreateCompetitionUseCase } from "./create-competition.use-case.js";
 import type { CompetitionRepository } from "./ports/competition-repository.js";
 
 class FakeCompetitionRepository implements CompetitionRepository {
   created: unknown[] = [];
+  private findResult: Competition | null = null;
 
   async nextId() {
     return "competition-123";
@@ -19,6 +21,10 @@ class FakeCompetitionRepository implements CompetitionRepository {
 
   async listOverview() {
     return [];
+  }
+
+  async findById(): Promise<Competition | null> {
+    return this.findResult;
   }
 }
 

@@ -1,4 +1,11 @@
-import type { CategoryCollection, CategoryResponse } from "@padel/schemas";
+import type {
+  CategoryCollection,
+  CategoryResponse,
+  DivisionCollection,
+  DivisionResponse,
+  RegistrationCollection,
+  RegistrationResponse,
+} from "@padel/schemas";
 import type { TableRowState } from "@padel/ui";
 
 export interface CategoryRowViewModel {
@@ -9,10 +16,35 @@ export interface CategoryRowViewModel {
   rowState: TableRowState;
 }
 
+export interface DivisionRowViewModel {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  rowState: TableRowState;
+}
+
+export interface RegistrationRowViewModel {
+  id: string;
+  participantId: string;
+  categoryId: string;
+  divisionId: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  rowState: TableRowState;
+}
+
 export interface CompetitionDetailPageViewModel {
   competitionId: string;
   categories: CategoryRowViewModel[];
   hasCategories: boolean;
+  divisions: DivisionRowViewModel[];
+  hasDivisions: boolean;
+  registrations: RegistrationRowViewModel[];
+  hasRegistrations: boolean;
+  pendingRegistrations: RegistrationRowViewModel[];
+  hasPendingRegistrations: boolean;
 }
 
 export function mapCategoriesToRowViewModel(
@@ -27,13 +59,53 @@ export function mapCategoriesToRowViewModel(
   }));
 }
 
+export function mapDivisionsToRowViewModel(
+  divisions: DivisionCollection,
+): DivisionRowViewModel[] {
+  return divisions.map((division: DivisionResponse) => ({
+    id: division.id,
+    name: division.name,
+    createdAt: division.createdAt,
+    updatedAt: division.updatedAt,
+    rowState: "default",
+  }));
+}
+
+export function mapRegistrationsToRowViewModel(
+  registrations: RegistrationCollection,
+): RegistrationRowViewModel[] {
+  return registrations.map((registration: RegistrationResponse) => ({
+    id: registration.id,
+    participantId: registration.participantId,
+    categoryId: registration.categoryId,
+    divisionId: registration.divisionId,
+    status: registration.status,
+    createdAt: registration.createdAt,
+    updatedAt: registration.updatedAt,
+    rowState: "default",
+  }));
+}
+
 export function mapToCompetitionDetailPageModel(
   competitionId: string,
   categories: CategoryCollection,
+  divisions: DivisionCollection,
+  registrations: RegistrationCollection,
 ): CompetitionDetailPageViewModel {
+  const registrationRows = mapRegistrationsToRowViewModel(registrations);
+  const pendingRegistrations = registrationRows.filter(
+    (r) => r.status === "pending_review",
+  );
+
   return {
     competitionId,
     categories: mapCategoriesToRowViewModel(categories),
     hasCategories: categories.length > 0,
+    divisions: mapDivisionsToRowViewModel(divisions),
+    hasDivisions: divisions.length > 0,
+    registrations: registrationRows,
+    hasRegistrations: registrations.length > 0,
+    pendingRegistrations,
+    hasPendingRegistrations: pendingRegistrations.length > 0,
   };
 }

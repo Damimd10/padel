@@ -53,6 +53,14 @@ import {
 } from "./features/competition-detail/competition-categories-query.js";
 import { CompetitionDetailScreen } from "./features/competition-detail/competition-detail-screen.js";
 import { mapToCompetitionDetailPageModel } from "./features/competition-detail/competition-detail-view-model.js";
+import {
+  competitionDivisionsQueryOptions,
+  ensureCompetitionDivisions,
+} from "./features/competition-detail/competition-divisions-query.js";
+import {
+  competitionRegistrationsQueryOptions,
+  ensureCompetitionRegistrations,
+} from "./features/competition-detail/competition-registrations-query.js";
 import { CompetitionOperationsScreen } from "./features/competition-operations/competition-operations-screen.js";
 import { competitionOverviewQueryOptions } from "./features/competition-operations/competition-overview-query.js";
 import { mapCompetitionOverviewToPageModel } from "./features/competition-operations/competition-overview-view-model.js";
@@ -128,12 +136,26 @@ const competitionOperationsRoute = createRoute({
 const competitionDetailRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: "/competitions/$competitionId",
-  loader: ({ params, context }) =>
-    ensureCompetitionCategories(
-      context.queryClient,
-      context.apiClient,
-      params.competitionId,
-    ),
+  loader: async ({ params, context }) => {
+    const [categories, divisions, registrations] = await Promise.all([
+      ensureCompetitionCategories(
+        context.queryClient,
+        context.apiClient,
+        params.competitionId,
+      ),
+      ensureCompetitionDivisions(
+        context.queryClient,
+        context.apiClient,
+        params.competitionId,
+      ),
+      ensureCompetitionRegistrations(
+        context.queryClient,
+        context.apiClient,
+        params.competitionId,
+      ),
+    ]);
+    return { categories, divisions, registrations };
+  },
   pendingComponent: CompetitionDetailPending,
   pendingMs: 0,
   errorComponent: CompetitionDetailError,
@@ -677,13 +699,19 @@ function CompetitionOperationsError({ error }: ErrorComponentProps) {
 function CompetitionDetailRouteScreen() {
   const { apiClient, queryClient } = competitionDetailRoute.useRouteContext();
   const { competitionId } = competitionDetailRoute.useParams();
-  const { data } = useSuspenseQuery(
+  const { data: categories } = useSuspenseQuery(
     competitionCategoriesQueryOptions(apiClient, competitionId),
+  );
+  const { data: divisions } = useSuspenseQuery(
+    competitionDivisionsQueryOptions(apiClient, competitionId),
+  );
+  const { data: registrations } = useSuspenseQuery(
+    competitionRegistrationsQueryOptions(apiClient, competitionId),
   );
 
   const [error, setError] = useState<string | null>(null);
 
-  const createMutation = useMutation({
+  const createCategoryMutation = useMutation({
     mutationFn: (label: string) =>
       apiClient.createCategory(competitionId, { label }),
     onSuccess: () => {
@@ -696,7 +724,7 @@ function CompetitionDetailRouteScreen() {
     },
   });
 
-  const updateMutation = useMutation({
+  const updateCategoryMutation = useMutation({
     mutationFn: ({ id, label }: { id: string; label: string }) =>
       apiClient.updateCategory(competitionId, id, { label }),
     onSuccess: () => {
@@ -709,7 +737,7 @@ function CompetitionDetailRouteScreen() {
     },
   });
 
-  const deleteMutation = useMutation({
+  const deleteCategoryMutation = useMutation({
     mutationFn: (id: string) => apiClient.deleteCategory(competitionId, id),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -723,21 +751,158 @@ function CompetitionDetailRouteScreen() {
     },
   });
 
+  const createDivisionMutation = useMutation({
+    mutationFn: (name: string) =>
+      apiClient.createDivision(competitionId, { name }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "divisions"],
+      });
+    },
+    onError: () => {
+      setError("Failed to create division. Please try again.");
+    },
+  });
+
+  const updateDivisionMutation = useMutation({
+    mutationFn: ({ id, name }: { id: string; name: string }) =>
+      apiClient.updateDivision(competitionId, id, { name }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "divisions"],
+      });
+    },
+    onError: () => {
+      setError("Failed to update division. Please try again.");
+    },
+  });
+
+  const deleteDivisionMutation = useMutation({
+    mutationFn: (id: string) => apiClient.deleteDivision(competitionId, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "divisions"],
+      });
+    },
+    onError: () => {
+      setError(
+        "Failed to delete division. It may be referenced by registrations.",
+      );
+    },
+  });
+
+  const createRegistrationMutation = useMutation({
+    mutationFn: ({
+      categoryId,
+      divisionId,
+    }: {
+      categoryId: string;
+      divisionId: string;
+    }) =>
+      apiClient.createRegistration(competitionId, { categoryId, divisionId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "registrations"],
+      });
+    },
+    onError: () => {
+      setError("Failed to register. Please try again.");
+    },
+  });
+
+  const approveRegistrationMutation = useMutation({
+    mutationFn: ({
+      registrationId,
+      categoryId,
+      divisionId,
+    }: {
+      registrationId: string;
+      categoryId?: string;
+      divisionId?: string;
+    }) =>
+      apiClient.approveRegistration(competitionId, registrationId, {
+        categoryId,
+        divisionId,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "registrations"],
+      });
+    },
+    onError: () => {
+      setError("Failed to approve registration. Please try again.");
+    },
+  });
+
+  const rejectRegistrationMutation = useMutation({
+    mutationFn: (registrationId: string) =>
+      apiClient.rejectRegistration(competitionId, registrationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "registrations"],
+      });
+    },
+    onError: () => {
+      setError("Failed to reject registration. Please try again.");
+    },
+  });
+
   return (
     <CompetitionDetailScreen
-      model={mapToCompetitionDetailPageModel(competitionId, data)}
+      model={mapToCompetitionDetailPageModel(
+        competitionId,
+        categories,
+        divisions,
+        registrations,
+      )}
       onCreateCategory={async (label) => {
-        await createMutation.mutateAsync(label);
+        await createCategoryMutation.mutateAsync(label);
       }}
       onUpdateCategory={async (id, label) => {
-        await updateMutation.mutateAsync({ id, label });
+        await updateCategoryMutation.mutateAsync({ id, label });
       }}
       onDeleteCategory={async (id) => {
-        await deleteMutation.mutateAsync(id);
+        await deleteCategoryMutation.mutateAsync(id);
       }}
-      isCreating={createMutation.isPending}
-      isUpdating={updateMutation.isPending}
-      isDeleting={deleteMutation.isPending}
+      onCreateDivision={async (name) => {
+        await createDivisionMutation.mutateAsync(name);
+      }}
+      onUpdateDivision={async (id, name) => {
+        await updateDivisionMutation.mutateAsync({ id, name });
+      }}
+      onDeleteDivision={async (id) => {
+        await deleteDivisionMutation.mutateAsync(id);
+      }}
+      onCreateRegistration={async (categoryId, divisionId) => {
+        await createRegistrationMutation.mutateAsync({
+          categoryId,
+          divisionId,
+        });
+      }}
+      onApproveRegistration={async (registrationId, categoryId, divisionId) => {
+        await approveRegistrationMutation.mutateAsync({
+          registrationId,
+          categoryId,
+          divisionId,
+        });
+      }}
+      onRejectRegistration={async (registrationId) => {
+        await rejectRegistrationMutation.mutateAsync(registrationId);
+      }}
+      isCreating={
+        createCategoryMutation.isPending || createDivisionMutation.isPending
+      }
+      isUpdating={
+        updateCategoryMutation.isPending || updateDivisionMutation.isPending
+      }
+      isDeleting={
+        deleteCategoryMutation.isPending || deleteDivisionMutation.isPending
+      }
+      isRegistering={createRegistrationMutation.isPending}
+      isReviewing={
+        approveRegistrationMutation.isPending ||
+        rejectRegistrationMutation.isPending
+      }
       error={error}
       clearError={() => setError(null)}
     />

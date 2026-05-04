@@ -43,33 +43,40 @@ Every committed ticket must:
 - stretch tickets delivered: `TKT-043`, `TKT-045`, `TKT-046`
 - exit criteria met: sign-in, sign-up, forget-password, and reset-password routes implemented with typed auth client wrappers, guest-only redirect behavior, and authenticated route protection
 
-## Next Sprint Recommendation
+### Sprint: `competition-structure-sprint` (COMPLETED)
 
 - sprint goal: expand the competition operations surface with category and division management so organizers can configure the full structure needed for participant registration and match scheduling
-- sprint dates or iteration label: `competition-structure-sprint`
+- committed tickets: `TKT-047`, `TKT-048`
+- stretch tickets delivered: `TKT-049`, `TKT-050`, `TKT-051`, `TKT-052`, `TKT-053`
+- exit criteria met: category and division management endpoints landed with hexagonal architecture compliance, schema contracts, and integration tests. Registration lifecycle fully implemented end-to-end: players can self-register, administrators can review/approve/reject, and competition detail page shows full management UI.
+
+## Next Sprint Recommendation
+
+- sprint goal: implement match scheduling and result entry workflows so competitions can progress from registration through to completion
+- sprint dates or iteration label: `match-scheduling-sprint`
 - capacity assumptions:
-  - the Better Auth runtime, frontend auth routes, and all shared UI primitives are delivered on `master`
-  - competition creation is protected with authenticated identity (`TKT-017`)
-  - the competition operations overview scaffold is in place but lacks category, division, and registration workflows
-  - the shared UI package has table foundations, form primitives, feedback components, and date/numeric inputs ready for composition
+  - registration lifecycle is fully implemented end-to-end
+  - competition detail page shows categories, divisions, registrations, and review UI
+  - shared UI package has all primitives needed for forms, tables, feedback, and overlays
+  - competition status transitions (draft -> open -> closed) need to be implemented
 - recommended committed tickets:
-  - new backend ticket: add category management under an existing competition (epic `STRUC-01`)
-  - new backend ticket: add division management under an existing competition (epic `STRUC-01`)
-- recommended stretch tickets:
-  - new frontend ticket: competition detail page with category and division management UI
-  - new backend ticket: participant registration endpoint (epic `REG-01`)
+  - competition status transitions (backend): allow organizers to open/close competitions
+  - match creation and scheduling (backend): generate matches from approved registrations
+  - match result entry (backend + frontend): allow organizers to record match results
 - lane balance across frontend / backend / infrastructure:
-  - backend: category and division management slices are the highest-value next step to unlock registration and scheduling
-  - frontend: a competition detail page should follow once the backend contracts land
-  - infrastructure: no additional infrastructure work required
+  - backend: status transitions, match generation, result persistence
+  - frontend: match scheduling UI, result entry forms, bracket/standings display
+  - infrastructure: no additional work required
 - affected apps/packages summary:
-  - new category/division backend tickets: `apps/api`, `packages/schemas`
-  - new competition detail frontend ticket: `apps/web`, `packages/api-client`, `packages/ui`
+  - backend: `apps/api`, `packages/schemas`
+  - frontend: `apps/web`, `packages/api-client`, `packages/ui`
 - dependencies and blockers:
-  - category and division management depend on the delivered Competition aggregate (`TKT-014`) and authenticated boundary (`TKT-017`)
-  - frontend competition detail depends on backend category/division contracts landing first
+  - match generation depends on approved registrations existing
+  - result entry depends on matches being created
 - GitHub milestone / project view used for execution:
-  - new milestone: `competition-structure-sprint`
+  - new milestone: `match-scheduling-sprint`
 - exit criteria:
-  - category and division management endpoints land with hexagonal architecture compliance, schema contracts in `packages/schemas`, and integration tests against PostgreSQL
-  - GitHub execution state stays synced so the sprint doc, issue metadata, and project board all reflect the same committed work
+  - organizers can open/close competitions to control registration windows
+  - matches can be generated from approved registrations
+  - results can be recorded and displayed
+  - all endpoints have hexagonal architecture compliance, schema contracts, and integration tests

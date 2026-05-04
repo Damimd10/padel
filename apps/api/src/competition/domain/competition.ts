@@ -1,9 +1,13 @@
+import type { CreateCompetitionResponse } from "@padel/schemas";
 import type { CreateCompetitionCommand } from "../application/create-competition.command.js";
 import {
   type CompetitionFormat,
   assertCompetitionFormat,
 } from "./competition-format.js";
-import { draftCompetitionStatus } from "./competition-status.js";
+import {
+  type CompetitionStatus,
+  draftCompetitionStatus,
+} from "./competition-status.js";
 
 export interface CompetitionProps {
   id: string;
@@ -12,7 +16,7 @@ export interface CompetitionProps {
   startsAt: string;
   endsAt: string;
   ownerId: string;
-  status: typeof draftCompetitionStatus;
+  status: CompetitionStatus;
 }
 
 export class Competition {
@@ -56,11 +60,23 @@ export class Competition {
     });
   }
 
-  toPersistence() {
+  static restore(props: CompetitionProps) {
+    return new Competition(props);
+  }
+
+  toPersistence(): CompetitionProps {
     return { ...this.props };
   }
 
-  toResponse() {
-    return { ...this.props };
+  toResponse(): CreateCompetitionResponse {
+    return {
+      id: this.props.id,
+      title: this.props.title,
+      format: this.props.format,
+      startsAt: this.props.startsAt,
+      endsAt: this.props.endsAt,
+      ownerId: this.props.ownerId,
+      status: "draft",
+    };
   }
 }

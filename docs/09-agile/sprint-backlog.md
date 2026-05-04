@@ -36,69 +36,22 @@ If this document and the GitHub Project disagree, update both and record the rea
 - `TKT-043` is delivered: backend self-service auth contracts for sign-up, sign-in, sign-out, session, forget-password, and reset-password are implemented in `apps/api` with schemas in `packages/schemas`.
 - `TKT-045` (backend forgot-password and reset-password flows) and `TKT-046` (frontend forgot-password and reset-password screens) are delivered as part of the auth self-service sprint.
 - Both `next-ui-package-sprint` and `auth-self-service-foundation-sprint` milestones are complete.
-- `TKT-047` through `TKT-053` are the new approved backlog items for the `competition-structure-sprint`, covering category management, division management, participant registration, and their frontend UIs.
 
-## Active Sprint Record
+## Completed Sprint: `competition-structure-sprint`
 
-- ticket ID and title: `TKT-047` - Add backend category management endpoints for competitions
-- delivery lane: `backend`
-- affected apps/packages: `apps/api`, `packages/schemas`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/49`
-- current project status: `In Sprint`
-- blocked/unblocked state: `unblocked`
-- notes for carryover risk: `none; depends on delivered Competition aggregate (TKT-014) and authenticated boundary (TKT-017)`
+- `TKT-047` — **DONE**: Category CRUD endpoints delivered (PR #56). Domain, use cases, controller, Prisma repo, schemas, tests all present.
+- `TKT-048` — **DONE**: Division CRUD endpoints delivered (PR #58). Domain, use cases, controller, Prisma repo, schemas, tests all present.
+- `TKT-049` — **DONE**: Registration aggregate + create + list delivered (PR #60). Status changed to `pending_review` on creation. Validation for competition state and category/division existence added.
+- `TKT-050` — **DONE**: Registration review/approve/reject endpoints delivered. Status transition use cases, HTTP endpoints, and schemas implemented.
+- `TKT-051` — **DONE**: Competition detail page with category and division management UI delivered. Division CRUD, registration form, and registration review UI included.
+- `TKT-052` — **DONE**: Frontend participant registration flow delivered. Registration form with category/division selection, typed API client wrappers, and success/error states.
+- `TKT-053` — **DONE**: Frontend registration review and approval UI delivered. Table-based review view, approve/reject actions with category/division adjustment, admin-only access.
 
-- ticket ID and title: `TKT-048` - Add backend division management endpoints for competitions
-- delivery lane: `backend`
-- affected apps/packages: `apps/api`, `packages/schemas`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/50`
-- current project status: `In Sprint`
-- blocked/unblocked state: `unblocked`
-- notes for carryover risk: `none; depends on delivered Competition aggregate (TKT-014) and authenticated boundary (TKT-017)`
+## Active Sprint Record: `registration-completion-sprint`
 
-- ticket ID and title: `TKT-049` - Add backend participant registration endpoint for competitions
-- delivery lane: `backend`
-- affected apps/packages: `apps/api`, `packages/schemas`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/52`
-- current project status: `Planned`
-- blocked/unblocked state: `depends on TKT-047 and TKT-048`
-- notes for carryover risk: `registration requires categories and divisions to exist before it can validate category/division assignment`
+All tickets from the `competition-structure-sprint` have been completed and merged. The registration lifecycle is now fully implemented end-to-end:
 
-- ticket ID and title: `TKT-050` - Add backend registration review, approval, and rejection endpoints
-- delivery lane: `backend`
-- affected apps/packages: `apps/api`, `packages/schemas`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/54`
-- current project status: `Planned`
-- blocked/unblocked state: `depends on TKT-049`
-- notes for carryover risk: `review workflow requires registrations to exist first`
-
-- ticket ID and title: `TKT-051` - Build frontend competition detail page with category and division management UI
-- delivery lane: `frontend`
-- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/51`
-- current project status: `Planned`
-- blocked/unblocked state: `depends on TKT-047 and TKT-048`
-- notes for carryover risk: `frontend UI requires backend category and division contracts to be stable`
-
-- ticket ID and title: `TKT-052` - Build frontend participant registration flow for competitions
-- delivery lane: `frontend`
-- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/53`
-- current project status: `Planned`
-- blocked/unblocked state: `depends on TKT-047, TKT-048, and TKT-049`
-- notes for carryover risk: `registration form requires categories, divisions, and registration endpoint to exist`
-
-- ticket ID and title: `TKT-053` - Build frontend registration review and approval UI for competition administrators
-- delivery lane: `frontend`
-- affected apps/packages: `apps/web`, `packages/api-client`, `packages/ui`
-- owner: `unassigned`
-- GitHub issue link: `https://github.com/Damimd10/padel/issues/55`
-- current project status: `Planned`
-- blocked/unblocked state: `depends on TKT-049 and TKT-050`
-- notes for carryover risk: `review UI requires registration submission and review endpoints to exist`
+- Players can self-register for competitions in `open` status
+- Registrations start in `pending_review` status
+- Administrators can approve (with optional category/division adjustment) or reject registrations
+- Competition detail page shows categories, divisions, registration form, and pending registrations for review

@@ -5,20 +5,32 @@ import {
   type CategoryResponse,
   type CompetitionOverviewCollection,
   type CreateCategoryRequest,
+  type CreateDivisionRequest,
+  type CreateRegistrationRequest,
+  type DivisionCollection,
+  type DivisionResponse,
   type ForgetPasswordRequest,
   type ForgetPasswordResponse,
+  type RegistrationCollection,
+  type RegistrationResponse,
   type ResetPasswordRequest,
   type ResetPasswordResponse,
+  type ReviewRegistrationRequest,
   type SignInWithEmailRequest,
   type SignOutResponse,
   type SignUpWithEmailRequest,
   type UpdateCategoryRequest,
+  type UpdateDivisionRequest,
   authMutationResponseSchema,
   authSessionResponseSchema,
   categoryCollectionSchema,
   categoryResponseSchema,
   competitionOverviewCollectionSchema,
+  divisionCollectionSchema,
+  divisionResponseSchema,
   forgetPasswordResponseSchema,
+  registrationCollectionSchema,
+  registrationResponseSchema,
   resetPasswordResponseSchema,
   signOutResponseSchema,
 } from "@padel/schemas";
@@ -42,6 +54,35 @@ export function competitionCategoryPath(
   categoryId: string,
 ) {
   return `/competitions/${competitionId}/categories/${categoryId}`;
+}
+
+export function competitionDivisionsPath(competitionId: string) {
+  return `/competitions/${competitionId}/divisions`;
+}
+
+export function competitionDivisionPath(
+  competitionId: string,
+  divisionId: string,
+) {
+  return `/competitions/${competitionId}/divisions/${divisionId}`;
+}
+
+export function competitionRegistrationsPath(competitionId: string) {
+  return `/competitions/${competitionId}/registrations`;
+}
+
+export function competitionRegistrationApprovePath(
+  competitionId: string,
+  registrationId: string,
+) {
+  return `/competitions/${competitionId}/registrations/${registrationId}/approve`;
+}
+
+export function competitionRegistrationRejectPath(
+  competitionId: string,
+  registrationId: string,
+) {
+  return `/competitions/${competitionId}/registrations/${registrationId}/reject`;
 }
 
 export class ApiClientError extends Error {
@@ -72,6 +113,34 @@ export interface UpdateCategoryRequestOptions {
 }
 
 export interface DeleteCategoryRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface ListDivisionsRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface CreateDivisionRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface UpdateDivisionRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface DeleteDivisionRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface ListRegistrationsRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface CreateRegistrationRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface ReviewRegistrationRequestOptions {
   signal?: AbortSignal;
 }
 
@@ -125,6 +194,54 @@ export interface PadelApiClient {
     categoryId: string,
     options?: DeleteCategoryRequestOptions,
   ): Promise<void>;
+
+  listDivisions(
+    competitionId: string,
+    options?: ListDivisionsRequestOptions,
+  ): Promise<DivisionCollection>;
+
+  createDivision(
+    competitionId: string,
+    request: CreateDivisionRequest,
+    options?: CreateDivisionRequestOptions,
+  ): Promise<DivisionResponse>;
+
+  updateDivision(
+    competitionId: string,
+    divisionId: string,
+    request: UpdateDivisionRequest,
+    options?: UpdateDivisionRequestOptions,
+  ): Promise<DivisionResponse>;
+
+  deleteDivision(
+    competitionId: string,
+    divisionId: string,
+    options?: DeleteDivisionRequestOptions,
+  ): Promise<void>;
+
+  listRegistrations(
+    competitionId: string,
+    options?: ListRegistrationsRequestOptions,
+  ): Promise<RegistrationCollection>;
+
+  createRegistration(
+    competitionId: string,
+    request: CreateRegistrationRequest,
+    options?: CreateRegistrationRequestOptions,
+  ): Promise<RegistrationResponse>;
+
+  approveRegistration(
+    competitionId: string,
+    registrationId: string,
+    request?: ReviewRegistrationRequest,
+    options?: ReviewRegistrationRequestOptions,
+  ): Promise<RegistrationResponse>;
+
+  rejectRegistration(
+    competitionId: string,
+    registrationId: string,
+    options?: ReviewRegistrationRequestOptions,
+  ): Promise<RegistrationResponse>;
 }
 
 function parseResponseWithSchema<T>(
@@ -237,6 +354,81 @@ export function createApiClient({
       await client.delete(competitionCategoryPath(competitionId, categoryId), {
         signal: options.signal,
       });
+    },
+
+    async listDivisions(competitionId, options = {}) {
+      const response = await client.get(
+        competitionDivisionsPath(competitionId),
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, divisionCollectionSchema);
+    },
+
+    async createDivision(competitionId, request, options = {}) {
+      const response = await client.post(
+        competitionDivisionsPath(competitionId),
+        request,
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, divisionResponseSchema);
+    },
+
+    async updateDivision(competitionId, divisionId, request, options = {}) {
+      const response = await client.patch(
+        competitionDivisionPath(competitionId, divisionId),
+        request,
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, divisionResponseSchema);
+    },
+
+    async deleteDivision(competitionId, divisionId, options = {}) {
+      await client.delete(competitionDivisionPath(competitionId, divisionId), {
+        signal: options.signal,
+      });
+    },
+
+    async listRegistrations(competitionId, options = {}) {
+      const response = await client.get(
+        competitionRegistrationsPath(competitionId),
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(
+        response.data,
+        registrationCollectionSchema,
+      );
+    },
+
+    async createRegistration(competitionId, request, options = {}) {
+      const response = await client.post(
+        competitionRegistrationsPath(competitionId),
+        request,
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, registrationResponseSchema);
+    },
+
+    async approveRegistration(
+      competitionId,
+      registrationId,
+      request = {},
+      options = {},
+    ) {
+      const response = await client.patch(
+        competitionRegistrationApprovePath(competitionId, registrationId),
+        request,
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, registrationResponseSchema);
+    },
+
+    async rejectRegistration(competitionId, registrationId, options = {}) {
+      const response = await client.patch(
+        competitionRegistrationRejectPath(competitionId, registrationId),
+        {},
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(response.data, registrationResponseSchema);
     },
   };
 }

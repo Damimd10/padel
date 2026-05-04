@@ -97,4 +97,18 @@ export class PrismaRegistrationRepository implements RegistrationRepository {
       updatedAt: row.updatedAt.toISOString(),
     });
   }
+
+  async update(registration: CompetitionRegistration) {
+    const row = registration.toPersistence();
+
+    await this.prisma.registration.update({
+      where: { id: row.id },
+      data: {
+        status: row.status,
+        categoryId: row.categoryId,
+        divisionId: row.divisionId,
+        updatedAt: row.updatedAt,
+      },
+    });
+  }
 }
