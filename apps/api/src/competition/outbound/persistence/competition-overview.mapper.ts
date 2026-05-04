@@ -4,7 +4,7 @@ interface CompetitionOverviewRow {
   id: string;
   title: string;
   format: "elimination" | "round_robin" | "league";
-  status: "draft" | "open" | "closed";
+  status: "draft" | "open" | "closed" | "cancelled";
   startsAt: Date;
   endsAt: Date;
   owner: {

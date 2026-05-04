@@ -21,7 +21,8 @@ export type CompetitionFormat = (typeof CompetitionFormat)[keyof typeof Competit
 export const CompetitionStatus = {
   draft: 'draft',
   open: 'open',
-  closed: 'closed'
+  closed: 'closed',
+  cancelled: 'cancelled'
 } as const
 
 export type CompetitionStatus = (typeof CompetitionStatus)[keyof typeof CompetitionStatus]

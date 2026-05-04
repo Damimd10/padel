@@ -8,6 +8,8 @@ import { envValidationSchema } from "./common/config/env.validation.js";
 import { AuthModule } from "./common/modules/auth/auth.module.js";
 import { CoreModule } from "./common/modules/core/core.module.js";
 import { ApproveRegistrationUseCase } from "./competition/application/approve-registration.use-case.js";
+import { CancelCompetitionUseCase } from "./competition/application/cancel-competition.use-case.js";
+import { CloseCompetitionUseCase } from "./competition/application/close-competition.use-case.js";
 import { CreateCategoryUseCase } from "./competition/application/create-category.use-case.js";
 import { CreateCompetitionUseCase } from "./competition/application/create-competition.use-case.js";
 import { CreateDivisionUseCase } from "./competition/application/create-division.use-case.js";
@@ -18,6 +20,7 @@ import { ListCategoriesUseCase } from "./competition/application/list-categories
 import { ListCompetitionOverviewUseCase } from "./competition/application/list-competition-overview.use-case.js";
 import { ListDivisionsUseCase } from "./competition/application/list-divisions.use-case.js";
 import { ListRegistrationsUseCase } from "./competition/application/list-registrations.use-case.js";
+import { OpenCompetitionUseCase } from "./competition/application/open-competition.use-case.js";
 import { CategoryRepositoryToken } from "./competition/application/ports/category-repository.js";
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
 import { DivisionRepositoryToken } from "./competition/application/ports/division-repository.js";
@@ -100,6 +103,9 @@ import { PrismaModule } from "./prisma/prisma.module.js";
   providers: [
     CreateCompetitionUseCase,
     ListCompetitionOverviewUseCase,
+    OpenCompetitionUseCase,
+    CloseCompetitionUseCase,
+    CancelCompetitionUseCase,
     PrismaCompetitionRepository,
     {
       provide: CompetitionRepositoryToken,

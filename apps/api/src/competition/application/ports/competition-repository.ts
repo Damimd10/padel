@@ -6,6 +6,8 @@ export const CompetitionRepositoryToken = Symbol("CompetitionRepository");
 export interface CompetitionRepository {
   nextId(): Promise<string>;
   create(competition: Competition): Promise<void>;
+  save(competition: Competition): Promise<void>;
   listOverview(): Promise<CompetitionOverviewCollection>;
   findById(id: string): Promise<Competition | null>;
+  findByIdWithCounts(id: string): Promise<Competition | null>;
 }

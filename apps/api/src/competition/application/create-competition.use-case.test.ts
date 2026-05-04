@@ -19,11 +19,17 @@ class FakeCompetitionRepository implements CompetitionRepository {
     this.created.push(competition.toPersistence());
   }
 
+  async save(): Promise<void> {}
+
   async listOverview() {
     return [];
   }
 
   async findById(): Promise<Competition | null> {
+    return this.findResult;
+  }
+
+  async findByIdWithCounts(): Promise<Competition | null> {
     return this.findResult;
   }
 }

@@ -11,8 +11,13 @@ function makeFakeCompetitionRepository(overrides = {}): CompetitionRepository {
   return {
     nextId: async () => "comp-1",
     create: async () => undefined,
+    save: async () => undefined,
     listOverview: async () => [],
     findById: async () =>
+      ({
+        toResponse: () => ({ id: "comp-1", status: "open" }),
+      }) as unknown as import("../domain/competition.js").Competition,
+    findByIdWithCounts: async () =>
       ({
         toResponse: () => ({ id: "comp-1", status: "open" }),
       }) as unknown as import("../domain/competition.js").Competition,

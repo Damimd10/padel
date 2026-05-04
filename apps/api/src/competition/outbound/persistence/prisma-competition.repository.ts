@@ -31,6 +31,22 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
     });
   }
 
+  async save(competition: Competition) {
+    const row = competition.toPersistence();
+
+    await this.prisma.competition.update({
+      where: { id: row.id },
+      data: {
+        title: row.title,
+        format: row.format === "round-robin" ? "round_robin" : row.format,
+        startsAt: row.startsAt,
+        endsAt: row.endsAt,
+        ownerId: row.ownerId,
+        status: row.status,
+      },
+    });
+  }
+
   async listOverview() {
     const competitions = await this.prisma.competition.findMany({
       orderBy: [{ startsAt: "asc" }, { createdAt: "asc" }],
@@ -91,6 +107,36 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
       endsAt: row.endsAt.toISOString(),
       ownerId: row.ownerId,
       status: row.status as CompetitionStatus,
+    });
+  }
+
+  async findByIdWithCounts(id: string) {
+    const row = await this.prisma.competition.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: {
+            categories: true,
+            divisions: true,
+          },
+        },
+      },
+    });
+
+    if (!row) {
+      return null;
+    }
+
+    return Competition.restore({
+      id: row.id,
+      title: row.title,
+      format: row.format === "round_robin" ? "round-robin" : row.format,
+      startsAt: row.startsAt.toISOString(),
+      endsAt: row.endsAt.toISOString(),
+      ownerId: row.ownerId,
+      status: row.status as CompetitionStatus,
+      categoryCount: row._count.categories,
+      divisionCount: row._count.divisions,
     });
   }
 }
