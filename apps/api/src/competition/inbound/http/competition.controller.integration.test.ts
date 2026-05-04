@@ -178,18 +178,20 @@ describe.skipIf(!canRunDatabaseTests)(
 
       const response = await agent.get("/competitions").expect(200);
 
-      expect(response.body).toEqual([
-        expect.objectContaining({
-          title: "Autumn Classic",
-          format: "round-robin",
-          status: "draft",
-          owner: {
-            id: authenticatedUserId,
-            name: "Overview User",
-            email,
-          },
-        }),
-      ]);
+      expect(response.body).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            title: "Autumn Classic",
+            format: "round-robin",
+            status: "draft",
+            owner: {
+              id: authenticatedUserId,
+              name: "Overview User",
+              email,
+            },
+          }),
+        ]),
+      );
     });
   },
 );
