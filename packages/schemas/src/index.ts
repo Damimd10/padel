@@ -317,3 +317,55 @@ export type RegistrationCollection = z.infer<
 export type ReviewRegistrationRequest = z.infer<
   typeof reviewRegistrationRequestSchema
 >;
+
+export const matchStatusSchema = z.enum([
+  "scheduled",
+  "in_progress",
+  "completed",
+  "cancelled",
+]);
+
+export const matchResponseSchema = z
+  .object({
+    id: z.string().uuid(),
+    competitionId: z.string().uuid(),
+    registrationAId: z.string().uuid(),
+    registrationBId: z.string().uuid(),
+    status: matchStatusSchema,
+    scheduledAt: z.iso.datetime().nullable(),
+    scoreA: z.number().int().min(0).nullable(),
+    scoreB: z.number().int().min(0).nullable(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const matchCollectionSchema = z.array(matchResponseSchema);
+
+export const generateMatchesResponseSchema = z
+  .object({
+    matchCount: z.number().int().min(0),
+  })
+  .strict();
+
+export const scheduleMatchRequestSchema = z
+  .object({
+    scheduledAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const completeMatchRequestSchema = z
+  .object({
+    scoreA: z.number().int().min(0),
+    scoreB: z.number().int().min(0),
+  })
+  .strict();
+
+export type MatchStatus = z.infer<typeof matchStatusSchema>;
+export type MatchResponse = z.infer<typeof matchResponseSchema>;
+export type MatchCollection = z.infer<typeof matchCollectionSchema>;
+export type GenerateMatchesResponse = z.infer<
+  typeof generateMatchesResponseSchema
+>;
+export type ScheduleMatchRequest = z.infer<typeof scheduleMatchRequestSchema>;
+export type CompleteMatchRequest = z.infer<typeof completeMatchRequestSchema>;

@@ -16,25 +16,31 @@ import { CreateDivisionUseCase } from "./competition/application/create-division
 import { CreateRegistrationUseCase } from "./competition/application/create-registration.use-case.js";
 import { DeleteCategoryUseCase } from "./competition/application/delete-category.use-case.js";
 import { DeleteDivisionUseCase } from "./competition/application/delete-division.use-case.js";
+import { GenerateMatchesUseCase } from "./competition/application/generate-matches.use-case.js";
 import { ListCategoriesUseCase } from "./competition/application/list-categories.use-case.js";
 import { ListCompetitionOverviewUseCase } from "./competition/application/list-competition-overview.use-case.js";
 import { ListDivisionsUseCase } from "./competition/application/list-divisions.use-case.js";
+import { ListMatchesUseCase } from "./competition/application/list-matches.use-case.js";
 import { ListRegistrationsUseCase } from "./competition/application/list-registrations.use-case.js";
 import { OpenCompetitionUseCase } from "./competition/application/open-competition.use-case.js";
 import { CategoryRepositoryToken } from "./competition/application/ports/category-repository.js";
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
 import { DivisionRepositoryToken } from "./competition/application/ports/division-repository.js";
+import { MatchRepositoryToken } from "./competition/application/ports/match-repository.js";
 import { RegistrationRepositoryToken } from "./competition/application/ports/registration-repository.js";
 import { RejectRegistrationUseCase } from "./competition/application/reject-registration.use-case.js";
 import { UpdateCategoryUseCase } from "./competition/application/update-category.use-case.js";
 import { UpdateDivisionUseCase } from "./competition/application/update-division.use-case.js";
+import { UpdateMatchUseCase } from "./competition/application/update-match.use-case.js";
 import { CategoryController } from "./competition/inbound/http/category.controller.js";
 import { CompetitionController } from "./competition/inbound/http/competition.controller.js";
 import { DivisionController } from "./competition/inbound/http/division.controller.js";
+import { MatchController } from "./competition/inbound/http/match.controller.js";
 import { RegistrationController } from "./competition/inbound/http/registration.controller.js";
 import { PrismaCategoryRepository } from "./competition/outbound/persistence/prisma-category.repository.js";
 import { PrismaCompetitionRepository } from "./competition/outbound/persistence/prisma-competition.repository.js";
 import { PrismaDivisionRepository } from "./competition/outbound/persistence/prisma-division.repository.js";
+import { PrismaMatchRepository } from "./competition/outbound/persistence/prisma-match.repository.js";
 import { PrismaRegistrationRepository } from "./competition/outbound/persistence/prisma-registration.repository.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 
@@ -99,6 +105,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     CategoryController,
     DivisionController,
     RegistrationController,
+    MatchController,
   ],
   providers: [
     CreateCompetitionUseCase,
@@ -137,6 +144,14 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     {
       provide: RegistrationRepositoryToken,
       useExisting: PrismaRegistrationRepository,
+    },
+    GenerateMatchesUseCase,
+    ListMatchesUseCase,
+    UpdateMatchUseCase,
+    PrismaMatchRepository,
+    {
+      provide: MatchRepositoryToken,
+      useExisting: PrismaMatchRepository,
     },
     {
       provide: APP_GUARD,

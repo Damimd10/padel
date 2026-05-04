@@ -37,6 +37,7 @@ export interface RegistrationRowViewModel {
 
 export interface CompetitionDetailPageViewModel {
   competitionId: string;
+  status: string;
   categories: CategoryRowViewModel[];
   hasCategories: boolean;
   divisions: DivisionRowViewModel[];
@@ -45,6 +46,9 @@ export interface CompetitionDetailPageViewModel {
   hasRegistrations: boolean;
   pendingRegistrations: RegistrationRowViewModel[];
   hasPendingRegistrations: boolean;
+  canOpen: boolean;
+  canClose: boolean;
+  canCancel: boolean;
 }
 
 export function mapCategoriesToRowViewModel(
@@ -88,6 +92,7 @@ export function mapRegistrationsToRowViewModel(
 
 export function mapToCompetitionDetailPageModel(
   competitionId: string,
+  status: string,
   categories: CategoryCollection,
   divisions: DivisionCollection,
   registrations: RegistrationCollection,
@@ -99,6 +104,7 @@ export function mapToCompetitionDetailPageModel(
 
   return {
     competitionId,
+    status,
     categories: mapCategoriesToRowViewModel(categories),
     hasCategories: categories.length > 0,
     divisions: mapDivisionsToRowViewModel(divisions),
@@ -107,5 +113,8 @@ export function mapToCompetitionDetailPageModel(
     hasRegistrations: registrations.length > 0,
     pendingRegistrations,
     hasPendingRegistrations: pendingRegistrations.length > 0,
+    canOpen: status === "draft",
+    canClose: status === "open",
+    canCancel: status !== "cancelled" && status !== "completed",
   };
 }

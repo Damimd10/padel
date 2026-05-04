@@ -37,6 +37,16 @@ export class FakeRegistrationRepository implements RegistrationRepository {
     this.store.set(registration.toResponse().id, registration);
   }
 
+  setRegistrations(registrations: RegistrationCollection) {
+    this.registrationsByCompetition = {};
+    for (const reg of registrations) {
+      if (!this.registrationsByCompetition[reg.competitionId]) {
+        this.registrationsByCompetition[reg.competitionId] = [];
+      }
+      this.registrationsByCompetition[reg.competitionId].push(reg);
+    }
+  }
+
   async nextId() {
     return this.nextIdValue;
   }

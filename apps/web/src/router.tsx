@@ -51,6 +51,12 @@ import { AdminDashboardScreen } from "./features/admin/admin-dashboard-screen.js
 import { AdminLayout } from "./features/admin/admin-layout.js";
 import { mapToAdminPageViewModel } from "./features/admin/admin-view-model.js";
 import {
+  competitionMatchesQueryOptions,
+  ensureCompetitionMatches,
+} from "./features/admin/competition/competition-matches-query.js";
+import { MatchManagementScreen } from "./features/admin/competition/match-management-screen.js";
+import { mapToMatchManagementViewModel } from "./features/admin/competition/match-view-model.js";
+import {
   competitionCategoriesQueryOptions,
   ensureCompetitionCategories,
 } from "./features/competition-detail/competition-categories-query.js";
@@ -141,7 +147,10 @@ const competitionDetailRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: "/competitions/$competitionId",
   loader: async ({ params, context }) => {
-    const [categories, divisions, registrations] = await Promise.all([
+    const [overview, categories, divisions, registrations] = await Promise.all([
+      context.queryClient.ensureQueryData(
+        competitionOverviewQueryOptions(context.apiClient),
+      ),
       ensureCompetitionCategories(
         context.queryClient,
         context.apiClient,
@@ -158,7 +167,13 @@ const competitionDetailRoute = createRoute({
         params.competitionId,
       ),
     ]);
-    return { categories, divisions, registrations };
+    const competition = overview.find((c) => c.id === params.competitionId);
+    return {
+      categories,
+      divisions,
+      registrations,
+      status: competition?.status ?? "draft",
+    };
   },
   pendingComponent: CompetitionDetailPending,
   pendingMs: 0,
@@ -208,6 +223,23 @@ const adminMatchesRoute = createRoute({
   component: AdminMatchesPlaceholderScreen,
 });
 
+const adminCompetitionMatchRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admin/competitions/$competitionId/matches",
+  loader: async ({ params, context }) => {
+    const matches = await ensureCompetitionMatches(
+      context.queryClient,
+      context.apiClient,
+      params.competitionId,
+    );
+    return { matches };
+  },
+  pendingComponent: AdminCompetitionMatchPending,
+  pendingMs: 0,
+  errorComponent: AdminCompetitionMatchError,
+  component: AdminCompetitionMatchRouteScreen,
+});
+
 const routeTree = rootRoute.addChildren([
   signInRoute,
   signUpRoute,
@@ -223,6 +255,7 @@ const routeTree = rootRoute.addChildren([
       adminCategoriesRoute,
       adminParticipantsRoute,
       adminMatchesRoute,
+      adminCompetitionMatchRoute,
     ]),
   ]),
 ]);
@@ -870,6 +903,7 @@ function AdminMatchesPlaceholderScreen() {
 function CompetitionDetailRouteScreen() {
   const { apiClient, queryClient } = competitionDetailRoute.useRouteContext();
   const { competitionId } = competitionDetailRoute.useParams();
+  const loaderData = competitionDetailRoute.useLoaderData();
   const { data: categories } = useSuspenseQuery(
     competitionCategoriesQueryOptions(apiClient, competitionId),
   );
@@ -1018,10 +1052,47 @@ function CompetitionDetailRouteScreen() {
     },
   });
 
+  const openCompetitionMutation = useMutation({
+    mutationFn: () => apiClient.openCompetition(competitionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions"],
+      });
+    },
+    onError: () => {
+      setError("Failed to open competition. Please try again.");
+    },
+  });
+
+  const closeCompetitionMutation = useMutation({
+    mutationFn: () => apiClient.closeCompetition(competitionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions"],
+      });
+    },
+    onError: () => {
+      setError("Failed to close competition. Please try again.");
+    },
+  });
+
+  const cancelCompetitionMutation = useMutation({
+    mutationFn: () => apiClient.cancelCompetition(competitionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions"],
+      });
+    },
+    onError: () => {
+      setError("Failed to cancel competition. Please try again.");
+    },
+  });
+
   return (
     <CompetitionDetailScreen
       model={mapToCompetitionDetailPageModel(
         competitionId,
+        loaderData.status,
         categories,
         divisions,
         registrations,
@@ -1060,6 +1131,15 @@ function CompetitionDetailRouteScreen() {
       onRejectRegistration={async (registrationId) => {
         await rejectRegistrationMutation.mutateAsync(registrationId);
       }}
+      onOpenCompetition={async () => {
+        await openCompetitionMutation.mutateAsync();
+      }}
+      onCloseCompetition={async () => {
+        await closeCompetitionMutation.mutateAsync();
+      }}
+      onCancelCompetition={async () => {
+        await cancelCompetitionMutation.mutateAsync();
+      }}
       isCreating={
         createCategoryMutation.isPending || createDivisionMutation.isPending
       }
@@ -1073,6 +1153,11 @@ function CompetitionDetailRouteScreen() {
       isReviewing={
         approveRegistrationMutation.isPending ||
         rejectRegistrationMutation.isPending
+      }
+      isTransitioningStatus={
+        openCompetitionMutation.isPending ||
+        closeCompetitionMutation.isPending ||
+        cancelCompetitionMutation.isPending
       }
       error={error}
       clearError={() => setError(null)}
@@ -1113,6 +1198,140 @@ function CompetitionDetailError({ error }: ErrorComponentProps) {
         <InlineAlertDescription>{message}</InlineAlertDescription>
       </InlineAlert>
     </main>
+  );
+}
+
+function AdminCompetitionMatchRouteScreen() {
+  const { apiClient, queryClient } =
+    adminCompetitionMatchRoute.useRouteContext();
+  const { competitionId } = adminCompetitionMatchRoute.useParams();
+  const { data: matches } = useSuspenseQuery(
+    competitionMatchesQueryOptions(apiClient, competitionId),
+  );
+
+  const [error, setError] = useState<string | null>(null);
+
+  const generateMatchesMutation = useMutation({
+    mutationFn: () => apiClient.generateMatches(competitionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "matches"],
+      });
+    },
+    onError: () => {
+      setError("Failed to generate matches. Please try again.");
+    },
+  });
+
+  const scheduleMatchMutation = useMutation({
+    mutationFn: ({
+      matchId,
+      scheduledAt,
+    }: { matchId: string; scheduledAt: string }) =>
+      apiClient.scheduleMatch(competitionId, matchId, { scheduledAt }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "matches"],
+      });
+    },
+    onError: () => {
+      setError("Failed to schedule match. Please try again.");
+    },
+  });
+
+  const startMatchMutation = useMutation({
+    mutationFn: (matchId: string) =>
+      apiClient.startMatch(competitionId, matchId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "matches"],
+      });
+    },
+    onError: () => {
+      setError("Failed to start match. Please try again.");
+    },
+  });
+
+  const completeMatchMutation = useMutation({
+    mutationFn: ({
+      matchId,
+      scoreA,
+      scoreB,
+    }: { matchId: string; scoreA: number; scoreB: number }) =>
+      apiClient.completeMatch(competitionId, matchId, { scoreA, scoreB }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "matches"],
+      });
+    },
+    onError: () => {
+      setError("Failed to complete match. Please try again.");
+    },
+  });
+
+  const cancelMatchMutation = useMutation({
+    mutationFn: (matchId: string) =>
+      apiClient.cancelMatch(competitionId, matchId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", competitionId, "matches"],
+      });
+    },
+    onError: () => {
+      setError("Failed to cancel match. Please try again.");
+    },
+  });
+
+  return (
+    <MatchManagementScreen
+      model={mapToMatchManagementViewModel(competitionId, matches)}
+      onGenerateMatches={async () => {
+        await generateMatchesMutation.mutateAsync();
+      }}
+      onScheduleMatch={async (matchId, scheduledAt) => {
+        await scheduleMatchMutation.mutateAsync({ matchId, scheduledAt });
+      }}
+      onStartMatch={async (matchId) => {
+        await startMatchMutation.mutateAsync(matchId);
+      }}
+      onCompleteMatch={async (matchId, scoreA, scoreB) => {
+        await completeMatchMutation.mutateAsync({ matchId, scoreA, scoreB });
+      }}
+      onCancelMatch={async (matchId) => {
+        await cancelMatchMutation.mutateAsync(matchId);
+      }}
+      isGenerating={generateMatchesMutation.isPending}
+      isScheduling={scheduleMatchMutation.isPending}
+      isStarting={startMatchMutation.isPending}
+      isCompleting={completeMatchMutation.isPending}
+      isCancelling={cancelMatchMutation.isPending}
+      error={error}
+      clearError={() => setError(null)}
+    />
+  );
+}
+
+function AdminCompetitionMatchPending() {
+  return (
+    <div className="space-y-6">
+      <Skeleton className="h-8 w-48" />
+      <Skeleton className="h-4 w-96" />
+      <Skeleton className="h-80 w-full rounded-[1.5rem]" />
+    </div>
+  );
+}
+
+function AdminCompetitionMatchError({ error }: ErrorComponentProps) {
+  const message =
+    error instanceof Error ? error.message : "Unable to load matches.";
+
+  return (
+    <InlineAlert className="max-w-2xl bg-white/90" variant="blocked">
+      <InlineAlertTitle variant="blocked">
+        Matches could not be loaded
+      </InlineAlertTitle>
+      <InlineAlertDescription>{message}</InlineAlertDescription>
+    </InlineAlert>
   );
 }
 

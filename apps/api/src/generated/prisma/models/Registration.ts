@@ -207,6 +207,8 @@ export type RegistrationWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   competition?: Prisma.XOR<Prisma.CompetitionScalarRelationFilter, Prisma.CompetitionWhereInput>
+  matchesAsA?: Prisma.MatchListRelationFilter
+  matchesAsB?: Prisma.MatchListRelationFilter
 }
 
 export type RegistrationOrderByWithRelationInput = {
@@ -219,6 +221,8 @@ export type RegistrationOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   competition?: Prisma.CompetitionOrderByWithRelationInput
+  matchesAsA?: Prisma.MatchOrderByRelationAggregateInput
+  matchesAsB?: Prisma.MatchOrderByRelationAggregateInput
 }
 
 export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +239,8 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   competition?: Prisma.XOR<Prisma.CompetitionScalarRelationFilter, Prisma.CompetitionWhereInput>
+  matchesAsA?: Prisma.MatchListRelationFilter
+  matchesAsB?: Prisma.MatchListRelationFilter
 }, "id" | "participantId_competitionId">
 
 export type RegistrationOrderByWithAggregationInput = {
@@ -274,6 +280,8 @@ export type RegistrationCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   competition: Prisma.CompetitionCreateNestedOneWithoutRegistrationsInput
+  matchesAsA?: Prisma.MatchCreateNestedManyWithoutRegistrationAInput
+  matchesAsB?: Prisma.MatchCreateNestedManyWithoutRegistrationBInput
 }
 
 export type RegistrationUncheckedCreateInput = {
@@ -285,6 +293,8 @@ export type RegistrationUncheckedCreateInput = {
   status: $Enums.RegistrationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  matchesAsA?: Prisma.MatchUncheckedCreateNestedManyWithoutRegistrationAInput
+  matchesAsB?: Prisma.MatchUncheckedCreateNestedManyWithoutRegistrationBInput
 }
 
 export type RegistrationUpdateInput = {
@@ -296,6 +306,8 @@ export type RegistrationUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   competition?: Prisma.CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput
+  matchesAsA?: Prisma.MatchUpdateManyWithoutRegistrationANestedInput
+  matchesAsB?: Prisma.MatchUpdateManyWithoutRegistrationBNestedInput
 }
 
 export type RegistrationUncheckedUpdateInput = {
@@ -307,6 +319,8 @@ export type RegistrationUncheckedUpdateInput = {
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchesAsA?: Prisma.MatchUncheckedUpdateManyWithoutRegistrationANestedInput
+  matchesAsB?: Prisma.MatchUncheckedUpdateManyWithoutRegistrationBNestedInput
 }
 
 export type RegistrationCreateManyInput = {
@@ -389,6 +403,11 @@ export type RegistrationMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type RegistrationScalarRelationFilter = {
+  is?: Prisma.RegistrationWhereInput
+  isNot?: Prisma.RegistrationWhereInput
+}
+
 export type RegistrationCreateNestedManyWithoutCompetitionInput = {
   create?: Prisma.XOR<Prisma.RegistrationCreateWithoutCompetitionInput, Prisma.RegistrationUncheckedCreateWithoutCompetitionInput> | Prisma.RegistrationCreateWithoutCompetitionInput[] | Prisma.RegistrationUncheckedCreateWithoutCompetitionInput[]
   connectOrCreate?: Prisma.RegistrationCreateOrConnectWithoutCompetitionInput | Prisma.RegistrationCreateOrConnectWithoutCompetitionInput[]
@@ -435,6 +454,34 @@ export type EnumRegistrationStatusFieldUpdateOperationsInput = {
   set?: $Enums.RegistrationStatus
 }
 
+export type RegistrationCreateNestedOneWithoutMatchesAsAInput = {
+  create?: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsAInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsAInput>
+  connectOrCreate?: Prisma.RegistrationCreateOrConnectWithoutMatchesAsAInput
+  connect?: Prisma.RegistrationWhereUniqueInput
+}
+
+export type RegistrationCreateNestedOneWithoutMatchesAsBInput = {
+  create?: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsBInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsBInput>
+  connectOrCreate?: Prisma.RegistrationCreateOrConnectWithoutMatchesAsBInput
+  connect?: Prisma.RegistrationWhereUniqueInput
+}
+
+export type RegistrationUpdateOneRequiredWithoutMatchesAsANestedInput = {
+  create?: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsAInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsAInput>
+  connectOrCreate?: Prisma.RegistrationCreateOrConnectWithoutMatchesAsAInput
+  upsert?: Prisma.RegistrationUpsertWithoutMatchesAsAInput
+  connect?: Prisma.RegistrationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RegistrationUpdateToOneWithWhereWithoutMatchesAsAInput, Prisma.RegistrationUpdateWithoutMatchesAsAInput>, Prisma.RegistrationUncheckedUpdateWithoutMatchesAsAInput>
+}
+
+export type RegistrationUpdateOneRequiredWithoutMatchesAsBNestedInput = {
+  create?: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsBInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsBInput>
+  connectOrCreate?: Prisma.RegistrationCreateOrConnectWithoutMatchesAsBInput
+  upsert?: Prisma.RegistrationUpsertWithoutMatchesAsBInput
+  connect?: Prisma.RegistrationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RegistrationUpdateToOneWithWhereWithoutMatchesAsBInput, Prisma.RegistrationUpdateWithoutMatchesAsBInput>, Prisma.RegistrationUncheckedUpdateWithoutMatchesAsBInput>
+}
+
 export type RegistrationCreateWithoutCompetitionInput = {
   id?: string
   participantId: string
@@ -443,6 +490,8 @@ export type RegistrationCreateWithoutCompetitionInput = {
   status: $Enums.RegistrationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  matchesAsA?: Prisma.MatchCreateNestedManyWithoutRegistrationAInput
+  matchesAsB?: Prisma.MatchCreateNestedManyWithoutRegistrationBInput
 }
 
 export type RegistrationUncheckedCreateWithoutCompetitionInput = {
@@ -453,6 +502,8 @@ export type RegistrationUncheckedCreateWithoutCompetitionInput = {
   status: $Enums.RegistrationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  matchesAsA?: Prisma.MatchUncheckedCreateNestedManyWithoutRegistrationAInput
+  matchesAsB?: Prisma.MatchUncheckedCreateNestedManyWithoutRegistrationBInput
 }
 
 export type RegistrationCreateOrConnectWithoutCompetitionInput = {
@@ -495,6 +546,134 @@ export type RegistrationScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
 }
 
+export type RegistrationCreateWithoutMatchesAsAInput = {
+  id?: string
+  participantId: string
+  categoryId: string
+  divisionId: string
+  status: $Enums.RegistrationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  competition: Prisma.CompetitionCreateNestedOneWithoutRegistrationsInput
+  matchesAsB?: Prisma.MatchCreateNestedManyWithoutRegistrationBInput
+}
+
+export type RegistrationUncheckedCreateWithoutMatchesAsAInput = {
+  id?: string
+  competitionId: string
+  participantId: string
+  categoryId: string
+  divisionId: string
+  status: $Enums.RegistrationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  matchesAsB?: Prisma.MatchUncheckedCreateNestedManyWithoutRegistrationBInput
+}
+
+export type RegistrationCreateOrConnectWithoutMatchesAsAInput = {
+  where: Prisma.RegistrationWhereUniqueInput
+  create: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsAInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsAInput>
+}
+
+export type RegistrationCreateWithoutMatchesAsBInput = {
+  id?: string
+  participantId: string
+  categoryId: string
+  divisionId: string
+  status: $Enums.RegistrationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  competition: Prisma.CompetitionCreateNestedOneWithoutRegistrationsInput
+  matchesAsA?: Prisma.MatchCreateNestedManyWithoutRegistrationAInput
+}
+
+export type RegistrationUncheckedCreateWithoutMatchesAsBInput = {
+  id?: string
+  competitionId: string
+  participantId: string
+  categoryId: string
+  divisionId: string
+  status: $Enums.RegistrationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  matchesAsA?: Prisma.MatchUncheckedCreateNestedManyWithoutRegistrationAInput
+}
+
+export type RegistrationCreateOrConnectWithoutMatchesAsBInput = {
+  where: Prisma.RegistrationWhereUniqueInput
+  create: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsBInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsBInput>
+}
+
+export type RegistrationUpsertWithoutMatchesAsAInput = {
+  update: Prisma.XOR<Prisma.RegistrationUpdateWithoutMatchesAsAInput, Prisma.RegistrationUncheckedUpdateWithoutMatchesAsAInput>
+  create: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsAInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsAInput>
+  where?: Prisma.RegistrationWhereInput
+}
+
+export type RegistrationUpdateToOneWithWhereWithoutMatchesAsAInput = {
+  where?: Prisma.RegistrationWhereInput
+  data: Prisma.XOR<Prisma.RegistrationUpdateWithoutMatchesAsAInput, Prisma.RegistrationUncheckedUpdateWithoutMatchesAsAInput>
+}
+
+export type RegistrationUpdateWithoutMatchesAsAInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  participantId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  divisionId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  competition?: Prisma.CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput
+  matchesAsB?: Prisma.MatchUpdateManyWithoutRegistrationBNestedInput
+}
+
+export type RegistrationUncheckedUpdateWithoutMatchesAsAInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  competitionId?: Prisma.StringFieldUpdateOperationsInput | string
+  participantId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  divisionId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchesAsB?: Prisma.MatchUncheckedUpdateManyWithoutRegistrationBNestedInput
+}
+
+export type RegistrationUpsertWithoutMatchesAsBInput = {
+  update: Prisma.XOR<Prisma.RegistrationUpdateWithoutMatchesAsBInput, Prisma.RegistrationUncheckedUpdateWithoutMatchesAsBInput>
+  create: Prisma.XOR<Prisma.RegistrationCreateWithoutMatchesAsBInput, Prisma.RegistrationUncheckedCreateWithoutMatchesAsBInput>
+  where?: Prisma.RegistrationWhereInput
+}
+
+export type RegistrationUpdateToOneWithWhereWithoutMatchesAsBInput = {
+  where?: Prisma.RegistrationWhereInput
+  data: Prisma.XOR<Prisma.RegistrationUpdateWithoutMatchesAsBInput, Prisma.RegistrationUncheckedUpdateWithoutMatchesAsBInput>
+}
+
+export type RegistrationUpdateWithoutMatchesAsBInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  participantId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  divisionId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  competition?: Prisma.CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput
+  matchesAsA?: Prisma.MatchUpdateManyWithoutRegistrationANestedInput
+}
+
+export type RegistrationUncheckedUpdateWithoutMatchesAsBInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  competitionId?: Prisma.StringFieldUpdateOperationsInput | string
+  participantId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  divisionId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchesAsA?: Prisma.MatchUncheckedUpdateManyWithoutRegistrationANestedInput
+}
+
 export type RegistrationCreateManyCompetitionInput = {
   id?: string
   participantId: string
@@ -513,6 +692,8 @@ export type RegistrationUpdateWithoutCompetitionInput = {
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchesAsA?: Prisma.MatchUpdateManyWithoutRegistrationANestedInput
+  matchesAsB?: Prisma.MatchUpdateManyWithoutRegistrationBNestedInput
 }
 
 export type RegistrationUncheckedUpdateWithoutCompetitionInput = {
@@ -523,6 +704,8 @@ export type RegistrationUncheckedUpdateWithoutCompetitionInput = {
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchesAsA?: Prisma.MatchUncheckedUpdateManyWithoutRegistrationANestedInput
+  matchesAsB?: Prisma.MatchUncheckedUpdateManyWithoutRegistrationBNestedInput
 }
 
 export type RegistrationUncheckedUpdateManyWithoutCompetitionInput = {
@@ -536,6 +719,44 @@ export type RegistrationUncheckedUpdateManyWithoutCompetitionInput = {
 }
 
 
+/**
+ * Count Type RegistrationCountOutputType
+ */
+
+export type RegistrationCountOutputType = {
+  matchesAsA: number
+  matchesAsB: number
+}
+
+export type RegistrationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matchesAsA?: boolean | RegistrationCountOutputTypeCountMatchesAsAArgs
+  matchesAsB?: boolean | RegistrationCountOutputTypeCountMatchesAsBArgs
+}
+
+/**
+ * RegistrationCountOutputType without action
+ */
+export type RegistrationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RegistrationCountOutputType
+   */
+  select?: Prisma.RegistrationCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RegistrationCountOutputType without action
+ */
+export type RegistrationCountOutputTypeCountMatchesAsAArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchWhereInput
+}
+
+/**
+ * RegistrationCountOutputType without action
+ */
+export type RegistrationCountOutputTypeCountMatchesAsBArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchWhereInput
+}
+
 
 export type RegistrationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -547,6 +768,9 @@ export type RegistrationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   updatedAt?: boolean
   competition?: boolean | Prisma.CompetitionDefaultArgs<ExtArgs>
+  matchesAsA?: boolean | Prisma.Registration$matchesAsAArgs<ExtArgs>
+  matchesAsB?: boolean | Prisma.Registration$matchesAsBArgs<ExtArgs>
+  _count?: boolean | Prisma.RegistrationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["registration"]>
 
 export type RegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -587,6 +811,9 @@ export type RegistrationSelectScalar = {
 export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "competitionId" | "participantId" | "categoryId" | "divisionId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["registration"]>
 export type RegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   competition?: boolean | Prisma.CompetitionDefaultArgs<ExtArgs>
+  matchesAsA?: boolean | Prisma.Registration$matchesAsAArgs<ExtArgs>
+  matchesAsB?: boolean | Prisma.Registration$matchesAsBArgs<ExtArgs>
+  _count?: boolean | Prisma.RegistrationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RegistrationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   competition?: boolean | Prisma.CompetitionDefaultArgs<ExtArgs>
@@ -599,6 +826,8 @@ export type $RegistrationPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "Registration"
   objects: {
     competition: Prisma.$CompetitionPayload<ExtArgs>
+    matchesAsA: Prisma.$MatchPayload<ExtArgs>[]
+    matchesAsB: Prisma.$MatchPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1004,6 +1233,8 @@ readonly fields: RegistrationFieldRefs;
 export interface Prisma__RegistrationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   competition<T extends Prisma.CompetitionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompetitionDefaultArgs<ExtArgs>>): Prisma.Prisma__CompetitionClient<runtime.Types.Result.GetResult<Prisma.$CompetitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  matchesAsA<T extends Prisma.Registration$matchesAsAArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Registration$matchesAsAArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  matchesAsB<T extends Prisma.Registration$matchesAsBArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Registration$matchesAsBArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1434,6 +1665,54 @@ export type RegistrationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Registrations to delete.
    */
   limit?: number
+}
+
+/**
+ * Registration.matchesAsA
+ */
+export type Registration$matchesAsAArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Match
+   */
+  select?: Prisma.MatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Match
+   */
+  omit?: Prisma.MatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchInclude<ExtArgs> | null
+  where?: Prisma.MatchWhereInput
+  orderBy?: Prisma.MatchOrderByWithRelationInput | Prisma.MatchOrderByWithRelationInput[]
+  cursor?: Prisma.MatchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchScalarFieldEnum | Prisma.MatchScalarFieldEnum[]
+}
+
+/**
+ * Registration.matchesAsB
+ */
+export type Registration$matchesAsBArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Match
+   */
+  select?: Prisma.MatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Match
+   */
+  omit?: Prisma.MatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchInclude<ExtArgs> | null
+  where?: Prisma.MatchWhereInput
+  orderBy?: Prisma.MatchOrderByWithRelationInput | Prisma.MatchOrderByWithRelationInput[]
+  cursor?: Prisma.MatchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchScalarFieldEnum | Prisma.MatchScalarFieldEnum[]
 }
 
 /**

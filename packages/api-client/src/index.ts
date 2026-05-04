@@ -4,6 +4,7 @@ import {
   type CategoryCollection,
   type CategoryResponse,
   type CompetitionOverviewCollection,
+  type CompleteMatchRequest,
   type CreateCategoryRequest,
   type CreateDivisionRequest,
   type CreateRegistrationRequest,
@@ -11,11 +12,14 @@ import {
   type DivisionResponse,
   type ForgetPasswordRequest,
   type ForgetPasswordResponse,
+  type GenerateMatchesResponse,
+  type MatchCollection,
   type RegistrationCollection,
   type RegistrationResponse,
   type ResetPasswordRequest,
   type ResetPasswordResponse,
   type ReviewRegistrationRequest,
+  type ScheduleMatchRequest,
   type SignInWithEmailRequest,
   type SignOutResponse,
   type SignUpWithEmailRequest,
@@ -26,12 +30,16 @@ import {
   categoryCollectionSchema,
   categoryResponseSchema,
   competitionOverviewCollectionSchema,
+  completeMatchRequestSchema,
   divisionCollectionSchema,
   divisionResponseSchema,
   forgetPasswordResponseSchema,
+  generateMatchesResponseSchema,
+  matchCollectionSchema,
   registrationCollectionSchema,
   registrationResponseSchema,
   resetPasswordResponseSchema,
+  scheduleMatchRequestSchema,
   signOutResponseSchema,
 } from "@padel/schemas";
 import type { AxiosInstance } from "axios";
@@ -83,6 +91,42 @@ export function competitionRegistrationRejectPath(
   registrationId: string,
 ) {
   return `/competitions/${competitionId}/registrations/${registrationId}/reject`;
+}
+
+export function competitionOpenPath(competitionId: string) {
+  return `/competitions/${competitionId}/open`;
+}
+
+export function competitionClosePath(competitionId: string) {
+  return `/competitions/${competitionId}/close`;
+}
+
+export function competitionCancelPath(competitionId: string) {
+  return `/competitions/${competitionId}/cancel`;
+}
+
+export function competitionMatchesPath(competitionId: string) {
+  return `/competitions/${competitionId}/matches`;
+}
+
+export function generateMatchesPath(competitionId: string) {
+  return `/competitions/${competitionId}/matches/generate`;
+}
+
+export function matchSchedulePath(competitionId: string, matchId: string) {
+  return `/competitions/${competitionId}/matches/${matchId}/schedule`;
+}
+
+export function matchStartPath(competitionId: string, matchId: string) {
+  return `/competitions/${competitionId}/matches/${matchId}/start`;
+}
+
+export function matchCompletePath(competitionId: string, matchId: string) {
+  return `/competitions/${competitionId}/matches/${matchId}/complete`;
+}
+
+export function matchCancelPath(competitionId: string, matchId: string) {
+  return `/competitions/${competitionId}/matches/${matchId}/cancel`;
 }
 
 export class ApiClientError extends Error {
@@ -141,6 +185,34 @@ export interface CreateRegistrationRequestOptions {
 }
 
 export interface ReviewRegistrationRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface CompetitionStatusRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface GenerateMatchesRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface ListMatchesRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface ScheduleMatchRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface StartMatchRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface CompleteMatchRequestOptions {
+  signal?: AbortSignal;
+}
+
+export interface CancelMatchRequestOptions {
   signal?: AbortSignal;
 }
 
@@ -242,6 +314,57 @@ export interface PadelApiClient {
     registrationId: string,
     options?: ReviewRegistrationRequestOptions,
   ): Promise<RegistrationResponse>;
+
+  openCompetition(
+    competitionId: string,
+    options?: CompetitionStatusRequestOptions,
+  ): Promise<{ status: string }>;
+
+  closeCompetition(
+    competitionId: string,
+    options?: CompetitionStatusRequestOptions,
+  ): Promise<{ status: string }>;
+
+  cancelCompetition(
+    competitionId: string,
+    options?: CompetitionStatusRequestOptions,
+  ): Promise<{ status: string }>;
+
+  generateMatches(
+    competitionId: string,
+    options?: GenerateMatchesRequestOptions,
+  ): Promise<GenerateMatchesResponse>;
+
+  listMatches(
+    competitionId: string,
+    options?: ListMatchesRequestOptions,
+  ): Promise<MatchCollection>;
+
+  scheduleMatch(
+    competitionId: string,
+    matchId: string,
+    request: ScheduleMatchRequest,
+    options?: ScheduleMatchRequestOptions,
+  ): Promise<{ status: string }>;
+
+  startMatch(
+    competitionId: string,
+    matchId: string,
+    options?: StartMatchRequestOptions,
+  ): Promise<{ status: string }>;
+
+  completeMatch(
+    competitionId: string,
+    matchId: string,
+    request: CompleteMatchRequest,
+    options?: CompleteMatchRequestOptions,
+  ): Promise<{ status: string }>;
+
+  cancelMatch(
+    competitionId: string,
+    matchId: string,
+    options?: CancelMatchRequestOptions,
+  ): Promise<{ status: string }>;
 }
 
 function parseResponseWithSchema<T>(
@@ -429,6 +552,88 @@ export function createApiClient({
         { signal: options.signal },
       );
       return parseResponseWithSchema(response.data, registrationResponseSchema);
+    },
+
+    async openCompetition(competitionId, options = {}) {
+      const response = await client.patch(
+        competitionOpenPath(competitionId),
+        {},
+        { signal: options.signal },
+      );
+      return response.data;
+    },
+
+    async closeCompetition(competitionId, options = {}) {
+      const response = await client.patch(
+        competitionClosePath(competitionId),
+        {},
+        { signal: options.signal },
+      );
+      return response.data;
+    },
+
+    async cancelCompetition(competitionId, options = {}) {
+      const response = await client.patch(
+        competitionCancelPath(competitionId),
+        {},
+        { signal: options.signal },
+      );
+      return response.data;
+    },
+
+    async generateMatches(competitionId, options = {}) {
+      const response = await client.post(
+        generateMatchesPath(competitionId),
+        {},
+        { signal: options.signal },
+      );
+      return parseResponseWithSchema(
+        response.data,
+        generateMatchesResponseSchema,
+      );
+    },
+
+    async listMatches(competitionId, options = {}) {
+      const response = await client.get(competitionMatchesPath(competitionId), {
+        signal: options.signal,
+      });
+      return parseResponseWithSchema(response.data, matchCollectionSchema);
+    },
+
+    async scheduleMatch(competitionId, matchId, request, options = {}) {
+      const response = await client.patch(
+        matchSchedulePath(competitionId, matchId),
+        scheduleMatchRequestSchema.parse(request),
+        { signal: options.signal },
+      );
+      return response.data;
+    },
+
+    async startMatch(competitionId, matchId, options = {}) {
+      const response = await client.patch(
+        matchStartPath(competitionId, matchId),
+        {},
+        { signal: options.signal },
+      );
+      return response.data;
+    },
+
+    async completeMatch(competitionId, matchId, request, options = {}) {
+      const response = await client.patch(
+        matchCompletePath(competitionId, matchId),
+        completeMatchRequestSchema.parse(request),
+        { signal: options.signal },
+      );
+      return response.data;
+    },
+
+    async cancelMatch(competitionId, matchId, options = {}) {
+      const response = await client.patch(
+        matchCancelPath(competitionId, matchId),
+        {},
+        { signal: options.signal },
+      );
+      return response.data;
     },
   };
 }

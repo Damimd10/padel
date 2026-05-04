@@ -29,6 +29,13 @@ enum RegistrationStatus {
   withdrawn
 }
 
+enum MatchStatus {
+  scheduled
+  in_progress
+  completed
+  cancelled
+}
+
 model Competition {
   id        String            @id @default(uuid())
   title     String
@@ -40,9 +47,10 @@ model Competition {
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
 
-  categories Category[]
-  divisions  Division[]
+  categories    Category[]
+  divisions     Division[]
   registrations Registration[]
+  matches       Match[]
 }
 
 model Category {
@@ -80,9 +88,31 @@ model Registration {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
+  matchesAsA Match[] @relation("MatchRegistrationA")
+  matchesAsB Match[] @relation("MatchRegistrationB")
+
   @@index([competitionId])
   @@index([participantId, competitionId])
   @@unique([participantId, competitionId])
+}
+
+model Match {
+  id              String        @id @default(uuid())
+  competitionId   String
+  competition     Competition   @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  registrationAId String
+  registrationA   Registration  @relation("MatchRegistrationA", fields: [registrationAId], references: [id])
+  registrationBId String
+  registrationB   Registration  @relation("MatchRegistrationB", fields: [registrationBId], references: [id])
+  status          MatchStatus
+  scheduledAt     DateTime?
+  scoreA          Int?
+  scoreB          Int?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([competitionId])
+  @@index([competitionId, status])
 }
 
 model User {

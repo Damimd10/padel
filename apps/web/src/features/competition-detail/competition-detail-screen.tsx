@@ -66,11 +66,15 @@ interface CompetitionDetailScreenProps {
     divisionId?: string,
   ) => Promise<void>;
   onRejectRegistration: (registrationId: string) => Promise<void>;
+  onOpenCompetition: () => Promise<void>;
+  onCloseCompetition: () => Promise<void>;
+  onCancelCompetition: () => Promise<void>;
   isCreating: boolean;
   isUpdating: boolean;
   isDeleting: boolean;
   isRegistering: boolean;
   isReviewing: boolean;
+  isTransitioningStatus: boolean;
   error: string | null;
   clearError: () => void;
 }
@@ -86,11 +90,15 @@ export function CompetitionDetailScreen({
   onCreateRegistration,
   onApproveRegistration,
   onRejectRegistration,
+  onOpenCompetition,
+  onCloseCompetition,
+  onCancelCompetition,
   isCreating,
   isUpdating,
   isDeleting,
   isRegistering,
   isReviewing,
+  isTransitioningStatus,
   error,
   clearError,
 }: CompetitionDetailScreenProps) {
@@ -129,6 +137,8 @@ export function CompetitionDetailScreen({
   const [rejectingRegistration, setRejectingRegistration] = useState<{
     id: string;
   } | null>(null);
+
+  const [cancelCompetitionOpen, setCancelCompetitionOpen] = useState(false);
 
   const createCategoryForm = useForm({
     defaultValues: { label: "" },
@@ -390,6 +400,77 @@ export function CompetitionDetailScreen({
             <InlineAlertDescription>{error}</InlineAlertDescription>
           </InlineAlert>
         )}
+
+        {/* Status Management Section */}
+        <Card className="bg-white/90">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <div className="space-y-1">
+              <CardTitle>Competition Status</CardTitle>
+              <CardDescription>
+                Manage the lifecycle of this competition.
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-3">
+              <Badge
+                variant={
+                  model.status === "draft"
+                    ? "outline"
+                    : model.status === "open"
+                      ? "default"
+                      : model.status === "closed"
+                        ? "secondary"
+                        : "outline"
+                }
+              >
+                {model.status === "draft"
+                  ? "Draft"
+                  : model.status === "open"
+                    ? "Open"
+                    : model.status === "closed"
+                      ? "Closed"
+                      : "Cancelled"}
+              </Badge>
+              {model.canOpen && (
+                <Button
+                  size="sm"
+                  onClick={async () => {
+                    clearError();
+                    await onOpenCompetition();
+                  }}
+                  disabled={isTransitioningStatus}
+                >
+                  {isTransitioningStatus ? "Opening..." : "Open"}
+                </Button>
+              )}
+              {model.canClose && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={async () => {
+                    clearError();
+                    await onCloseCompetition();
+                  }}
+                  disabled={isTransitioningStatus}
+                >
+                  {isTransitioningStatus ? "Closing..." : "Close"}
+                </Button>
+              )}
+              {model.canCancel && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    clearError();
+                    setCancelCompetitionOpen(true);
+                  }}
+                  disabled={isTransitioningStatus}
+                >
+                  Cancel
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+        </Card>
 
         {/* Registration Section */}
         <Card className="bg-white/90">
@@ -1128,6 +1209,41 @@ export function CompetitionDetailScreen({
                 onClick={handleRejectConfirm}
               >
                 {isReviewing ? "Rejecting..." : "Reject"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Cancel Competition Dialog */}
+        <Dialog
+          open={cancelCompetitionOpen}
+          onOpenChange={(open) => {
+            setCancelCompetitionOpen(open);
+          }}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Cancel competition</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to cancel this competition? This action
+                cannot be undone and will affect all registrations and matches.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button
+                variant="outline"
+                disabled={isTransitioningStatus}
+                onClick={async () => {
+                  await onCancelCompetition();
+                  setCancelCompetitionOpen(false);
+                }}
+              >
+                {isTransitioningStatus ? "Cancelling..." : "Cancel Competition"}
               </Button>
             </DialogFooter>
           </DialogContent>

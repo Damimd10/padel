@@ -65,6 +65,11 @@ export type Division = Prisma.DivisionModel
  */
 export type Registration = Prisma.RegistrationModel
 /**
+ * Model Match
+ * 
+ */
+export type Match = Prisma.MatchModel
+/**
  * Model User
  * 
  */
