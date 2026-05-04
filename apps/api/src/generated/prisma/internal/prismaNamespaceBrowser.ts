@@ -52,6 +52,7 @@ export const ModelName = {
   Competition: 'Competition',
   Category: 'Category',
   Division: 'Division',
+  Registration: 'Registration',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -109,6 +110,20 @@ export const DivisionScalarFieldEnum = {
 } as const
 
 export type DivisionScalarFieldEnum = (typeof DivisionScalarFieldEnum)[keyof typeof DivisionScalarFieldEnum]
+
+
+export const RegistrationScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  participantId: 'participantId',
+  categoryId: 'categoryId',
+  divisionId: 'divisionId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RegistrationScalarFieldEnum = (typeof RegistrationScalarFieldEnum)[keyof typeof RegistrationScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

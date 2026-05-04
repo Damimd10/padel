@@ -260,3 +260,41 @@ export type CreateDivisionRequest = z.infer<typeof createDivisionRequestSchema>;
 export type UpdateDivisionRequest = z.infer<typeof updateDivisionRequestSchema>;
 export type DivisionResponse = z.infer<typeof divisionResponseSchema>;
 export type DivisionCollection = z.infer<typeof divisionCollectionSchema>;
+
+export const registrationStatusSchema = z.enum([
+  "registered",
+  "pending_review",
+  "approved",
+  "rejected",
+  "withdrawn",
+]);
+
+export const createRegistrationRequestSchema = z
+  .object({
+    categoryId: z.string().uuid(),
+    divisionId: z.string().uuid(),
+  })
+  .strict();
+
+export const registrationResponseSchema = z
+  .object({
+    id: z.string().uuid(),
+    competitionId: z.string().uuid(),
+    participantId: z.string(),
+    categoryId: z.string().uuid(),
+    divisionId: z.string().uuid(),
+    status: registrationStatusSchema,
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const registrationCollectionSchema = z.array(registrationResponseSchema);
+
+export type CreateRegistrationRequest = z.infer<
+  typeof createRegistrationRequestSchema
+>;
+export type RegistrationResponse = z.infer<typeof registrationResponseSchema>;
+export type RegistrationCollection = z.infer<
+  typeof registrationCollectionSchema
+>;
