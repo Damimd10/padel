@@ -11,6 +11,7 @@
 export type * from './models/Competition.js'
 export type * from './models/Category.js'
 export type * from './models/Division.js'
+export type * from './models/Registration.js'
 export type * from './models/User.js'
 export type * from './models/Session.js'
 export type * from './models/Account.js'

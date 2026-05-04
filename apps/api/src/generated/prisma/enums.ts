@@ -25,3 +25,14 @@ export const CompetitionStatus = {
 } as const
 
 export type CompetitionStatus = (typeof CompetitionStatus)[keyof typeof CompetitionStatus]
+
+
+export const RegistrationStatus = {
+  registered: 'registered',
+  pending_review: 'pending_review',
+  approved: 'approved',
+  rejected: 'rejected',
+  withdrawn: 'withdrawn'
+} as const
+
+export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]

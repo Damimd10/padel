@@ -33,6 +33,11 @@ export type Category = Prisma.CategoryModel
  */
 export type Division = Prisma.DivisionModel
 /**
+ * Model Registration
+ * 
+ */
+export type Registration = Prisma.RegistrationModel
+/**
  * Model User
  * 
  */

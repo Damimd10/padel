@@ -216,6 +216,7 @@ export type CompetitionWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
   categories?: Prisma.CategoryListRelationFilter
   divisions?: Prisma.DivisionListRelationFilter
+  registrations?: Prisma.RegistrationListRelationFilter
 }
 
 export type CompetitionOrderByWithRelationInput = {
@@ -230,6 +231,7 @@ export type CompetitionOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   divisions?: Prisma.DivisionOrderByRelationAggregateInput
+  registrations?: Prisma.RegistrationOrderByRelationAggregateInput
 }
 
 export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
@@ -247,6 +249,7 @@ export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
   categories?: Prisma.CategoryListRelationFilter
   divisions?: Prisma.DivisionListRelationFilter
+  registrations?: Prisma.RegistrationListRelationFilter
 }, "id">
 
 export type CompetitionOrderByWithAggregationInput = {
@@ -291,6 +294,7 @@ export type CompetitionCreateInput = {
   updatedAt?: Date | string
   categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
   divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateInput = {
@@ -305,6 +309,7 @@ export type CompetitionUncheckedCreateInput = {
   updatedAt?: Date | string
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
   divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUpdateInput = {
@@ -319,6 +324,7 @@ export type CompetitionUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
   divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateInput = {
@@ -333,6 +339,7 @@ export type CompetitionUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
   divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionCreateManyInput = {
@@ -456,6 +463,20 @@ export type CompetitionUpdateOneRequiredWithoutDivisionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompetitionUpdateToOneWithWhereWithoutDivisionsInput, Prisma.CompetitionUpdateWithoutDivisionsInput>, Prisma.CompetitionUncheckedUpdateWithoutDivisionsInput>
 }
 
+export type CompetitionCreateNestedOneWithoutRegistrationsInput = {
+  create?: Prisma.XOR<Prisma.CompetitionCreateWithoutRegistrationsInput, Prisma.CompetitionUncheckedCreateWithoutRegistrationsInput>
+  connectOrCreate?: Prisma.CompetitionCreateOrConnectWithoutRegistrationsInput
+  connect?: Prisma.CompetitionWhereUniqueInput
+}
+
+export type CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput = {
+  create?: Prisma.XOR<Prisma.CompetitionCreateWithoutRegistrationsInput, Prisma.CompetitionUncheckedCreateWithoutRegistrationsInput>
+  connectOrCreate?: Prisma.CompetitionCreateOrConnectWithoutRegistrationsInput
+  upsert?: Prisma.CompetitionUpsertWithoutRegistrationsInput
+  connect?: Prisma.CompetitionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompetitionUpdateToOneWithWhereWithoutRegistrationsInput, Prisma.CompetitionUpdateWithoutRegistrationsInput>, Prisma.CompetitionUncheckedUpdateWithoutRegistrationsInput>
+}
+
 export type CompetitionCreateWithoutCategoriesInput = {
   id?: string
   title: string
@@ -467,6 +488,7 @@ export type CompetitionCreateWithoutCategoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateWithoutCategoriesInput = {
@@ -480,6 +502,7 @@ export type CompetitionUncheckedCreateWithoutCategoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionCreateOrConnectWithoutCategoriesInput = {
@@ -509,6 +532,7 @@ export type CompetitionUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateWithoutCategoriesInput = {
@@ -522,6 +546,7 @@ export type CompetitionUncheckedUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionCreateWithoutDivisionsInput = {
@@ -535,6 +560,7 @@ export type CompetitionCreateWithoutDivisionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateWithoutDivisionsInput = {
@@ -548,6 +574,7 @@ export type CompetitionUncheckedCreateWithoutDivisionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionCreateOrConnectWithoutDivisionsInput = {
@@ -577,6 +604,7 @@ export type CompetitionUpdateWithoutDivisionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateWithoutDivisionsInput = {
@@ -590,6 +618,79 @@ export type CompetitionUncheckedUpdateWithoutDivisionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
+}
+
+export type CompetitionCreateWithoutRegistrationsInput = {
+  id?: string
+  title: string
+  format: $Enums.CompetitionFormat
+  startsAt: Date | string
+  endsAt: Date | string
+  ownerId: string
+  status: $Enums.CompetitionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
+  divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
+}
+
+export type CompetitionUncheckedCreateWithoutRegistrationsInput = {
+  id?: string
+  title: string
+  format: $Enums.CompetitionFormat
+  startsAt: Date | string
+  endsAt: Date | string
+  ownerId: string
+  status: $Enums.CompetitionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
+  divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
+}
+
+export type CompetitionCreateOrConnectWithoutRegistrationsInput = {
+  where: Prisma.CompetitionWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompetitionCreateWithoutRegistrationsInput, Prisma.CompetitionUncheckedCreateWithoutRegistrationsInput>
+}
+
+export type CompetitionUpsertWithoutRegistrationsInput = {
+  update: Prisma.XOR<Prisma.CompetitionUpdateWithoutRegistrationsInput, Prisma.CompetitionUncheckedUpdateWithoutRegistrationsInput>
+  create: Prisma.XOR<Prisma.CompetitionCreateWithoutRegistrationsInput, Prisma.CompetitionUncheckedCreateWithoutRegistrationsInput>
+  where?: Prisma.CompetitionWhereInput
+}
+
+export type CompetitionUpdateToOneWithWhereWithoutRegistrationsInput = {
+  where?: Prisma.CompetitionWhereInput
+  data: Prisma.XOR<Prisma.CompetitionUpdateWithoutRegistrationsInput, Prisma.CompetitionUncheckedUpdateWithoutRegistrationsInput>
+}
+
+export type CompetitionUpdateWithoutRegistrationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
+  divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
+}
+
+export type CompetitionUncheckedUpdateWithoutRegistrationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
+  divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 
@@ -600,11 +701,13 @@ export type CompetitionUncheckedUpdateWithoutDivisionsInput = {
 export type CompetitionCountOutputType = {
   categories: number
   divisions: number
+  registrations: number
 }
 
 export type CompetitionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | CompetitionCountOutputTypeCountCategoriesArgs
   divisions?: boolean | CompetitionCountOutputTypeCountDivisionsArgs
+  registrations?: boolean | CompetitionCountOutputTypeCountRegistrationsArgs
 }
 
 /**
@@ -631,6 +734,13 @@ export type CompetitionCountOutputTypeCountDivisionsArgs<ExtArgs extends runtime
   where?: Prisma.DivisionWhereInput
 }
 
+/**
+ * CompetitionCountOutputType without action
+ */
+export type CompetitionCountOutputTypeCountRegistrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RegistrationWhereInput
+}
+
 
 export type CompetitionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -644,6 +754,7 @@ export type CompetitionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updatedAt?: boolean
   categories?: boolean | Prisma.Competition$categoriesArgs<ExtArgs>
   divisions?: boolean | Prisma.Competition$divisionsArgs<ExtArgs>
+  registrations?: boolean | Prisma.Competition$registrationsArgs<ExtArgs>
   _count?: boolean | Prisma.CompetitionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["competition"]>
 
@@ -687,6 +798,7 @@ export type CompetitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type CompetitionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.Competition$categoriesArgs<ExtArgs>
   divisions?: boolean | Prisma.Competition$divisionsArgs<ExtArgs>
+  registrations?: boolean | Prisma.Competition$registrationsArgs<ExtArgs>
   _count?: boolean | Prisma.CompetitionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompetitionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -697,6 +809,7 @@ export type $CompetitionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     categories: Prisma.$CategoryPayload<ExtArgs>[]
     divisions: Prisma.$DivisionPayload<ExtArgs>[]
+    registrations: Prisma.$RegistrationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1104,6 +1217,7 @@ export interface Prisma__CompetitionClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   categories<T extends Prisma.Competition$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   divisions<T extends Prisma.Competition$divisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$divisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DivisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  registrations<T extends Prisma.Competition$registrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1575,6 +1689,30 @@ export type Competition$divisionsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DivisionScalarFieldEnum | Prisma.DivisionScalarFieldEnum[]
+}
+
+/**
+ * Competition.registrations
+ */
+export type Competition$registrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Registration
+   */
+  select?: Prisma.RegistrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Registration
+   */
+  omit?: Prisma.RegistrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RegistrationInclude<ExtArgs> | null
+  where?: Prisma.RegistrationWhereInput
+  orderBy?: Prisma.RegistrationOrderByWithRelationInput | Prisma.RegistrationOrderByWithRelationInput[]
+  cursor?: Prisma.RegistrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RegistrationScalarFieldEnum | Prisma.RegistrationScalarFieldEnum[]
 }
 
 /**
