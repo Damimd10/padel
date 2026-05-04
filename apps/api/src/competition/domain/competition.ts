@@ -6,7 +6,10 @@ import {
 } from "./competition-format.js";
 import {
   type CompetitionStatus,
+  cancelledCompetitionStatus,
+  closedCompetitionStatus,
   draftCompetitionStatus,
+  openCompetitionStatus,
 } from "./competition-status.js";
 
 export interface CompetitionProps {
@@ -17,6 +20,8 @@ export interface CompetitionProps {
   endsAt: string;
   ownerId: string;
   status: CompetitionStatus;
+  categoryCount?: number;
+  divisionCount?: number;
 }
 
 export class Competition {
@@ -62,6 +67,72 @@ export class Competition {
 
   static restore(props: CompetitionProps) {
     return new Competition(props);
+  }
+
+  get id() {
+    return this.props.id;
+  }
+
+  get status() {
+    return this.props.status;
+  }
+
+  get ownerId() {
+    return this.props.ownerId;
+  }
+
+  get categoryCount() {
+    return this.props.categoryCount ?? 0;
+  }
+
+  get divisionCount() {
+    return this.props.divisionCount ?? 0;
+  }
+
+  open() {
+    if (this.props.status !== draftCompetitionStatus) {
+      throw new Error(
+        `Competition can only be opened from draft status. Current status: ${this.props.status}`,
+      );
+    }
+
+    if (
+      this.props.categoryCount !== undefined &&
+      this.props.categoryCount === 0
+    ) {
+      throw new Error(
+        "Competition must have at least one category before it can be opened.",
+      );
+    }
+
+    if (
+      this.props.divisionCount !== undefined &&
+      this.props.divisionCount === 0
+    ) {
+      throw new Error(
+        "Competition must have at least one division before it can be opened.",
+      );
+    }
+
+    this.props.status = openCompetitionStatus;
+  }
+
+  close() {
+    if (this.props.status !== openCompetitionStatus) {
+      throw new Error(
+        `Competition can only be closed from open status. Current status: ${this.props.status}`,
+      );
+    }
+
+    this.props.status = closedCompetitionStatus;
+  }
+
+  cancel() {
+    if (this.props.status === cancelledCompetitionStatus) {
+      throw new Error("Competition is already cancelled.");
+    }
+
+    this.props.status = cancelledCompetitionStatus;
   }
 
   toPersistence(): CompetitionProps {

@@ -7,9 +7,39 @@ import request from "supertest";
 import { describe, expect, it } from "vitest";
 
 import { AuthenticatedGuard } from "../../../common/modules/auth/inbound/http/authenticated.guard.js";
+import { CancelCompetitionUseCase } from "../../application/cancel-competition.use-case.js";
+import { CloseCompetitionUseCase } from "../../application/close-competition.use-case.js";
 import { CreateCompetitionUseCase } from "../../application/create-competition.use-case.js";
 import { ListCompetitionOverviewUseCase } from "../../application/list-competition-overview.use-case.js";
+import { OpenCompetitionUseCase } from "../../application/open-competition.use-case.js";
 import { CompetitionController } from "./competition.controller.js";
+
+const statusTransitionUseCaseMocks = {
+  provide: OpenCompetitionUseCase,
+  useValue: {
+    execute: async () => {
+      throw new Error("should not be called");
+    },
+  },
+};
+
+const closeCompetitionUseCaseMocks = {
+  provide: CloseCompetitionUseCase,
+  useValue: {
+    execute: async () => {
+      throw new Error("should not be called");
+    },
+  },
+};
+
+const cancelCompetitionUseCaseMocks = {
+  provide: CancelCompetitionUseCase,
+  useValue: {
+    execute: async () => {
+      throw new Error("should not be called");
+    },
+  },
+};
 
 describe("CompetitionController", () => {
   it("lists competition overview rows through the authenticated HTTP boundary", async () => {
@@ -44,6 +74,9 @@ describe("CompetitionController", () => {
             ],
           },
         },
+        statusTransitionUseCaseMocks,
+        closeCompetitionUseCaseMocks,
+        cancelCompetitionUseCaseMocks,
       ],
     })
       .overrideGuard(AuthenticatedGuard)
@@ -110,6 +143,9 @@ describe("CompetitionController", () => {
             execute: async () => [],
           },
         },
+        statusTransitionUseCaseMocks,
+        closeCompetitionUseCaseMocks,
+        cancelCompetitionUseCaseMocks,
       ],
     })
       .overrideGuard(AuthenticatedGuard)
@@ -168,6 +204,9 @@ describe("CompetitionController", () => {
             },
           },
         },
+        statusTransitionUseCaseMocks,
+        closeCompetitionUseCaseMocks,
+        cancelCompetitionUseCaseMocks,
       ],
     })
       .overrideGuard(AuthenticatedGuard)

@@ -27,6 +27,7 @@ const formatLabelMap: Record<CompetitionOverviewItem["format"], string> = {
 };
 
 const statusLabelMap: Record<CompetitionOverviewItem["status"], string> = {
+  cancelled: "Cancelled",
   closed: "Closed",
   draft: "Draft",
   open: "Open",
@@ -67,6 +68,10 @@ function selectNextActionLabel(item: CompetitionOverviewItem) {
     return "Review registrations and keep operations moving";
   }
 
+  if (item.status === "cancelled") {
+    return "Competition was cancelled and is no longer active";
+  }
+
   return "Inspect final competition record";
 }
 
@@ -79,6 +84,10 @@ function selectRowState(item: CompetitionOverviewItem): TableRowState {
     return "selected";
   }
 
+  if (item.status === "cancelled") {
+    return "warning";
+  }
+
   return "completed";
 }
 
@@ -87,11 +96,13 @@ export function mapCompetitionOverviewToPageModel(
 ): CompetitionOverviewPageViewModel {
   const totals = response.reduce(
     (accumulator, item: CompetitionOverviewItem) => ({
+      cancelled: accumulator.cancelled + Number(item.status === "cancelled"),
       closed: accumulator.closed + Number(item.status === "closed"),
       draft: accumulator.draft + Number(item.status === "draft"),
       open: accumulator.open + Number(item.status === "open"),
     }),
     {
+      cancelled: 0,
       closed: 0,
       draft: 0,
       open: 0,
@@ -117,7 +128,10 @@ export function mapCompetitionOverviewToPageModel(
         },
         {
           label: "Status",
-          tone: item.status === "draft" ? "warning" : "default",
+          tone:
+            item.status === "draft" || item.status === "cancelled"
+              ? "warning"
+              : "default",
           value: statusLabelMap[item.status],
         },
         {
@@ -155,6 +169,11 @@ export function mapCompetitionOverviewToPageModel(
         label: "Closed",
         tone: totals.closed > 0 ? "success" : "default",
         value: String(totals.closed),
+      },
+      {
+        label: "Cancelled",
+        tone: totals.cancelled > 0 ? "warning" : "default",
+        value: String(totals.cancelled),
       },
       {
         label: "Transport shape",

@@ -24,8 +24,10 @@ describe("ListCompetitionOverviewUseCase", () => {
     const repository: CompetitionRepository = {
       nextId: async () => crypto.randomUUID(),
       create: async () => undefined,
+      save: async () => undefined,
       listOverview: async () => expected,
       findById: async () => null,
+      findByIdWithCounts: async () => null,
     };
 
     const useCase = new ListCompetitionOverviewUseCase(repository);

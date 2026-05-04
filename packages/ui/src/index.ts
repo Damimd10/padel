@@ -16,18 +16,14 @@ export {
   checkboxRootClassName,
 } from "./components/checkbox.js";
 export type { CheckboxProps } from "./components/checkbox.js";
+export { Calendar, type CalendarProps } from "./components/calendar.js";
 export {
-  Calendar,
-  type CalendarProps,
-} from "./components/calendar.js";
-export {
-  DateInput,
-  type DateInputProps,
-} from "./components/date-input.js";
-export {
-  DatePicker,
-  type DatePickerProps,
-} from "./components/date-picker.js";
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "./components/collapsible.js";
+export { DateInput, type DateInputProps } from "./components/date-input.js";
+export { DatePicker, type DatePickerProps } from "./components/date-picker.js";
 export { DateRangeInput } from "./components/date-range-input.js";
 export type { DateRangeInputProps } from "./components/date-range-input.js";
 export {
@@ -78,10 +74,7 @@ export {
   PopoverContent,
   PopoverTrigger,
 } from "./components/popover.js";
-export {
-  Separator,
-  type SeparatorProps,
-} from "./components/separator.js";
+export { Separator, type SeparatorProps } from "./components/separator.js";
 export { Skeleton } from "./components/skeleton.js";
 export {
   Table,
@@ -196,3 +189,49 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/tooltip.js";
+export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar.js";
+export {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "./components/dropdown-menu.js";
+export type {
+  DropdownMenuItemProps,
+  DropdownMenuLabelProps,
+} from "./components/dropdown-menu.js";
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+} from "./components/sidebar.js";

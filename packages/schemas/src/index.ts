@@ -153,7 +153,7 @@ export const competitionOverviewItemSchema = z
     id: z.string().uuid(),
     title: z.string(),
     format: competitionFormatSchema,
-    status: z.enum(["draft", "open", "closed"]),
+    status: z.enum(["draft", "open", "closed", "cancelled"]),
     startsAt: z.iso.datetime(),
     endsAt: z.iso.datetime(),
     owner: competitionOverviewOwnerSchema,
@@ -163,6 +163,12 @@ export const competitionOverviewItemSchema = z
 export const competitionOverviewCollectionSchema = z
   .array(competitionOverviewItemSchema)
   .readonly();
+
+export const competitionStatusTransitionResponseSchema = z
+  .object({
+    status: z.enum(["draft", "open", "closed", "cancelled"]),
+  })
+  .strict();
 
 export type CreateCompetitionRequest = z.infer<
   typeof createCompetitionRequestSchema
@@ -179,6 +185,9 @@ export type CompetitionOverviewItem = z.infer<
 >;
 export type CompetitionOverviewCollection = z.infer<
   typeof competitionOverviewCollectionSchema
+>;
+export type CompetitionStatusTransitionResponse = z.infer<
+  typeof competitionStatusTransitionResponseSchema
 >;
 export type AuthError = z.infer<typeof authErrorSchema>;
 export type AuthMutationResponse = z.infer<typeof authMutationResponseSchema>;
