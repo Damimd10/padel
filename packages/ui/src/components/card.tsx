@@ -8,7 +8,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-xl border border-border/80 bg-background text-foreground shadow-sm",
+        "rounded-lg border border-border/80 bg-background text-foreground shadow-sm",
         className,
       )}
       data-slot="card"

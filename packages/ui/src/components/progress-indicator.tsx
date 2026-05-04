@@ -49,7 +49,7 @@ export function ProgressIndicator({
   return (
     <div
       className={cn(
-        "grid gap-3 rounded-2xl border border-border/80 bg-card px-4 py-4 shadow-sm",
+        "grid gap-3 rounded-lg border border-border/80 bg-card px-4 py-4 shadow-sm",
         className,
       )}
       data-slot="progress-indicator"

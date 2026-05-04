@@ -51,7 +51,7 @@ export const LongLabel: Story = {
 
 export const InContext: Story = {
   render: () => (
-    <div className="flex items-center gap-3 rounded-xl border border-border/80 bg-background px-4 py-3">
+    <div className="flex items-center gap-3 rounded-lg border border-border/80 bg-background px-4 py-3">
       <Badge variant="secondary">Awaiting payment</Badge>
       <p className="text-sm text-muted-foreground">
         The label carries the meaning while the color only reinforces it.

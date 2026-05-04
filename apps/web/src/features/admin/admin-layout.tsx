@@ -42,12 +42,10 @@ import {
   FolderKanban,
   LayoutDashboard,
   LogOut,
-  MapPin,
   Medal,
   Search,
   Settings,
   Trophy,
-  UserPlus,
   Users,
 } from "lucide-react";
 import { useState } from "react";
@@ -66,52 +64,26 @@ const mainNavItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Tournaments",
+    title: "Competitions",
     icon: Trophy,
     items: [
-      { title: "All Tournaments", url: "/admin/tournaments" },
-      { title: "Create Tournament", url: "/admin/tournaments/create" },
-      { title: "Brackets", url: "/admin/tournaments/brackets" },
-      { title: "Results", url: "/admin/tournaments/results" },
+      { title: "All Competitions", url: "/admin/competitions" },
+      { title: "Create Competition", url: "/admin/competitions/create" },
     ],
   },
   {
     title: "Categories",
+    url: "/admin/categories",
     icon: FolderKanban,
-    items: [
-      { title: "All Categories", url: "/admin/categories" },
-      { title: "Create Category", url: "/admin/categories/create" },
-    ],
   },
   {
-    title: "Players",
+    title: "Participants",
+    url: "/admin/participants",
     icon: Users,
-    items: [
-      { title: "All Players", url: "/admin/players" },
-      { title: "Register Player", url: "/admin/players/register" },
-      { title: "Rankings", url: "/admin/players/rankings" },
-    ],
   },
   {
-    title: "Teams",
-    icon: UserPlus,
-    items: [
-      { title: "All Teams", url: "/admin/teams" },
-      { title: "Create Team", url: "/admin/teams/create" },
-    ],
-  },
-  {
-    title: "Courts",
-    icon: MapPin,
-    items: [
-      { title: "All Courts", url: "/admin/courts" },
-      { title: "Add Court", url: "/admin/courts/create" },
-      { title: "Reservations", url: "/admin/courts/reservations" },
-    ],
-  },
-  {
-    title: "Schedule",
-    url: "/admin/schedule",
+    title: "Matches",
+    url: "/admin/matches",
     icon: CalendarDays,
   },
 ];
@@ -340,6 +312,7 @@ export function AdminLayout({ model, children, onSignOut }: AdminSidebarProps) {
       </Sidebar>
       <SidebarInset>
         <AdminHeader />
+        <div className="p-6">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

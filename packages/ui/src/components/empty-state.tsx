@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "../lib/utils.js";
 
 export const emptyStateVariants = cva(
-  "grid gap-4 rounded-[1.4rem] border border-dashed px-6 py-7 text-center shadow-sm",
+  "grid gap-4 rounded-lg border border-dashed px-6 py-7 text-center shadow-sm",
   {
     variants: {
       variant: {

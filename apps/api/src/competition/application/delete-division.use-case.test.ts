@@ -9,7 +9,7 @@ describe("DeleteDivisionUseCase", () => {
   it("deletes an existing division", async () => {
     const repository = new FakeDivisionRepository();
     const division = Division.create(
-      { competitionId: "comp-1", name: "Masculino" },
+      { competitionId: "comp-1", name: "masculino" },
       "div-1",
       new Date().toISOString(),
     );

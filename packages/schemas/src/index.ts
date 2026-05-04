@@ -241,15 +241,17 @@ export type UpdateCategoryRequest = z.infer<typeof updateCategoryRequestSchema>;
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>;
 export type CategoryCollection = z.infer<typeof categoryCollectionSchema>;
 
+export const divisionNameSchema = z.enum(["masculino", "femenino", "mixto"]);
+
 export const createDivisionRequestSchema = z
   .object({
-    name: z.string().trim().min(1),
+    name: divisionNameSchema,
   })
   .strict();
 
 export const updateDivisionRequestSchema = z
   .object({
-    name: z.string().trim().min(1),
+    name: divisionNameSchema,
   })
   .strict();
 
@@ -257,7 +259,7 @@ export const divisionResponseSchema = z
   .object({
     id: z.string().uuid(),
     competitionId: z.string().uuid(),
-    name: z.string(),
+    name: divisionNameSchema,
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
   })
@@ -265,6 +267,7 @@ export const divisionResponseSchema = z
 
 export const divisionCollectionSchema = z.array(divisionResponseSchema);
 
+export type DivisionName = z.infer<typeof divisionNameSchema>;
 export type CreateDivisionRequest = z.infer<typeof createDivisionRequestSchema>;
 export type UpdateDivisionRequest = z.infer<typeof updateDivisionRequestSchema>;
 export type DivisionResponse = z.infer<typeof divisionResponseSchema>;
@@ -317,3 +320,55 @@ export type RegistrationCollection = z.infer<
 export type ReviewRegistrationRequest = z.infer<
   typeof reviewRegistrationRequestSchema
 >;
+
+export const matchStatusSchema = z.enum([
+  "scheduled",
+  "in_progress",
+  "completed",
+  "cancelled",
+]);
+
+export const matchResponseSchema = z
+  .object({
+    id: z.string().uuid(),
+    competitionId: z.string().uuid(),
+    registrationAId: z.string().uuid(),
+    registrationBId: z.string().uuid(),
+    status: matchStatusSchema,
+    scheduledAt: z.iso.datetime().nullable(),
+    scoreA: z.number().int().min(0).nullable(),
+    scoreB: z.number().int().min(0).nullable(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const matchCollectionSchema = z.array(matchResponseSchema);
+
+export const generateMatchesResponseSchema = z
+  .object({
+    matchCount: z.number().int().min(0),
+  })
+  .strict();
+
+export const scheduleMatchRequestSchema = z
+  .object({
+    scheduledAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const completeMatchRequestSchema = z
+  .object({
+    scoreA: z.number().int().min(0),
+    scoreB: z.number().int().min(0),
+  })
+  .strict();
+
+export type MatchStatus = z.infer<typeof matchStatusSchema>;
+export type MatchResponse = z.infer<typeof matchResponseSchema>;
+export type MatchCollection = z.infer<typeof matchCollectionSchema>;
+export type GenerateMatchesResponse = z.infer<
+  typeof generateMatchesResponseSchema
+>;
+export type ScheduleMatchRequest = z.infer<typeof scheduleMatchRequestSchema>;
+export type CompleteMatchRequest = z.infer<typeof completeMatchRequestSchema>;

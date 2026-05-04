@@ -53,6 +53,7 @@ export const ModelName = {
   Category: 'Category',
   Division: 'Division',
   Registration: 'Registration',
+  Match: 'Match',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -124,6 +125,22 @@ export const RegistrationScalarFieldEnum = {
 } as const
 
 export type RegistrationScalarFieldEnum = (typeof RegistrationScalarFieldEnum)[keyof typeof RegistrationScalarFieldEnum]
+
+
+export const MatchScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  registrationAId: 'registrationAId',
+  registrationBId: 'registrationBId',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  scoreA: 'scoreA',
+  scoreB: 'scoreB',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

@@ -28,6 +28,15 @@ export const CompetitionStatus = {
 export type CompetitionStatus = (typeof CompetitionStatus)[keyof typeof CompetitionStatus]
 
 
+export const DivisionName = {
+  masculino: 'masculino',
+  femenino: 'femenino',
+  mixto: 'mixto'
+} as const
+
+export type DivisionName = (typeof DivisionName)[keyof typeof DivisionName]
+
+
 export const RegistrationStatus = {
   registered: 'registered',
   pending_review: 'pending_review',
@@ -37,3 +46,13 @@ export const RegistrationStatus = {
 } as const
 
 export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]
+
+
+export const MatchStatus = {
+  scheduled: 'scheduled',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  cancelled: 'cancelled'
+} as const
+
+export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus]
