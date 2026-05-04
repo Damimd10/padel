@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx --watch src/main.ts",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
     "lint": "biome check src/app.module.ts src/main.ts src/common src/competition src/prisma package.json tsconfig.json tsconfig.build.json",

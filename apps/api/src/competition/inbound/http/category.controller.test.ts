@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "reflect-metadata/Reflect.js";
 
 import { UnauthorizedException } from "@nestjs/common";
 import { ExpressAdapter } from "@nestjs/platform-express";

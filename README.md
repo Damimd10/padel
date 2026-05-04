@@ -137,3 +137,131 @@ GitHub Projects and implementation workflows are separated by lane:
 
 Frontend tickets follow the React/TanStack architecture and reusable UI rules.
 Backend tickets follow the NestJS + PostgreSQL architecture with a hexagonal design.
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** >= 20
+- **pnpm** >= 10 (`corepack enable && corepack prepare pnpm@10.6.3 --activate`)
+- **Docker** + Docker Compose
+- **Git**
+
+### 1. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 2. Configure environment variables
+
+Copy the example env file and adjust as needed:
+
+```bash
+cp .env.example .env
+```
+
+Key variables:
+
+| Variable | Default | Description |
+|---|---|---|
+| `POSTGRES_PORT` | `5432` | Host port for PostgreSQL. Change if 5432 is already in use (e.g. `5433`) |
+| `DATABASE_URL` | `postgresql://padel:padel@localhost:5432/padel` | Must match `POSTGRES_PORT` |
+| `POSTGRES_DB` | `padel` | Database name |
+| `POSTGRES_USER` | `padel` | Database user |
+| `POSTGRES_PASSWORD` | `padel` | Database password |
+| `PORT` | `3000` | API server port |
+| `BETTER_AUTH_SECRET` | `change-me-in-local-dev` | Auth secret for local dev |
+| `BETTER_AUTH_URL` | `http://localhost:3000` | Auth base URL |
+
+### 3. Start the database
+
+```bash
+pnpm db:up
+```
+
+Verify it's running:
+
+```bash
+pnpm db:ps
+```
+
+View logs:
+
+```bash
+pnpm db:logs
+```
+
+Stop the database:
+
+```bash
+pnpm db:down
+```
+
+### 4. Run Prisma migrations
+
+```bash
+pnpm --filter @padel/api prisma:migrate:dev
+```
+
+Generate the Prisma client:
+
+```bash
+pnpm --filter @padel/api prisma:generate
+```
+
+### 5. Start the API (backend)
+
+```bash
+pnpm --filter @padel/api dev
+```
+
+The API will be available at `http://localhost:${PORT:-3000}`.
+
+### 6. Start the Web (frontend)
+
+```bash
+pnpm --filter @padel/web dev
+```
+
+The frontend will be available at `http://localhost:5173` (or the next available port).
+
+### 7. Start Storybook (UI components)
+
+```bash
+pnpm storybook
+```
+
+Storybook will be available at `http://localhost:6006`.
+
+### Quick start (all services)
+
+Open separate terminals for each:
+
+```bash
+# Terminal 1 - Database
+pnpm db:up
+
+# Terminal 2 - API
+pnpm --filter @padel/api dev
+
+# Terminal 3 - Web
+pnpm --filter @padel/web dev
+```
+
+### Useful commands
+
+| Command | Description |
+|---|---|
+| `pnpm install` | Install all dependencies |
+| `pnpm db:up` | Start PostgreSQL container |
+| `pnpm db:down` | Stop PostgreSQL container |
+| `pnpm db:ps` | Check container status |
+| `pnpm db:logs` | Follow database logs |
+| `pnpm build` | Build all apps and packages |
+| `pnpm test` | Run all tests |
+| `pnpm lint` | Lint all apps and packages |
+| `pnpm typecheck` | Typecheck all apps and packages |
+| `pnpm check` | Run lint + boundaries + typecheck + test |
+| `pnpm storybook` | Start Storybook for UI package |
+| `pnpm graph` | Generate Nx dependency graph |

@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "reflect-metadata/Reflect.js";
 
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
@@ -27,13 +27,15 @@ export async function createApp() {
 
 export async function bootstrap() {
   const app = await createApp();
+  app.setGlobalPrefix("api");
   await app.listen(process.env.PORT ? Number(process.env.PORT) : 3000);
   return app;
 }
 
 const isDirectExecution =
   process.argv[1] &&
-  import.meta.url === new URL(`file://${process.argv[1]}`).href;
+  (import.meta.url === new URL(`file://${process.argv[1]}`).href ||
+    process.argv[1].includes("main"));
 
 if (isDirectExecution) {
   await bootstrap();
