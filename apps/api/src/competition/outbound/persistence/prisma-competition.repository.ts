@@ -51,25 +51,25 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
     const ownersById = new Map(owners.map((owner) => [owner.id, owner]));
 
     return competitionOverviewCollectionSchema.parse(
-      competitions.map((competition) => {
-        const owner = ownersById.get(competition.ownerId);
+      competitions
+        .map((competition) => {
+          const owner = ownersById.get(competition.ownerId);
 
-        if (!owner) {
-          throw new Error(
-            `Competition owner context is missing for ${competition.id}.`,
-          );
-        }
+          if (!owner) {
+            return null;
+          }
 
-        return mapCompetitionOverviewRow({
-          id: competition.id,
-          title: competition.title,
-          format: competition.format,
-          status: competition.status,
-          startsAt: competition.startsAt,
-          endsAt: competition.endsAt,
-          owner,
-        });
-      }),
+          return mapCompetitionOverviewRow({
+            id: competition.id,
+            title: competition.title,
+            format: competition.format,
+            status: competition.status,
+            startsAt: competition.startsAt,
+            endsAt: competition.endsAt,
+            owner,
+          });
+        })
+        .filter((row): row is NonNullable<typeof row> => row !== null),
     );
   }
 }
