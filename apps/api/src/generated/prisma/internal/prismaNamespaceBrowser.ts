@@ -51,6 +51,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Competition: 'Competition',
   Category: 'Category',
+  Division: 'Division',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -97,6 +98,17 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const DivisionScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DivisionScalarFieldEnum = (typeof DivisionScalarFieldEnum)[keyof typeof DivisionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

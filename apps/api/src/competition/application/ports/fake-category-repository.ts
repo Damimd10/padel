@@ -47,7 +47,9 @@ export class FakeCategoryRepository implements CategoryRepository {
     this.store.set(category.toResponse().id, category);
   }
 
-  async listByCompetitionId(competitionId: string): Promise<CategoryCollection> {
+  async listByCompetitionId(
+    competitionId: string,
+  ): Promise<CategoryCollection> {
     const stored = this.storeByCompetition(competitionId);
     if (stored.length > 0) return stored;
     return this.categoriesByCompetition[competitionId] ?? [];
