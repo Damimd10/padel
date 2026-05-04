@@ -90,14 +90,14 @@ describe.skipIf(!canRunDatabaseTests)("CategoryController integration", () => {
     const email = `category-test-${randomUUID()}@example.com`;
 
     await agent
-      .post("/auth/sign-up/email")
+      .post("/auth/sign-up")
       .set("origin", "http://localhost:3000")
       .send({
         name: "Category Test User",
         email,
         password: "password-1234",
       })
-      .expect(200);
+      .expect(201);
 
     const competitionResponse = await agent.post("/competitions").send({
       title: "Category Test Competition",

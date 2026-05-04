@@ -9,22 +9,30 @@ import { AuthModule } from "./common/modules/auth/auth.module.js";
 import { CoreModule } from "./common/modules/core/core.module.js";
 import { CreateCategoryUseCase } from "./competition/application/create-category.use-case.js";
 import { CreateCompetitionUseCase } from "./competition/application/create-competition.use-case.js";
+import { CreateDivisionUseCase } from "./competition/application/create-division.use-case.js";
 import { DeleteCategoryUseCase } from "./competition/application/delete-category.use-case.js";
+import { DeleteDivisionUseCase } from "./competition/application/delete-division.use-case.js";
 import { ListCategoriesUseCase } from "./competition/application/list-categories.use-case.js";
 import { ListCompetitionOverviewUseCase } from "./competition/application/list-competition-overview.use-case.js";
+import { ListDivisionsUseCase } from "./competition/application/list-divisions.use-case.js";
 import { CategoryRepositoryToken } from "./competition/application/ports/category-repository.js";
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
+import { DivisionRepositoryToken } from "./competition/application/ports/division-repository.js";
 import { UpdateCategoryUseCase } from "./competition/application/update-category.use-case.js";
+import { UpdateDivisionUseCase } from "./competition/application/update-division.use-case.js";
 import { CategoryController } from "./competition/inbound/http/category.controller.js";
 import { CompetitionController } from "./competition/inbound/http/competition.controller.js";
+import { DivisionController } from "./competition/inbound/http/division.controller.js";
 import { PrismaCategoryRepository } from "./competition/outbound/persistence/prisma-category.repository.js";
 import { PrismaCompetitionRepository } from "./competition/outbound/persistence/prisma-competition.repository.js";
+import { PrismaDivisionRepository } from "./competition/outbound/persistence/prisma-division.repository.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: "../../.env",
       validationSchema: envValidationSchema,
     }),
     LoggerModule.forRootAsync({
@@ -76,7 +84,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     PrismaModule,
     AuthModule,
   ],
-  controllers: [CompetitionController, CategoryController],
+  controllers: [CompetitionController, CategoryController, DivisionController],
   providers: [
     CreateCompetitionUseCase,
     ListCompetitionOverviewUseCase,
@@ -93,6 +101,15 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     {
       provide: CategoryRepositoryToken,
       useExisting: PrismaCategoryRepository,
+    },
+    CreateDivisionUseCase,
+    ListDivisionsUseCase,
+    UpdateDivisionUseCase,
+    DeleteDivisionUseCase,
+    PrismaDivisionRepository,
+    {
+      provide: DivisionRepositoryToken,
+      useExisting: PrismaDivisionRepository,
     },
     {
       provide: APP_GUARD,

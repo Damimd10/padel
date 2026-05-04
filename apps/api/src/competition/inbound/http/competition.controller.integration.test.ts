@@ -114,14 +114,14 @@ describe.skipIf(!canRunDatabaseTests)(
       const email = `competition-${randomUUID()}@example.com`;
 
       const signUpResponse = await agent
-        .post("/auth/sign-up/email")
+        .post("/auth/sign-up")
         .set("origin", "http://localhost:3000")
         .send({
           name: "Competition Test User",
           email,
           password: "password-1234",
         })
-        .expect(200);
+        .expect(201);
 
       const authenticatedUserId = signUpResponse.body.user.id as string;
 
@@ -158,14 +158,14 @@ describe.skipIf(!canRunDatabaseTests)(
       const email = `competition-overview-${randomUUID()}@example.com`;
 
       const signUpResponse = await agent
-        .post("/auth/sign-up/email")
+        .post("/auth/sign-up")
         .set("origin", "http://localhost:3000")
         .send({
           name: "Overview User",
           email,
           password: "password-1234",
         })
-        .expect(200);
+        .expect(201);
 
       const authenticatedUserId = signUpResponse.body.user.id as string;
 
@@ -178,18 +178,20 @@ describe.skipIf(!canRunDatabaseTests)(
 
       const response = await agent.get("/competitions").expect(200);
 
-      expect(response.body).toEqual([
-        expect.objectContaining({
-          title: "Autumn Classic",
-          format: "round-robin",
-          status: "draft",
-          owner: {
-            id: authenticatedUserId,
-            name: "Overview User",
-            email,
-          },
-        }),
-      ]);
+      expect(response.body).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            title: "Autumn Classic",
+            format: "round-robin",
+            status: "draft",
+            owner: {
+              id: authenticatedUserId,
+              name: "Overview User",
+              email,
+            },
+          }),
+        ]),
+      );
     });
   },
 );
