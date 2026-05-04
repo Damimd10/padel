@@ -692,7 +692,7 @@ For each ticket, include:
   - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
   - e2e/manual: n/a until a frontend category management UI is delivered
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `target:apps-api`, `target:packages-schemas`
 - milestone/sprint: `competition-structure-sprint`
@@ -732,7 +732,7 @@ For each ticket, include:
   - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
   - e2e/manual: n/a until a frontend division management UI is delivered
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `target:apps-api`, `target:packages-schemas`
 - milestone/sprint: `competition-structure-sprint`
@@ -774,7 +774,7 @@ For each ticket, include:
   - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoint through NestJS adapter tests
   - e2e/manual: n/a until a frontend registration UI is delivered
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `area:registration`, `target:apps-api`, `target:packages-schemas`
 - milestone/sprint: `competition-structure-sprint`
@@ -814,10 +814,10 @@ For each ticket, include:
   - integration: verify the repository adapter against real PostgreSQL and verify the HTTP endpoints through NestJS adapter tests
   - e2e/manual: n/a until a frontend registration review UI is delivered
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `backend`
 - GitHub labels: `type:task`, `lane:backend`, `area:backend`, `area:competition`, `area:registration`, `target:apps-api`, `target:packages-schemas`
-- milestone/sprint: `competition-structure-sprint`
+- milestone/sprint: `registration-completion-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/54`
 
 ### TKT-051 - Build frontend competition detail with category and division management
@@ -851,10 +851,10 @@ For each ticket, include:
   - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
   - e2e/manual: confirm an administrator can create, edit, and delete categories and divisions through the real frontend flow
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
-- milestone/sprint: `competition-structure-sprint`
+- milestone/sprint: `registration-completion-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/51`
 
 ### TKT-052 - Build frontend participant registration flow
@@ -889,10 +889,10 @@ For each ticket, include:
   - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
   - e2e/manual: confirm a player can register for an open competition through the real frontend flow
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `area:registration`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
-- milestone/sprint: `competition-structure-sprint`
+- milestone/sprint: `registration-completion-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/53`
 
 ### TKT-053 - Build frontend registration review and approval UI
@@ -926,8 +926,8 @@ For each ticket, include:
   - integration: verify the route layer composes typed API clients with shared UI primitives without boundary leaks
   - e2e/manual: confirm an administrator can review, approve, and reject registrations through the real frontend flow
 - estimate: `M`
-- status: `approved`
+- status: `done`
 - implementation workflow: `frontend`
 - GitHub labels: `type:task`, `lane:frontend`, `area:frontend`, `area:competition`, `area:registration`, `target:apps-web`, `target:packages-api-client`, `target:packages-ui`
-- milestone/sprint: `competition-structure-sprint`
+- milestone/sprint: `registration-completion-sprint`
 - GitHub issue URL or placeholder: `https://github.com/Damimd10/padel/issues/55`

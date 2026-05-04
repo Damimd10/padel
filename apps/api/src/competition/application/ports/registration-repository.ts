@@ -12,4 +12,5 @@ export interface RegistrationRepository {
     participantId: string,
     competitionId: string,
   ): Promise<CompetitionRegistration | null>;
+  update(registration: CompetitionRegistration): Promise<void>;
 }

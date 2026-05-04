@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { CompetitionRegistration } from "./competition-registration.js";
 
 describe("CompetitionRegistration", () => {
-  it("creates a registration in registered status", () => {
+  it("creates a registration in pending_review status", () => {
     const registration = CompetitionRegistration.create(
       {
         competitionId: "comp-1",
@@ -23,7 +23,7 @@ describe("CompetitionRegistration", () => {
       participantId: "user-1",
       categoryId: "cat-1",
       divisionId: "div-1",
-      status: "registered",
+      status: "pending_review",
     });
   });
 
@@ -97,5 +97,79 @@ describe("CompetitionRegistration", () => {
       id: "reg-1",
       status: "approved",
     });
+  });
+
+  it("approves a pending_review registration", () => {
+    const registration = CompetitionRegistration.create(
+      {
+        competitionId: "comp-1",
+        participantId: "user-1",
+        categoryId: "cat-1",
+        divisionId: "div-1",
+      },
+      "reg-1",
+      "2026-05-04T00:00:00.000Z",
+    );
+
+    const approved = registration.approve();
+
+    expect(approved.toResponse()).toMatchObject({
+      id: "reg-1",
+      status: "approved",
+    });
+  });
+
+  it("rejects a pending_review registration", () => {
+    const registration = CompetitionRegistration.create(
+      {
+        competitionId: "comp-1",
+        participantId: "user-1",
+        categoryId: "cat-1",
+        divisionId: "div-1",
+      },
+      "reg-1",
+      "2026-05-04T00:00:00.000Z",
+    );
+
+    const rejected = registration.reject();
+
+    expect(rejected.toResponse()).toMatchObject({
+      id: "reg-1",
+      status: "rejected",
+    });
+  });
+
+  it("throws when approving a non-pending registration", () => {
+    const registration = CompetitionRegistration.restore({
+      id: "reg-1",
+      competitionId: "comp-1",
+      participantId: "user-1",
+      categoryId: "cat-1",
+      divisionId: "div-1",
+      status: "approved",
+      createdAt: "2026-05-04T00:00:00.000Z",
+      updatedAt: "2026-05-04T00:00:00.000Z",
+    });
+
+    expect(() => registration.approve()).toThrow(
+      "Only registrations in pending_review status can be approved.",
+    );
+  });
+
+  it("throws when rejecting a non-pending registration", () => {
+    const registration = CompetitionRegistration.restore({
+      id: "reg-1",
+      competitionId: "comp-1",
+      participantId: "user-1",
+      categoryId: "cat-1",
+      divisionId: "div-1",
+      status: "approved",
+      createdAt: "2026-05-04T00:00:00.000Z",
+      updatedAt: "2026-05-04T00:00:00.000Z",
+    });
+
+    expect(() => registration.reject()).toThrow(
+      "Only registrations in pending_review status can be rejected.",
+    );
   });
 });

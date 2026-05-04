@@ -7,6 +7,7 @@ import { LoggerModule } from "nestjs-pino";
 import { envValidationSchema } from "./common/config/env.validation.js";
 import { AuthModule } from "./common/modules/auth/auth.module.js";
 import { CoreModule } from "./common/modules/core/core.module.js";
+import { ApproveRegistrationUseCase } from "./competition/application/approve-registration.use-case.js";
 import { CreateCategoryUseCase } from "./competition/application/create-category.use-case.js";
 import { CreateCompetitionUseCase } from "./competition/application/create-competition.use-case.js";
 import { CreateDivisionUseCase } from "./competition/application/create-division.use-case.js";
@@ -21,6 +22,7 @@ import { CategoryRepositoryToken } from "./competition/application/ports/categor
 import { CompetitionRepositoryToken } from "./competition/application/ports/competition-repository.js";
 import { DivisionRepositoryToken } from "./competition/application/ports/division-repository.js";
 import { RegistrationRepositoryToken } from "./competition/application/ports/registration-repository.js";
+import { RejectRegistrationUseCase } from "./competition/application/reject-registration.use-case.js";
 import { UpdateCategoryUseCase } from "./competition/application/update-category.use-case.js";
 import { UpdateDivisionUseCase } from "./competition/application/update-division.use-case.js";
 import { CategoryController } from "./competition/inbound/http/category.controller.js";
@@ -123,6 +125,8 @@ import { PrismaModule } from "./prisma/prisma.module.js";
     },
     CreateRegistrationUseCase,
     ListRegistrationsUseCase,
+    ApproveRegistrationUseCase,
+    RejectRegistrationUseCase,
     PrismaRegistrationRepository,
     {
       provide: RegistrationRepositoryToken,

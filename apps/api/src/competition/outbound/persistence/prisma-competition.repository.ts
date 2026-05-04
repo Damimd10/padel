@@ -3,7 +3,8 @@ import { competitionOverviewCollectionSchema } from "@padel/schemas";
 
 import { PrismaService } from "../../../prisma/prisma.service.js";
 import type { CompetitionRepository } from "../../application/ports/competition-repository.js";
-import type { Competition } from "../../domain/competition.js";
+import type { CompetitionStatus } from "../../domain/competition-status.js";
+import { Competition } from "../../domain/competition.js";
 import { mapCompetitionOverviewRow } from "./competition-overview.mapper.js";
 
 @Injectable()
@@ -71,5 +72,25 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
         })
         .filter((row): row is NonNullable<typeof row> => row !== null),
     );
+  }
+
+  async findById(id: string) {
+    const row = await this.prisma.competition.findUnique({
+      where: { id },
+    });
+
+    if (!row) {
+      return null;
+    }
+
+    return Competition.restore({
+      id: row.id,
+      title: row.title,
+      format: row.format === "round_robin" ? "round-robin" : row.format,
+      startsAt: row.startsAt.toISOString(),
+      endsAt: row.endsAt.toISOString(),
+      ownerId: row.ownerId,
+      status: row.status as CompetitionStatus,
+    });
   }
 }

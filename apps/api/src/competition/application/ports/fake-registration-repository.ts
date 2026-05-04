@@ -9,16 +9,19 @@ export interface FakeRegistrationRepositoryOptions {
   findByIdResult?: CompetitionRegistration | null;
   findByParticipantAndCompetitionResult?: CompetitionRegistration | null;
   createError?: Error;
+  updateError?: Error;
 }
 
 export class FakeRegistrationRepository implements RegistrationRepository {
   readonly created: unknown[] = [];
+  readonly updated: unknown[] = [];
   private store = new Map<string, CompetitionRegistration>();
   private nextIdValue: string;
   private registrationsByCompetition: Record<string, RegistrationCollection>;
   private findByIdResult: CompetitionRegistration | null;
   private findByParticipantAndCompetitionResult: CompetitionRegistration | null;
   private createError?: Error;
+  private updateError?: Error;
 
   constructor(options: FakeRegistrationRepositoryOptions = {}) {
     this.nextIdValue = options.nextId ?? "fake-registration-id";
@@ -27,6 +30,7 @@ export class FakeRegistrationRepository implements RegistrationRepository {
     this.findByParticipantAndCompetitionResult =
       options.findByParticipantAndCompetitionResult ?? null;
     this.createError = options.createError;
+    this.updateError = options.updateError;
   }
 
   seed(registration: CompetitionRegistration) {
@@ -71,6 +75,12 @@ export class FakeRegistrationRepository implements RegistrationRepository {
       }
     }
     return this.findByParticipantAndCompetitionResult;
+  }
+
+  async update(registration: CompetitionRegistration): Promise<void> {
+    if (this.updateError) throw this.updateError;
+    this.updated.push(registration.toPersistence());
+    this.store.set(registration.toResponse().id, registration);
   }
 
   private storeByCompetition(competitionId: string): RegistrationCollection {
