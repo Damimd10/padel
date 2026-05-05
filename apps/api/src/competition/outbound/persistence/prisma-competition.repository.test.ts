@@ -7,6 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { PrismaService } from "../../../prisma/prisma.service.js";
 import { Competition } from "../../domain/competition.js";
+import { createTestCommand } from "../../test-helpers.js";
 import { PrismaCompetitionRepository } from "./prisma-competition.repository.js";
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -58,13 +59,13 @@ describe.skipIf(!canRunDatabaseTests)("PrismaCompetitionRepository", () => {
   it("persists a competition row in PostgreSQL through Prisma", async () => {
     const repository = new PrismaCompetitionRepository(prisma);
     const competition = Competition.createDraft(
-      {
+      createTestCommand({
         title: "Spring Classic",
         format: "league",
         startsAt: "2026-05-10T10:00:00.000Z",
         endsAt: "2026-05-12T18:00:00.000Z",
         ownerId: "owner-1",
-      },
+      }),
       randomUUID(),
     );
 

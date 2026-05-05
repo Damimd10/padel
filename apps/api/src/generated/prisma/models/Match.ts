@@ -611,18 +611,6 @@ export type EnumMatchStatusFieldUpdateOperationsInput = {
   set?: $Enums.MatchStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type MatchCreateWithoutCompetitionInput = {
   id?: string
   status: $Enums.MatchStatus

@@ -6,6 +6,8 @@ import {
   type CompetitionOverviewCollection,
   type CompleteMatchRequest,
   type CreateCategoryRequest,
+  type CreateCompetitionRequest,
+  type CreateCompetitionResponse,
   type CreateDivisionRequest,
   type CreateRegistrationRequest,
   type DivisionCollection,
@@ -31,6 +33,7 @@ import {
   categoryResponseSchema,
   competitionOverviewCollectionSchema,
   completeMatchRequestSchema,
+  createCompetitionResponseSchema,
   divisionCollectionSchema,
   divisionResponseSchema,
   forgetPasswordResponseSchema,
@@ -221,6 +224,10 @@ export interface CreateApiClientOptions {
 }
 
 export interface PadelApiClient {
+  createCompetition(
+    request: CreateCompetitionRequest,
+  ): Promise<CreateCompetitionResponse>;
+
   getCompetitionOverview(
     options?: CompetitionOverviewRequestOptions,
   ): Promise<CompetitionOverviewCollection>;
@@ -401,6 +408,14 @@ export function createApiClient({
   );
 
   return {
+    async createCompetition(request) {
+      const response = await client.post(competitionOverviewPath, request);
+      return parseResponseWithSchema(
+        response.data,
+        createCompetitionResponseSchema,
+      );
+    },
+
     async getCompetitionOverview(options = {}) {
       const response = await client.get(competitionOverviewPath, {
         signal: options.signal,

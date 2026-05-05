@@ -18,8 +18,13 @@ describe("ListCompetitionOverviewUseCase", () => {
           name: "Ops User",
           email: "ops@example.com",
         },
+        categoryCount: 2,
+        divisionCount: 1,
+        registrationCount: 8,
+        prizePool: 5000,
+        categoryNames: ["Sexta"],
       },
-    ] as const;
+    ];
 
     const repository: CompetitionRepository = {
       nextId: async () => crypto.randomUUID(),

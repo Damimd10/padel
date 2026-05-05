@@ -12,16 +12,51 @@ import {
   openCompetitionStatus,
 } from "./competition-status.js";
 
+export interface CompetitionCourtProps {
+  name: string;
+  type: string;
+}
+
+export interface CompetitionPrizeProps {
+  place: string;
+  amount: number;
+}
+
 export interface CompetitionProps {
   id: string;
   title: string;
+  description: string | null;
   format: CompetitionFormat;
   startsAt: string;
   endsAt: string;
+  regStartsAt: string | null;
+  regEndsAt: string | null;
+  maxTeams: number | null;
+  pricePerTeam: number;
+  isPublic: boolean;
+  requiresApproval: boolean;
+  hasWaitlist: boolean;
+  groupCount: number | null;
+  teamsPerGroup: number | null;
+  setsToWin: number;
+  gamesPerSet: number;
+  tiebreakPoints: number;
+  goldenPoint: boolean;
+  matchDurationMinutes: number;
+  firstMatchTime: string | null;
+  lastMatchTime: string | null;
+  breakBetweenMatchesMinutes: number;
+  autoGenerateSchedule: boolean;
+  earlyBirdDiscount: number;
+  isFreeEntry: boolean;
   ownerId: string;
   status: CompetitionStatus;
+  courts: CompetitionCourtProps[];
+  prizes: CompetitionPrizeProps[];
   categoryCount?: number;
   divisionCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export class Competition {
@@ -57,11 +92,38 @@ export class Competition {
     return new Competition({
       id,
       title,
+      description: input.description?.trim() ?? null,
       format: input.format,
       startsAt: startsAt.toISOString(),
       endsAt: endsAt.toISOString(),
+      regStartsAt: input.regStartsAt
+        ? new Date(input.regStartsAt).toISOString()
+        : null,
+      regEndsAt: input.regEndsAt
+        ? new Date(input.regEndsAt).toISOString()
+        : null,
+      maxTeams: input.maxTeams ?? null,
+      pricePerTeam: input.pricePerTeam ?? 0,
+      isPublic: input.isPublic ?? true,
+      requiresApproval: input.requiresApproval ?? false,
+      hasWaitlist: input.hasWaitlist ?? true,
+      groupCount: input.groupCount ?? null,
+      teamsPerGroup: input.teamsPerGroup ?? null,
+      setsToWin: input.setsToWin ?? 2,
+      gamesPerSet: input.gamesPerSet ?? 6,
+      tiebreakPoints: input.tiebreakPoints ?? 7,
+      goldenPoint: input.goldenPoint ?? false,
+      matchDurationMinutes: input.matchDurationMinutes ?? 60,
+      firstMatchTime: input.firstMatchTime ?? null,
+      lastMatchTime: input.lastMatchTime ?? null,
+      breakBetweenMatchesMinutes: input.breakBetweenMatchesMinutes ?? 15,
+      autoGenerateSchedule: input.autoGenerateSchedule ?? true,
+      earlyBirdDiscount: input.earlyBirdDiscount ?? 0,
+      isFreeEntry: input.isFreeEntry ?? false,
       ownerId,
       status: draftCompetitionStatus,
+      courts: input.courts ?? [],
+      prizes: input.prizes ?? [],
     });
   }
 
@@ -87,6 +149,14 @@ export class Competition {
 
   get divisionCount() {
     return this.props.divisionCount ?? 0;
+  }
+
+  get courts() {
+    return this.props.courts;
+  }
+
+  get prizes() {
+    return this.props.prizes;
   }
 
   open() {
@@ -143,11 +213,34 @@ export class Competition {
     return {
       id: this.props.id,
       title: this.props.title,
+      description: this.props.description,
       format: this.props.format,
       startsAt: this.props.startsAt,
       endsAt: this.props.endsAt,
+      regStartsAt: this.props.regStartsAt,
+      regEndsAt: this.props.regEndsAt,
+      maxTeams: this.props.maxTeams,
+      pricePerTeam: this.props.pricePerTeam,
+      isPublic: this.props.isPublic,
+      requiresApproval: this.props.requiresApproval,
+      hasWaitlist: this.props.hasWaitlist,
+      groupCount: this.props.groupCount,
+      teamsPerGroup: this.props.teamsPerGroup,
+      setsToWin: this.props.setsToWin,
+      gamesPerSet: this.props.gamesPerSet,
+      tiebreakPoints: this.props.tiebreakPoints,
+      goldenPoint: this.props.goldenPoint,
+      matchDurationMinutes: this.props.matchDurationMinutes,
+      firstMatchTime: this.props.firstMatchTime,
+      lastMatchTime: this.props.lastMatchTime,
+      breakBetweenMatchesMinutes: this.props.breakBetweenMatchesMinutes,
+      autoGenerateSchedule: this.props.autoGenerateSchedule,
+      earlyBirdDiscount: this.props.earlyBirdDiscount,
+      isFreeEntry: this.props.isFreeEntry,
       ownerId: this.props.ownerId,
       status: "draft",
+      createdAt: this.props.createdAt ?? new Date().toISOString(),
+      updatedAt: this.props.updatedAt ?? new Date().toISOString(),
     };
   }
 }

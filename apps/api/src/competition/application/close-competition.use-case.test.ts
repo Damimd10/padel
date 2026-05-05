@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { Competition } from "../domain/competition.js";
+import { createTestCompetitionProps } from "../test-helpers.js";
 import { CloseCompetitionUseCase } from "./close-competition.use-case.js";
 import type { CompetitionRepository } from "./ports/competition-repository.js";
 
@@ -39,15 +40,13 @@ describe("CloseCompetitionUseCase", () => {
   it("closes an open competition", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new CloseCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "open",
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        status: "open",
+      }),
+    );
     repository.setFindResult(competition);
 
     const result = await useCase.execute({ competitionId: "competition-1" });
@@ -72,15 +71,13 @@ describe("CloseCompetitionUseCase", () => {
   it("throws when competition is not open", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new CloseCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "draft",
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        status: "draft",
+      }),
+    );
     repository.setFindResult(competition);
 
     await expect(

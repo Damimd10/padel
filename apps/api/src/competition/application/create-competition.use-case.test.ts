@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { Competition } from "../domain/competition.js";
-import type { CreateCompetitionCommand } from "./create-competition.command.js";
+import { createTestCommand } from "../test-helpers.js";
 import { CreateCompetitionUseCase } from "./create-competition.use-case.js";
 import type { CompetitionRepository } from "./ports/competition-repository.js";
 
@@ -39,13 +39,15 @@ describe("CreateCompetitionUseCase", () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new CreateCompetitionUseCase(repository);
 
-    const result = await useCase.execute({
-      title: "Autumn Cup",
-      format: "round-robin",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-99",
-    } satisfies CreateCompetitionCommand);
+    const result = await useCase.execute(
+      createTestCommand({
+        title: "Autumn Cup",
+        format: "round-robin",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-99",
+      }),
+    );
 
     expect(result).toMatchObject({
       id: "competition-123",

@@ -20,16 +20,65 @@ export type CompetitionModel = runtime.Types.Result.DefaultSelection<Prisma.$Com
 
 export type AggregateCompetition = {
   _count: CompetitionCountAggregateOutputType | null
+  _avg: CompetitionAvgAggregateOutputType | null
+  _sum: CompetitionSumAggregateOutputType | null
   _min: CompetitionMinAggregateOutputType | null
   _max: CompetitionMaxAggregateOutputType | null
+}
+
+export type CompetitionAvgAggregateOutputType = {
+  maxTeams: number | null
+  pricePerTeam: number | null
+  groupCount: number | null
+  teamsPerGroup: number | null
+  setsToWin: number | null
+  gamesPerSet: number | null
+  tiebreakPoints: number | null
+  matchDurationMinutes: number | null
+  breakBetweenMatchesMinutes: number | null
+  earlyBirdDiscount: number | null
+}
+
+export type CompetitionSumAggregateOutputType = {
+  maxTeams: number | null
+  pricePerTeam: number | null
+  groupCount: number | null
+  teamsPerGroup: number | null
+  setsToWin: number | null
+  gamesPerSet: number | null
+  tiebreakPoints: number | null
+  matchDurationMinutes: number | null
+  breakBetweenMatchesMinutes: number | null
+  earlyBirdDiscount: number | null
 }
 
 export type CompetitionMinAggregateOutputType = {
   id: string | null
   title: string | null
+  description: string | null
   format: $Enums.CompetitionFormat | null
   startsAt: Date | null
   endsAt: Date | null
+  regStartsAt: Date | null
+  regEndsAt: Date | null
+  maxTeams: number | null
+  pricePerTeam: number | null
+  isPublic: boolean | null
+  requiresApproval: boolean | null
+  hasWaitlist: boolean | null
+  groupCount: number | null
+  teamsPerGroup: number | null
+  setsToWin: number | null
+  gamesPerSet: number | null
+  tiebreakPoints: number | null
+  goldenPoint: boolean | null
+  matchDurationMinutes: number | null
+  firstMatchTime: string | null
+  lastMatchTime: string | null
+  breakBetweenMatchesMinutes: number | null
+  autoGenerateSchedule: boolean | null
+  earlyBirdDiscount: number | null
+  isFreeEntry: boolean | null
   ownerId: string | null
   status: $Enums.CompetitionStatus | null
   createdAt: Date | null
@@ -39,9 +88,30 @@ export type CompetitionMinAggregateOutputType = {
 export type CompetitionMaxAggregateOutputType = {
   id: string | null
   title: string | null
+  description: string | null
   format: $Enums.CompetitionFormat | null
   startsAt: Date | null
   endsAt: Date | null
+  regStartsAt: Date | null
+  regEndsAt: Date | null
+  maxTeams: number | null
+  pricePerTeam: number | null
+  isPublic: boolean | null
+  requiresApproval: boolean | null
+  hasWaitlist: boolean | null
+  groupCount: number | null
+  teamsPerGroup: number | null
+  setsToWin: number | null
+  gamesPerSet: number | null
+  tiebreakPoints: number | null
+  goldenPoint: boolean | null
+  matchDurationMinutes: number | null
+  firstMatchTime: string | null
+  lastMatchTime: string | null
+  breakBetweenMatchesMinutes: number | null
+  autoGenerateSchedule: boolean | null
+  earlyBirdDiscount: number | null
+  isFreeEntry: boolean | null
   ownerId: string | null
   status: $Enums.CompetitionStatus | null
   createdAt: Date | null
@@ -51,9 +121,30 @@ export type CompetitionMaxAggregateOutputType = {
 export type CompetitionCountAggregateOutputType = {
   id: number
   title: number
+  description: number
   format: number
   startsAt: number
   endsAt: number
+  regStartsAt: number
+  regEndsAt: number
+  maxTeams: number
+  pricePerTeam: number
+  isPublic: number
+  requiresApproval: number
+  hasWaitlist: number
+  groupCount: number
+  teamsPerGroup: number
+  setsToWin: number
+  gamesPerSet: number
+  tiebreakPoints: number
+  goldenPoint: number
+  matchDurationMinutes: number
+  firstMatchTime: number
+  lastMatchTime: number
+  breakBetweenMatchesMinutes: number
+  autoGenerateSchedule: number
+  earlyBirdDiscount: number
+  isFreeEntry: number
   ownerId: number
   status: number
   createdAt: number
@@ -62,12 +153,59 @@ export type CompetitionCountAggregateOutputType = {
 }
 
 
+export type CompetitionAvgAggregateInputType = {
+  maxTeams?: true
+  pricePerTeam?: true
+  groupCount?: true
+  teamsPerGroup?: true
+  setsToWin?: true
+  gamesPerSet?: true
+  tiebreakPoints?: true
+  matchDurationMinutes?: true
+  breakBetweenMatchesMinutes?: true
+  earlyBirdDiscount?: true
+}
+
+export type CompetitionSumAggregateInputType = {
+  maxTeams?: true
+  pricePerTeam?: true
+  groupCount?: true
+  teamsPerGroup?: true
+  setsToWin?: true
+  gamesPerSet?: true
+  tiebreakPoints?: true
+  matchDurationMinutes?: true
+  breakBetweenMatchesMinutes?: true
+  earlyBirdDiscount?: true
+}
+
 export type CompetitionMinAggregateInputType = {
   id?: true
   title?: true
+  description?: true
   format?: true
   startsAt?: true
   endsAt?: true
+  regStartsAt?: true
+  regEndsAt?: true
+  maxTeams?: true
+  pricePerTeam?: true
+  isPublic?: true
+  requiresApproval?: true
+  hasWaitlist?: true
+  groupCount?: true
+  teamsPerGroup?: true
+  setsToWin?: true
+  gamesPerSet?: true
+  tiebreakPoints?: true
+  goldenPoint?: true
+  matchDurationMinutes?: true
+  firstMatchTime?: true
+  lastMatchTime?: true
+  breakBetweenMatchesMinutes?: true
+  autoGenerateSchedule?: true
+  earlyBirdDiscount?: true
+  isFreeEntry?: true
   ownerId?: true
   status?: true
   createdAt?: true
@@ -77,9 +215,30 @@ export type CompetitionMinAggregateInputType = {
 export type CompetitionMaxAggregateInputType = {
   id?: true
   title?: true
+  description?: true
   format?: true
   startsAt?: true
   endsAt?: true
+  regStartsAt?: true
+  regEndsAt?: true
+  maxTeams?: true
+  pricePerTeam?: true
+  isPublic?: true
+  requiresApproval?: true
+  hasWaitlist?: true
+  groupCount?: true
+  teamsPerGroup?: true
+  setsToWin?: true
+  gamesPerSet?: true
+  tiebreakPoints?: true
+  goldenPoint?: true
+  matchDurationMinutes?: true
+  firstMatchTime?: true
+  lastMatchTime?: true
+  breakBetweenMatchesMinutes?: true
+  autoGenerateSchedule?: true
+  earlyBirdDiscount?: true
+  isFreeEntry?: true
   ownerId?: true
   status?: true
   createdAt?: true
@@ -89,9 +248,30 @@ export type CompetitionMaxAggregateInputType = {
 export type CompetitionCountAggregateInputType = {
   id?: true
   title?: true
+  description?: true
   format?: true
   startsAt?: true
   endsAt?: true
+  regStartsAt?: true
+  regEndsAt?: true
+  maxTeams?: true
+  pricePerTeam?: true
+  isPublic?: true
+  requiresApproval?: true
+  hasWaitlist?: true
+  groupCount?: true
+  teamsPerGroup?: true
+  setsToWin?: true
+  gamesPerSet?: true
+  tiebreakPoints?: true
+  goldenPoint?: true
+  matchDurationMinutes?: true
+  firstMatchTime?: true
+  lastMatchTime?: true
+  breakBetweenMatchesMinutes?: true
+  autoGenerateSchedule?: true
+  earlyBirdDiscount?: true
+  isFreeEntry?: true
   ownerId?: true
   status?: true
   createdAt?: true
@@ -137,6 +317,18 @@ export type CompetitionAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CompetitionAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CompetitionSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CompetitionMinAggregateInputType
@@ -167,6 +359,8 @@ export type CompetitionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: CompetitionCountAggregateInputType | true
+  _avg?: CompetitionAvgAggregateInputType
+  _sum?: CompetitionSumAggregateInputType
   _min?: CompetitionMinAggregateInputType
   _max?: CompetitionMaxAggregateInputType
 }
@@ -174,14 +368,37 @@ export type CompetitionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type CompetitionGroupByOutputType = {
   id: string
   title: string
+  description: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date
   endsAt: Date
+  regStartsAt: Date | null
+  regEndsAt: Date | null
+  maxTeams: number | null
+  pricePerTeam: number
+  isPublic: boolean
+  requiresApproval: boolean
+  hasWaitlist: boolean
+  groupCount: number | null
+  teamsPerGroup: number | null
+  setsToWin: number
+  gamesPerSet: number
+  tiebreakPoints: number
+  goldenPoint: boolean
+  matchDurationMinutes: number
+  firstMatchTime: string | null
+  lastMatchTime: string | null
+  breakBetweenMatchesMinutes: number
+  autoGenerateSchedule: boolean
+  earlyBirdDiscount: number
+  isFreeEntry: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt: Date
   updatedAt: Date
   _count: CompetitionCountAggregateOutputType | null
+  _avg: CompetitionAvgAggregateOutputType | null
+  _sum: CompetitionSumAggregateOutputType | null
   _min: CompetitionMinAggregateOutputType | null
   _max: CompetitionMaxAggregateOutputType | null
 }
@@ -207,9 +424,30 @@ export type CompetitionWhereInput = {
   NOT?: Prisma.CompetitionWhereInput | Prisma.CompetitionWhereInput[]
   id?: Prisma.StringFilter<"Competition"> | string
   title?: Prisma.StringFilter<"Competition"> | string
+  description?: Prisma.StringNullableFilter<"Competition"> | string | null
   format?: Prisma.EnumCompetitionFormatFilter<"Competition"> | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
+  regStartsAt?: Prisma.DateTimeNullableFilter<"Competition"> | Date | string | null
+  regEndsAt?: Prisma.DateTimeNullableFilter<"Competition"> | Date | string | null
+  maxTeams?: Prisma.IntNullableFilter<"Competition"> | number | null
+  pricePerTeam?: Prisma.IntFilter<"Competition"> | number
+  isPublic?: Prisma.BoolFilter<"Competition"> | boolean
+  requiresApproval?: Prisma.BoolFilter<"Competition"> | boolean
+  hasWaitlist?: Prisma.BoolFilter<"Competition"> | boolean
+  groupCount?: Prisma.IntNullableFilter<"Competition"> | number | null
+  teamsPerGroup?: Prisma.IntNullableFilter<"Competition"> | number | null
+  setsToWin?: Prisma.IntFilter<"Competition"> | number
+  gamesPerSet?: Prisma.IntFilter<"Competition"> | number
+  tiebreakPoints?: Prisma.IntFilter<"Competition"> | number
+  goldenPoint?: Prisma.BoolFilter<"Competition"> | boolean
+  matchDurationMinutes?: Prisma.IntFilter<"Competition"> | number
+  firstMatchTime?: Prisma.StringNullableFilter<"Competition"> | string | null
+  lastMatchTime?: Prisma.StringNullableFilter<"Competition"> | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFilter<"Competition"> | number
+  autoGenerateSchedule?: Prisma.BoolFilter<"Competition"> | boolean
+  earlyBirdDiscount?: Prisma.IntFilter<"Competition"> | number
+  isFreeEntry?: Prisma.BoolFilter<"Competition"> | boolean
   ownerId?: Prisma.StringFilter<"Competition"> | string
   status?: Prisma.EnumCompetitionStatusFilter<"Competition"> | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
@@ -218,14 +456,37 @@ export type CompetitionWhereInput = {
   divisions?: Prisma.DivisionListRelationFilter
   registrations?: Prisma.RegistrationListRelationFilter
   matches?: Prisma.MatchListRelationFilter
+  courts?: Prisma.CourtListRelationFilter
+  prizes?: Prisma.PrizeListRelationFilter
 }
 
 export type CompetitionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   format?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
+  regStartsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  regEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxTeams?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
+  requiresApproval?: Prisma.SortOrder
+  hasWaitlist?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrderInput | Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrderInput | Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  goldenPoint?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  firstMatchTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastMatchTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  autoGenerateSchedule?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
+  isFreeEntry?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -234,6 +495,8 @@ export type CompetitionOrderByWithRelationInput = {
   divisions?: Prisma.DivisionOrderByRelationAggregateInput
   registrations?: Prisma.RegistrationOrderByRelationAggregateInput
   matches?: Prisma.MatchOrderByRelationAggregateInput
+  courts?: Prisma.CourtOrderByRelationAggregateInput
+  prizes?: Prisma.PrizeOrderByRelationAggregateInput
 }
 
 export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
@@ -242,9 +505,30 @@ export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CompetitionWhereInput[]
   NOT?: Prisma.CompetitionWhereInput | Prisma.CompetitionWhereInput[]
   title?: Prisma.StringFilter<"Competition"> | string
+  description?: Prisma.StringNullableFilter<"Competition"> | string | null
   format?: Prisma.EnumCompetitionFormatFilter<"Competition"> | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
+  regStartsAt?: Prisma.DateTimeNullableFilter<"Competition"> | Date | string | null
+  regEndsAt?: Prisma.DateTimeNullableFilter<"Competition"> | Date | string | null
+  maxTeams?: Prisma.IntNullableFilter<"Competition"> | number | null
+  pricePerTeam?: Prisma.IntFilter<"Competition"> | number
+  isPublic?: Prisma.BoolFilter<"Competition"> | boolean
+  requiresApproval?: Prisma.BoolFilter<"Competition"> | boolean
+  hasWaitlist?: Prisma.BoolFilter<"Competition"> | boolean
+  groupCount?: Prisma.IntNullableFilter<"Competition"> | number | null
+  teamsPerGroup?: Prisma.IntNullableFilter<"Competition"> | number | null
+  setsToWin?: Prisma.IntFilter<"Competition"> | number
+  gamesPerSet?: Prisma.IntFilter<"Competition"> | number
+  tiebreakPoints?: Prisma.IntFilter<"Competition"> | number
+  goldenPoint?: Prisma.BoolFilter<"Competition"> | boolean
+  matchDurationMinutes?: Prisma.IntFilter<"Competition"> | number
+  firstMatchTime?: Prisma.StringNullableFilter<"Competition"> | string | null
+  lastMatchTime?: Prisma.StringNullableFilter<"Competition"> | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFilter<"Competition"> | number
+  autoGenerateSchedule?: Prisma.BoolFilter<"Competition"> | boolean
+  earlyBirdDiscount?: Prisma.IntFilter<"Competition"> | number
+  isFreeEntry?: Prisma.BoolFilter<"Competition"> | boolean
   ownerId?: Prisma.StringFilter<"Competition"> | string
   status?: Prisma.EnumCompetitionStatusFilter<"Competition"> | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
@@ -253,21 +537,46 @@ export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
   divisions?: Prisma.DivisionListRelationFilter
   registrations?: Prisma.RegistrationListRelationFilter
   matches?: Prisma.MatchListRelationFilter
+  courts?: Prisma.CourtListRelationFilter
+  prizes?: Prisma.PrizeListRelationFilter
 }, "id">
 
 export type CompetitionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   format?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
+  regStartsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  regEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxTeams?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
+  requiresApproval?: Prisma.SortOrder
+  hasWaitlist?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrderInput | Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrderInput | Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  goldenPoint?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  firstMatchTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastMatchTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  autoGenerateSchedule?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
+  isFreeEntry?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CompetitionCountOrderByAggregateInput
+  _avg?: Prisma.CompetitionAvgOrderByAggregateInput
   _max?: Prisma.CompetitionMaxOrderByAggregateInput
   _min?: Prisma.CompetitionMinOrderByAggregateInput
+  _sum?: Prisma.CompetitionSumOrderByAggregateInput
 }
 
 export type CompetitionScalarWhereWithAggregatesInput = {
@@ -276,9 +585,30 @@ export type CompetitionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompetitionScalarWhereWithAggregatesInput | Prisma.CompetitionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Competition"> | string
   title?: Prisma.StringWithAggregatesFilter<"Competition"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Competition"> | string | null
   format?: Prisma.EnumCompetitionFormatWithAggregatesFilter<"Competition"> | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeWithAggregatesFilter<"Competition"> | Date | string
   endsAt?: Prisma.DateTimeWithAggregatesFilter<"Competition"> | Date | string
+  regStartsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Competition"> | Date | string | null
+  regEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Competition"> | Date | string | null
+  maxTeams?: Prisma.IntNullableWithAggregatesFilter<"Competition"> | number | null
+  pricePerTeam?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  isPublic?: Prisma.BoolWithAggregatesFilter<"Competition"> | boolean
+  requiresApproval?: Prisma.BoolWithAggregatesFilter<"Competition"> | boolean
+  hasWaitlist?: Prisma.BoolWithAggregatesFilter<"Competition"> | boolean
+  groupCount?: Prisma.IntNullableWithAggregatesFilter<"Competition"> | number | null
+  teamsPerGroup?: Prisma.IntNullableWithAggregatesFilter<"Competition"> | number | null
+  setsToWin?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  gamesPerSet?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  tiebreakPoints?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  goldenPoint?: Prisma.BoolWithAggregatesFilter<"Competition"> | boolean
+  matchDurationMinutes?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  firstMatchTime?: Prisma.StringNullableWithAggregatesFilter<"Competition"> | string | null
+  lastMatchTime?: Prisma.StringNullableWithAggregatesFilter<"Competition"> | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  autoGenerateSchedule?: Prisma.BoolWithAggregatesFilter<"Competition"> | boolean
+  earlyBirdDiscount?: Prisma.IntWithAggregatesFilter<"Competition"> | number
+  isFreeEntry?: Prisma.BoolWithAggregatesFilter<"Competition"> | boolean
   ownerId?: Prisma.StringWithAggregatesFilter<"Competition"> | string
   status?: Prisma.EnumCompetitionStatusWithAggregatesFilter<"Competition"> | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Competition"> | Date | string
@@ -288,9 +618,30 @@ export type CompetitionScalarWhereWithAggregatesInput = {
 export type CompetitionCreateInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -299,14 +650,37 @@ export type CompetitionCreateInput = {
   divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -315,14 +689,37 @@ export type CompetitionUncheckedCreateInput = {
   divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchUncheckedCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtUncheckedCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -331,14 +728,37 @@ export type CompetitionUpdateInput = {
   divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,14 +767,37 @@ export type CompetitionUncheckedUpdateInput = {
   divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUncheckedUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUncheckedUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionCreateManyInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -364,9 +807,30 @@ export type CompetitionCreateManyInput = {
 export type CompetitionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -376,9 +840,30 @@ export type CompetitionUpdateManyMutationInput = {
 export type CompetitionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,21 +873,76 @@ export type CompetitionUncheckedUpdateManyInput = {
 export type CompetitionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   format?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
+  regStartsAt?: Prisma.SortOrder
+  regEndsAt?: Prisma.SortOrder
+  maxTeams?: Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
+  requiresApproval?: Prisma.SortOrder
+  hasWaitlist?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  goldenPoint?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  firstMatchTime?: Prisma.SortOrder
+  lastMatchTime?: Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  autoGenerateSchedule?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
+  isFreeEntry?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
+export type CompetitionAvgOrderByAggregateInput = {
+  maxTeams?: Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
+}
+
 export type CompetitionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   format?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
+  regStartsAt?: Prisma.SortOrder
+  regEndsAt?: Prisma.SortOrder
+  maxTeams?: Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
+  requiresApproval?: Prisma.SortOrder
+  hasWaitlist?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  goldenPoint?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  firstMatchTime?: Prisma.SortOrder
+  lastMatchTime?: Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  autoGenerateSchedule?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
+  isFreeEntry?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -412,13 +952,47 @@ export type CompetitionMaxOrderByAggregateInput = {
 export type CompetitionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   format?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
+  regStartsAt?: Prisma.SortOrder
+  regEndsAt?: Prisma.SortOrder
+  maxTeams?: Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
+  requiresApproval?: Prisma.SortOrder
+  hasWaitlist?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  goldenPoint?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  firstMatchTime?: Prisma.SortOrder
+  lastMatchTime?: Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  autoGenerateSchedule?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
+  isFreeEntry?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CompetitionSumOrderByAggregateInput = {
+  maxTeams?: Prisma.SortOrder
+  pricePerTeam?: Prisma.SortOrder
+  groupCount?: Prisma.SortOrder
+  teamsPerGroup?: Prisma.SortOrder
+  setsToWin?: Prisma.SortOrder
+  gamesPerSet?: Prisma.SortOrder
+  tiebreakPoints?: Prisma.SortOrder
+  matchDurationMinutes?: Prisma.SortOrder
+  breakBetweenMatchesMinutes?: Prisma.SortOrder
+  earlyBirdDiscount?: Prisma.SortOrder
 }
 
 export type CompetitionScalarRelationFilter = {
@@ -430,12 +1004,40 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type EnumCompetitionFormatFieldUpdateOperationsInput = {
   set?: $Enums.CompetitionFormat
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type EnumCompetitionStatusFieldUpdateOperationsInput = {
@@ -498,12 +1100,61 @@ export type CompetitionUpdateOneRequiredWithoutMatchesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompetitionUpdateToOneWithWhereWithoutMatchesInput, Prisma.CompetitionUpdateWithoutMatchesInput>, Prisma.CompetitionUncheckedUpdateWithoutMatchesInput>
 }
 
+export type CompetitionCreateNestedOneWithoutCourtsInput = {
+  create?: Prisma.XOR<Prisma.CompetitionCreateWithoutCourtsInput, Prisma.CompetitionUncheckedCreateWithoutCourtsInput>
+  connectOrCreate?: Prisma.CompetitionCreateOrConnectWithoutCourtsInput
+  connect?: Prisma.CompetitionWhereUniqueInput
+}
+
+export type CompetitionUpdateOneRequiredWithoutCourtsNestedInput = {
+  create?: Prisma.XOR<Prisma.CompetitionCreateWithoutCourtsInput, Prisma.CompetitionUncheckedCreateWithoutCourtsInput>
+  connectOrCreate?: Prisma.CompetitionCreateOrConnectWithoutCourtsInput
+  upsert?: Prisma.CompetitionUpsertWithoutCourtsInput
+  connect?: Prisma.CompetitionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompetitionUpdateToOneWithWhereWithoutCourtsInput, Prisma.CompetitionUpdateWithoutCourtsInput>, Prisma.CompetitionUncheckedUpdateWithoutCourtsInput>
+}
+
+export type CompetitionCreateNestedOneWithoutPrizesInput = {
+  create?: Prisma.XOR<Prisma.CompetitionCreateWithoutPrizesInput, Prisma.CompetitionUncheckedCreateWithoutPrizesInput>
+  connectOrCreate?: Prisma.CompetitionCreateOrConnectWithoutPrizesInput
+  connect?: Prisma.CompetitionWhereUniqueInput
+}
+
+export type CompetitionUpdateOneRequiredWithoutPrizesNestedInput = {
+  create?: Prisma.XOR<Prisma.CompetitionCreateWithoutPrizesInput, Prisma.CompetitionUncheckedCreateWithoutPrizesInput>
+  connectOrCreate?: Prisma.CompetitionCreateOrConnectWithoutPrizesInput
+  upsert?: Prisma.CompetitionUpsertWithoutPrizesInput
+  connect?: Prisma.CompetitionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompetitionUpdateToOneWithWhereWithoutPrizesInput, Prisma.CompetitionUpdateWithoutPrizesInput>, Prisma.CompetitionUncheckedUpdateWithoutPrizesInput>
+}
+
 export type CompetitionCreateWithoutCategoriesInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -511,14 +1162,37 @@ export type CompetitionCreateWithoutCategoriesInput = {
   divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateWithoutCategoriesInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -526,6 +1200,8 @@ export type CompetitionUncheckedCreateWithoutCategoriesInput = {
   divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchUncheckedCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtUncheckedCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionCreateOrConnectWithoutCategoriesInput = {
@@ -547,9 +1223,30 @@ export type CompetitionUpdateToOneWithWhereWithoutCategoriesInput = {
 export type CompetitionUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -557,14 +1254,37 @@ export type CompetitionUpdateWithoutCategoriesInput = {
   divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -572,14 +1292,37 @@ export type CompetitionUncheckedUpdateWithoutCategoriesInput = {
   divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUncheckedUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUncheckedUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionCreateWithoutDivisionsInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -587,14 +1330,37 @@ export type CompetitionCreateWithoutDivisionsInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateWithoutDivisionsInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -602,6 +1368,8 @@ export type CompetitionUncheckedCreateWithoutDivisionsInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchUncheckedCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtUncheckedCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionCreateOrConnectWithoutDivisionsInput = {
@@ -623,9 +1391,30 @@ export type CompetitionUpdateToOneWithWhereWithoutDivisionsInput = {
 export type CompetitionUpdateWithoutDivisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -633,14 +1422,37 @@ export type CompetitionUpdateWithoutDivisionsInput = {
   categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateWithoutDivisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -648,14 +1460,37 @@ export type CompetitionUncheckedUpdateWithoutDivisionsInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUncheckedUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUncheckedUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionCreateWithoutRegistrationsInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -663,14 +1498,37 @@ export type CompetitionCreateWithoutRegistrationsInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
   divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateWithoutRegistrationsInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -678,6 +1536,8 @@ export type CompetitionUncheckedCreateWithoutRegistrationsInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
   divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
   matches?: Prisma.MatchUncheckedCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtUncheckedCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionCreateOrConnectWithoutRegistrationsInput = {
@@ -699,9 +1559,30 @@ export type CompetitionUpdateToOneWithWhereWithoutRegistrationsInput = {
 export type CompetitionUpdateWithoutRegistrationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -709,14 +1590,37 @@ export type CompetitionUpdateWithoutRegistrationsInput = {
   categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
   divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateWithoutRegistrationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -724,14 +1628,37 @@ export type CompetitionUncheckedUpdateWithoutRegistrationsInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
   divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
   matches?: Prisma.MatchUncheckedUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUncheckedUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionCreateWithoutMatchesInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -739,14 +1666,37 @@ export type CompetitionCreateWithoutMatchesInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
   divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionUncheckedCreateWithoutMatchesInput = {
   id?: string
   title: string
+  description?: string | null
   format: $Enums.CompetitionFormat
   startsAt: Date | string
   endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
   ownerId: string
   status: $Enums.CompetitionStatus
   createdAt?: Date | string
@@ -754,6 +1704,8 @@ export type CompetitionUncheckedCreateWithoutMatchesInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
   divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
   registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtUncheckedCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeUncheckedCreateNestedManyWithoutCompetitionInput
 }
 
 export type CompetitionCreateOrConnectWithoutMatchesInput = {
@@ -775,9 +1727,30 @@ export type CompetitionUpdateToOneWithWhereWithoutMatchesInput = {
 export type CompetitionUpdateWithoutMatchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -785,14 +1758,37 @@ export type CompetitionUpdateWithoutMatchesInput = {
   categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
   divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUpdateManyWithoutCompetitionNestedInput
 }
 
 export type CompetitionUncheckedUpdateWithoutMatchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -800,6 +1796,344 @@ export type CompetitionUncheckedUpdateWithoutMatchesInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
   divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
   registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUncheckedUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUncheckedUpdateManyWithoutCompetitionNestedInput
+}
+
+export type CompetitionCreateWithoutCourtsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  format: $Enums.CompetitionFormat
+  startsAt: Date | string
+  endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
+  ownerId: string
+  status: $Enums.CompetitionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
+  divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
+  matches?: Prisma.MatchCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeCreateNestedManyWithoutCompetitionInput
+}
+
+export type CompetitionUncheckedCreateWithoutCourtsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  format: $Enums.CompetitionFormat
+  startsAt: Date | string
+  endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
+  ownerId: string
+  status: $Enums.CompetitionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
+  divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
+  matches?: Prisma.MatchUncheckedCreateNestedManyWithoutCompetitionInput
+  prizes?: Prisma.PrizeUncheckedCreateNestedManyWithoutCompetitionInput
+}
+
+export type CompetitionCreateOrConnectWithoutCourtsInput = {
+  where: Prisma.CompetitionWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompetitionCreateWithoutCourtsInput, Prisma.CompetitionUncheckedCreateWithoutCourtsInput>
+}
+
+export type CompetitionUpsertWithoutCourtsInput = {
+  update: Prisma.XOR<Prisma.CompetitionUpdateWithoutCourtsInput, Prisma.CompetitionUncheckedUpdateWithoutCourtsInput>
+  create: Prisma.XOR<Prisma.CompetitionCreateWithoutCourtsInput, Prisma.CompetitionUncheckedCreateWithoutCourtsInput>
+  where?: Prisma.CompetitionWhereInput
+}
+
+export type CompetitionUpdateToOneWithWhereWithoutCourtsInput = {
+  where?: Prisma.CompetitionWhereInput
+  data: Prisma.XOR<Prisma.CompetitionUpdateWithoutCourtsInput, Prisma.CompetitionUncheckedUpdateWithoutCourtsInput>
+}
+
+export type CompetitionUpdateWithoutCourtsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
+  divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
+  matches?: Prisma.MatchUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUpdateManyWithoutCompetitionNestedInput
+}
+
+export type CompetitionUncheckedUpdateWithoutCourtsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
+  divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
+  matches?: Prisma.MatchUncheckedUpdateManyWithoutCompetitionNestedInput
+  prizes?: Prisma.PrizeUncheckedUpdateManyWithoutCompetitionNestedInput
+}
+
+export type CompetitionCreateWithoutPrizesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  format: $Enums.CompetitionFormat
+  startsAt: Date | string
+  endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
+  ownerId: string
+  status: $Enums.CompetitionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.CategoryCreateNestedManyWithoutCompetitionInput
+  divisions?: Prisma.DivisionCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationCreateNestedManyWithoutCompetitionInput
+  matches?: Prisma.MatchCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtCreateNestedManyWithoutCompetitionInput
+}
+
+export type CompetitionUncheckedCreateWithoutPrizesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  format: $Enums.CompetitionFormat
+  startsAt: Date | string
+  endsAt: Date | string
+  regStartsAt?: Date | string | null
+  regEndsAt?: Date | string | null
+  maxTeams?: number | null
+  pricePerTeam?: number
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: number | null
+  teamsPerGroup?: number | null
+  setsToWin?: number
+  gamesPerSet?: number
+  tiebreakPoints?: number
+  goldenPoint?: boolean
+  matchDurationMinutes?: number
+  firstMatchTime?: string | null
+  lastMatchTime?: string | null
+  breakBetweenMatchesMinutes?: number
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: number
+  isFreeEntry?: boolean
+  ownerId: string
+  status: $Enums.CompetitionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCompetitionInput
+  divisions?: Prisma.DivisionUncheckedCreateNestedManyWithoutCompetitionInput
+  registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCompetitionInput
+  matches?: Prisma.MatchUncheckedCreateNestedManyWithoutCompetitionInput
+  courts?: Prisma.CourtUncheckedCreateNestedManyWithoutCompetitionInput
+}
+
+export type CompetitionCreateOrConnectWithoutPrizesInput = {
+  where: Prisma.CompetitionWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompetitionCreateWithoutPrizesInput, Prisma.CompetitionUncheckedCreateWithoutPrizesInput>
+}
+
+export type CompetitionUpsertWithoutPrizesInput = {
+  update: Prisma.XOR<Prisma.CompetitionUpdateWithoutPrizesInput, Prisma.CompetitionUncheckedUpdateWithoutPrizesInput>
+  create: Prisma.XOR<Prisma.CompetitionCreateWithoutPrizesInput, Prisma.CompetitionUncheckedCreateWithoutPrizesInput>
+  where?: Prisma.CompetitionWhereInput
+}
+
+export type CompetitionUpdateToOneWithWhereWithoutPrizesInput = {
+  where?: Prisma.CompetitionWhereInput
+  data: Prisma.XOR<Prisma.CompetitionUpdateWithoutPrizesInput, Prisma.CompetitionUncheckedUpdateWithoutPrizesInput>
+}
+
+export type CompetitionUpdateWithoutPrizesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUpdateManyWithoutCompetitionNestedInput
+  divisions?: Prisma.DivisionUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUpdateManyWithoutCompetitionNestedInput
+  matches?: Prisma.MatchUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUpdateManyWithoutCompetitionNestedInput
+}
+
+export type CompetitionUncheckedUpdateWithoutPrizesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumCompetitionFormatFieldUpdateOperationsInput | $Enums.CompetitionFormat
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  regStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  regEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxTeams?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pricePerTeam?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requiresApproval?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teamsPerGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  setsToWin?: Prisma.IntFieldUpdateOperationsInput | number
+  gamesPerSet?: Prisma.IntFieldUpdateOperationsInput | number
+  tiebreakPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  goldenPoint?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  matchDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  firstMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMatchTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breakBetweenMatchesMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  autoGenerateSchedule?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earlyBirdDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  isFreeEntry?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCompetitionStatusFieldUpdateOperationsInput | $Enums.CompetitionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutCompetitionNestedInput
+  divisions?: Prisma.DivisionUncheckedUpdateManyWithoutCompetitionNestedInput
+  registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCompetitionNestedInput
+  matches?: Prisma.MatchUncheckedUpdateManyWithoutCompetitionNestedInput
+  courts?: Prisma.CourtUncheckedUpdateManyWithoutCompetitionNestedInput
 }
 
 
@@ -812,6 +2146,8 @@ export type CompetitionCountOutputType = {
   divisions: number
   registrations: number
   matches: number
+  courts: number
+  prizes: number
 }
 
 export type CompetitionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -819,6 +2155,8 @@ export type CompetitionCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   divisions?: boolean | CompetitionCountOutputTypeCountDivisionsArgs
   registrations?: boolean | CompetitionCountOutputTypeCountRegistrationsArgs
   matches?: boolean | CompetitionCountOutputTypeCountMatchesArgs
+  courts?: boolean | CompetitionCountOutputTypeCountCourtsArgs
+  prizes?: boolean | CompetitionCountOutputTypeCountPrizesArgs
 }
 
 /**
@@ -859,13 +2197,48 @@ export type CompetitionCountOutputTypeCountMatchesArgs<ExtArgs extends runtime.T
   where?: Prisma.MatchWhereInput
 }
 
+/**
+ * CompetitionCountOutputType without action
+ */
+export type CompetitionCountOutputTypeCountCourtsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CourtWhereInput
+}
+
+/**
+ * CompetitionCountOutputType without action
+ */
+export type CompetitionCountOutputTypeCountPrizesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PrizeWhereInput
+}
+
 
 export type CompetitionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  description?: boolean
   format?: boolean
   startsAt?: boolean
   endsAt?: boolean
+  regStartsAt?: boolean
+  regEndsAt?: boolean
+  maxTeams?: boolean
+  pricePerTeam?: boolean
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: boolean
+  teamsPerGroup?: boolean
+  setsToWin?: boolean
+  gamesPerSet?: boolean
+  tiebreakPoints?: boolean
+  goldenPoint?: boolean
+  matchDurationMinutes?: boolean
+  firstMatchTime?: boolean
+  lastMatchTime?: boolean
+  breakBetweenMatchesMinutes?: boolean
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: boolean
+  isFreeEntry?: boolean
   ownerId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -874,15 +2247,38 @@ export type CompetitionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   divisions?: boolean | Prisma.Competition$divisionsArgs<ExtArgs>
   registrations?: boolean | Prisma.Competition$registrationsArgs<ExtArgs>
   matches?: boolean | Prisma.Competition$matchesArgs<ExtArgs>
+  courts?: boolean | Prisma.Competition$courtsArgs<ExtArgs>
+  prizes?: boolean | Prisma.Competition$prizesArgs<ExtArgs>
   _count?: boolean | Prisma.CompetitionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["competition"]>
 
 export type CompetitionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  description?: boolean
   format?: boolean
   startsAt?: boolean
   endsAt?: boolean
+  regStartsAt?: boolean
+  regEndsAt?: boolean
+  maxTeams?: boolean
+  pricePerTeam?: boolean
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: boolean
+  teamsPerGroup?: boolean
+  setsToWin?: boolean
+  gamesPerSet?: boolean
+  tiebreakPoints?: boolean
+  goldenPoint?: boolean
+  matchDurationMinutes?: boolean
+  firstMatchTime?: boolean
+  lastMatchTime?: boolean
+  breakBetweenMatchesMinutes?: boolean
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: boolean
+  isFreeEntry?: boolean
   ownerId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -892,9 +2288,30 @@ export type CompetitionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type CompetitionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  description?: boolean
   format?: boolean
   startsAt?: boolean
   endsAt?: boolean
+  regStartsAt?: boolean
+  regEndsAt?: boolean
+  maxTeams?: boolean
+  pricePerTeam?: boolean
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: boolean
+  teamsPerGroup?: boolean
+  setsToWin?: boolean
+  gamesPerSet?: boolean
+  tiebreakPoints?: boolean
+  goldenPoint?: boolean
+  matchDurationMinutes?: boolean
+  firstMatchTime?: boolean
+  lastMatchTime?: boolean
+  breakBetweenMatchesMinutes?: boolean
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: boolean
+  isFreeEntry?: boolean
   ownerId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -904,21 +2321,44 @@ export type CompetitionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type CompetitionSelectScalar = {
   id?: boolean
   title?: boolean
+  description?: boolean
   format?: boolean
   startsAt?: boolean
   endsAt?: boolean
+  regStartsAt?: boolean
+  regEndsAt?: boolean
+  maxTeams?: boolean
+  pricePerTeam?: boolean
+  isPublic?: boolean
+  requiresApproval?: boolean
+  hasWaitlist?: boolean
+  groupCount?: boolean
+  teamsPerGroup?: boolean
+  setsToWin?: boolean
+  gamesPerSet?: boolean
+  tiebreakPoints?: boolean
+  goldenPoint?: boolean
+  matchDurationMinutes?: boolean
+  firstMatchTime?: boolean
+  lastMatchTime?: boolean
+  breakBetweenMatchesMinutes?: boolean
+  autoGenerateSchedule?: boolean
+  earlyBirdDiscount?: boolean
+  isFreeEntry?: boolean
   ownerId?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CompetitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "format" | "startsAt" | "endsAt" | "ownerId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["competition"]>
+export type CompetitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "format" | "startsAt" | "endsAt" | "regStartsAt" | "regEndsAt" | "maxTeams" | "pricePerTeam" | "isPublic" | "requiresApproval" | "hasWaitlist" | "groupCount" | "teamsPerGroup" | "setsToWin" | "gamesPerSet" | "tiebreakPoints" | "goldenPoint" | "matchDurationMinutes" | "firstMatchTime" | "lastMatchTime" | "breakBetweenMatchesMinutes" | "autoGenerateSchedule" | "earlyBirdDiscount" | "isFreeEntry" | "ownerId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["competition"]>
 export type CompetitionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.Competition$categoriesArgs<ExtArgs>
   divisions?: boolean | Prisma.Competition$divisionsArgs<ExtArgs>
   registrations?: boolean | Prisma.Competition$registrationsArgs<ExtArgs>
   matches?: boolean | Prisma.Competition$matchesArgs<ExtArgs>
+  courts?: boolean | Prisma.Competition$courtsArgs<ExtArgs>
+  prizes?: boolean | Prisma.Competition$prizesArgs<ExtArgs>
   _count?: boolean | Prisma.CompetitionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompetitionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -931,13 +2371,36 @@ export type $CompetitionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     divisions: Prisma.$DivisionPayload<ExtArgs>[]
     registrations: Prisma.$RegistrationPayload<ExtArgs>[]
     matches: Prisma.$MatchPayload<ExtArgs>[]
+    courts: Prisma.$CourtPayload<ExtArgs>[]
+    prizes: Prisma.$PrizePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
+    description: string | null
     format: $Enums.CompetitionFormat
     startsAt: Date
     endsAt: Date
+    regStartsAt: Date | null
+    regEndsAt: Date | null
+    maxTeams: number | null
+    pricePerTeam: number
+    isPublic: boolean
+    requiresApproval: boolean
+    hasWaitlist: boolean
+    groupCount: number | null
+    teamsPerGroup: number | null
+    setsToWin: number
+    gamesPerSet: number
+    tiebreakPoints: number
+    goldenPoint: boolean
+    matchDurationMinutes: number
+    firstMatchTime: string | null
+    lastMatchTime: string | null
+    breakBetweenMatchesMinutes: number
+    autoGenerateSchedule: boolean
+    earlyBirdDiscount: number
+    isFreeEntry: boolean
     ownerId: string
     status: $Enums.CompetitionStatus
     createdAt: Date
@@ -1340,6 +2803,8 @@ export interface Prisma__CompetitionClient<T, Null = never, ExtArgs extends runt
   divisions<T extends Prisma.Competition$divisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$divisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DivisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   registrations<T extends Prisma.Competition$registrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   matches<T extends Prisma.Competition$matchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$matchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  courts<T extends Prisma.Competition$courtsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$courtsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourtPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  prizes<T extends Prisma.Competition$prizesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Competition$prizesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrizePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1371,9 +2836,30 @@ export interface Prisma__CompetitionClient<T, Null = never, ExtArgs extends runt
 export interface CompetitionFieldRefs {
   readonly id: Prisma.FieldRef<"Competition", 'String'>
   readonly title: Prisma.FieldRef<"Competition", 'String'>
+  readonly description: Prisma.FieldRef<"Competition", 'String'>
   readonly format: Prisma.FieldRef<"Competition", 'CompetitionFormat'>
   readonly startsAt: Prisma.FieldRef<"Competition", 'DateTime'>
   readonly endsAt: Prisma.FieldRef<"Competition", 'DateTime'>
+  readonly regStartsAt: Prisma.FieldRef<"Competition", 'DateTime'>
+  readonly regEndsAt: Prisma.FieldRef<"Competition", 'DateTime'>
+  readonly maxTeams: Prisma.FieldRef<"Competition", 'Int'>
+  readonly pricePerTeam: Prisma.FieldRef<"Competition", 'Int'>
+  readonly isPublic: Prisma.FieldRef<"Competition", 'Boolean'>
+  readonly requiresApproval: Prisma.FieldRef<"Competition", 'Boolean'>
+  readonly hasWaitlist: Prisma.FieldRef<"Competition", 'Boolean'>
+  readonly groupCount: Prisma.FieldRef<"Competition", 'Int'>
+  readonly teamsPerGroup: Prisma.FieldRef<"Competition", 'Int'>
+  readonly setsToWin: Prisma.FieldRef<"Competition", 'Int'>
+  readonly gamesPerSet: Prisma.FieldRef<"Competition", 'Int'>
+  readonly tiebreakPoints: Prisma.FieldRef<"Competition", 'Int'>
+  readonly goldenPoint: Prisma.FieldRef<"Competition", 'Boolean'>
+  readonly matchDurationMinutes: Prisma.FieldRef<"Competition", 'Int'>
+  readonly firstMatchTime: Prisma.FieldRef<"Competition", 'String'>
+  readonly lastMatchTime: Prisma.FieldRef<"Competition", 'String'>
+  readonly breakBetweenMatchesMinutes: Prisma.FieldRef<"Competition", 'Int'>
+  readonly autoGenerateSchedule: Prisma.FieldRef<"Competition", 'Boolean'>
+  readonly earlyBirdDiscount: Prisma.FieldRef<"Competition", 'Int'>
+  readonly isFreeEntry: Prisma.FieldRef<"Competition", 'Boolean'>
   readonly ownerId: Prisma.FieldRef<"Competition", 'String'>
   readonly status: Prisma.FieldRef<"Competition", 'CompetitionStatus'>
   readonly createdAt: Prisma.FieldRef<"Competition", 'DateTime'>
@@ -1859,6 +3345,54 @@ export type Competition$matchesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.MatchScalarFieldEnum | Prisma.MatchScalarFieldEnum[]
+}
+
+/**
+ * Competition.courts
+ */
+export type Competition$courtsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Court
+   */
+  select?: Prisma.CourtSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Court
+   */
+  omit?: Prisma.CourtOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CourtInclude<ExtArgs> | null
+  where?: Prisma.CourtWhereInput
+  orderBy?: Prisma.CourtOrderByWithRelationInput | Prisma.CourtOrderByWithRelationInput[]
+  cursor?: Prisma.CourtWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CourtScalarFieldEnum | Prisma.CourtScalarFieldEnum[]
+}
+
+/**
+ * Competition.prizes
+ */
+export type Competition$prizesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Prize
+   */
+  select?: Prisma.PrizeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Prize
+   */
+  omit?: Prisma.PrizeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrizeInclude<ExtArgs> | null
+  where?: Prisma.PrizeWhereInput
+  orderBy?: Prisma.PrizeOrderByWithRelationInput | Prisma.PrizeOrderByWithRelationInput[]
+  cursor?: Prisma.PrizeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PrizeScalarFieldEnum | Prisma.PrizeScalarFieldEnum[]
 }
 
 /**

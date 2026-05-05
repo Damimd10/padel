@@ -129,6 +129,7 @@ export {
   type ProgressIndicatorProps,
   type ProgressIndicatorTone,
 } from "./components/progress-indicator.js";
+export { Progress } from "./components/progress.js";
 export {
   RadioGroup,
   RadioGroupItem,
@@ -235,3 +236,9 @@ export {
   SidebarSeparator,
   SidebarTrigger,
 } from "./components/sidebar.js";
+export {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "./components/tabs.js";

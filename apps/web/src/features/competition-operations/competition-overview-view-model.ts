@@ -34,10 +34,15 @@ const statusLabelMap: Record<CompetitionOverviewItem["status"], string> = {
 };
 
 export interface CompetitionOverviewRowViewModel {
+  categoryCount: number;
+  categoryNames: string[];
+  divisionCount: number;
   id: string;
   metadataItems: InlineMetadataItem[];
   nextActionLabel: string;
   operationsSummary: string;
+  prizePool: number;
+  registrationCount: number;
   rowState: TableRowState;
   scheduleLabel: string;
   statusLabel: string;
@@ -121,6 +126,11 @@ export function mapCompetitionOverviewToPageModel(
     generatedAtLabel: "Live collection response",
     rows: response.map((item: CompetitionOverviewItem) => ({
       id: item.id,
+      categoryCount: item.categoryCount,
+      categoryNames: item.categoryNames,
+      divisionCount: item.divisionCount,
+      registrationCount: item.registrationCount,
+      prizePool: item.prizePool,
       metadataItems: [
         {
           label: "Format",

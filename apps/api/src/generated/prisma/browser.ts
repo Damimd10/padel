@@ -43,6 +43,16 @@ export type Registration = Prisma.RegistrationModel
  */
 export type Match = Prisma.MatchModel
 /**
+ * Model Court
+ * 
+ */
+export type Court = Prisma.CourtModel
+/**
+ * Model Prize
+ * 
+ */
+export type Prize = Prisma.PrizeModel
+/**
  * Model User
  * 
  */
