@@ -17,6 +17,11 @@ describe("mapCompetitionOverviewRow", () => {
           name: "Operations User",
           email: "ops@example.com",
         },
+        categoryCount: 3,
+        divisionCount: 2,
+        registrationCount: 12,
+        prizePool: 3000,
+        categoryNames: ["Sexta", "Quinta"],
       }),
     ).toEqual({
       id: "11111111-1111-4111-8111-111111111111",
@@ -30,6 +35,11 @@ describe("mapCompetitionOverviewRow", () => {
         name: "Operations User",
         email: "ops@example.com",
       },
+      categoryCount: 3,
+      divisionCount: 2,
+      registrationCount: 12,
+      prizePool: 3000,
+      categoryNames: ["Sexta", "Quinta"],
     });
   });
 });

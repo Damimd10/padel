@@ -2,10 +2,26 @@ import { NotFoundException } from "@nestjs/common";
 import { beforeEach, describe, expect, it } from "vitest";
 import { Competition } from "../domain/competition.js";
 import { Match } from "../domain/match.js";
+import { createTestCommand } from "../test-helpers.js";
 import { GenerateMatchesUseCase } from "./generate-matches.use-case.js";
 import { FakeCompetitionRepository } from "./ports/fake-competition-repository.js";
 import { FakeMatchRepository } from "./ports/fake-match-repository.js";
 import { FakeRegistrationRepository } from "./ports/fake-registration-repository.js";
+
+function createTestCompetition(
+  overrides: Partial<ReturnType<typeof createTestCommand>> = {},
+) {
+  return Competition.createDraft(
+    createTestCommand({
+      title: "Test",
+      startsAt: "2026-06-01T10:00:00Z",
+      endsAt: "2026-06-01T18:00:00Z",
+      ownerId: "owner-1",
+      ...overrides,
+    }),
+    "comp-1",
+  );
+}
 
 describe("GenerateMatchesUseCase", () => {
   let useCase: GenerateMatchesUseCase;
@@ -32,16 +48,9 @@ describe("GenerateMatchesUseCase", () => {
   });
 
   it("throws if competition is not closed", async () => {
-    const competition = Competition.createDraft(
-      {
-        title: "Test",
-        format: "round-robin",
-        startsAt: "2026-06-01T10:00:00Z",
-        endsAt: "2026-06-01T18:00:00Z",
-        ownerId: "owner-1",
-      },
-      "comp-1",
-    );
+    const competition = createTestCompetition({
+      format: "round-robin",
+    });
     await competitionRepository.create(competition);
 
     await expect(useCase.execute({ competitionId: "comp-1" })).rejects.toThrow(
@@ -50,16 +59,9 @@ describe("GenerateMatchesUseCase", () => {
   });
 
   it("throws if less than two approved registrations", async () => {
-    const competition = Competition.createDraft(
-      {
-        title: "Test",
-        format: "round-robin",
-        startsAt: "2026-06-01T10:00:00Z",
-        endsAt: "2026-06-01T18:00:00Z",
-        ownerId: "owner-1",
-      },
-      "comp-1",
-    );
+    const competition = createTestCompetition({
+      format: "round-robin",
+    });
     competition.open();
     competition.close();
     await competitionRepository.create(competition);
@@ -70,16 +72,9 @@ describe("GenerateMatchesUseCase", () => {
   });
 
   it("generates round-robin matches for approved registrations", async () => {
-    const competition = Competition.createDraft(
-      {
-        title: "Test",
-        format: "round-robin",
-        startsAt: "2026-06-01T10:00:00Z",
-        endsAt: "2026-06-01T18:00:00Z",
-        ownerId: "owner-1",
-      },
-      "comp-1",
-    );
+    const competition = createTestCompetition({
+      format: "round-robin",
+    });
     competition.open();
     competition.close();
     await competitionRepository.create(competition);
@@ -126,16 +121,9 @@ describe("GenerateMatchesUseCase", () => {
   });
 
   it("generates elimination matches for approved registrations", async () => {
-    const competition = Competition.createDraft(
-      {
-        title: "Test",
-        format: "elimination",
-        startsAt: "2026-06-01T10:00:00Z",
-        endsAt: "2026-06-01T18:00:00Z",
-        ownerId: "owner-1",
-      },
-      "comp-1",
-    );
+    const competition = createTestCompetition({
+      format: "elimination",
+    });
     competition.open();
     competition.close();
     await competitionRepository.create(competition);
@@ -190,16 +178,9 @@ describe("GenerateMatchesUseCase", () => {
   });
 
   it("generates league matches (double round-robin) for approved registrations", async () => {
-    const competition = Competition.createDraft(
-      {
-        title: "Test",
-        format: "league",
-        startsAt: "2026-06-01T10:00:00Z",
-        endsAt: "2026-06-01T18:00:00Z",
-        ownerId: "owner-1",
-      },
-      "comp-1",
-    );
+    const competition = createTestCompetition({
+      format: "league",
+    });
     competition.open();
     competition.close();
     await competitionRepository.create(competition);
@@ -244,16 +225,9 @@ describe("GenerateMatchesUseCase", () => {
   });
 
   it("groups registrations by category and division", async () => {
-    const competition = Competition.createDraft(
-      {
-        title: "Test",
-        format: "round-robin",
-        startsAt: "2026-06-01T10:00:00Z",
-        endsAt: "2026-06-01T18:00:00Z",
-        ownerId: "owner-1",
-      },
-      "comp-1",
-    );
+    const competition = createTestCompetition({
+      format: "round-robin",
+    });
     competition.open();
     competition.close();
     await competitionRepository.create(competition);

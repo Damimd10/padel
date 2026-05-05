@@ -395,6 +395,8 @@ export const ModelName = {
   Division: 'Division',
   Registration: 'Registration',
   Match: 'Match',
+  Court: 'Court',
+  Prize: 'Prize',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -414,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "competition" | "category" | "division" | "registration" | "match" | "user" | "session" | "account" | "verification"
+    modelProps: "competition" | "category" | "division" | "registration" | "match" | "court" | "prize" | "user" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -788,6 +790,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Court: {
+      payload: Prisma.$CourtPayload<ExtArgs>
+      fields: Prisma.CourtFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CourtFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CourtFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>
+        }
+        findFirst: {
+          args: Prisma.CourtFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CourtFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>
+        }
+        findMany: {
+          args: Prisma.CourtFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>[]
+        }
+        create: {
+          args: Prisma.CourtCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>
+        }
+        createMany: {
+          args: Prisma.CourtCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CourtCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>[]
+        }
+        delete: {
+          args: Prisma.CourtDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>
+        }
+        update: {
+          args: Prisma.CourtUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>
+        }
+        deleteMany: {
+          args: Prisma.CourtDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CourtUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CourtUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>[]
+        }
+        upsert: {
+          args: Prisma.CourtUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourtPayload>
+        }
+        aggregate: {
+          args: Prisma.CourtAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCourt>
+        }
+        groupBy: {
+          args: Prisma.CourtGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CourtGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CourtCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CourtCountAggregateOutputType> | number
+        }
+      }
+    }
+    Prize: {
+      payload: Prisma.$PrizePayload<ExtArgs>
+      fields: Prisma.PrizeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PrizeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PrizeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>
+        }
+        findFirst: {
+          args: Prisma.PrizeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PrizeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>
+        }
+        findMany: {
+          args: Prisma.PrizeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>[]
+        }
+        create: {
+          args: Prisma.PrizeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>
+        }
+        createMany: {
+          args: Prisma.PrizeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PrizeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>[]
+        }
+        delete: {
+          args: Prisma.PrizeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>
+        }
+        update: {
+          args: Prisma.PrizeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>
+        }
+        deleteMany: {
+          args: Prisma.PrizeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PrizeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PrizeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>[]
+        }
+        upsert: {
+          args: Prisma.PrizeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrizePayload>
+        }
+        aggregate: {
+          args: Prisma.PrizeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePrize>
+        }
+        groupBy: {
+          args: Prisma.PrizeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrizeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PrizeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrizeCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1126,9 +1276,30 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const CompetitionScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  description: 'description',
   format: 'format',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
+  regStartsAt: 'regStartsAt',
+  regEndsAt: 'regEndsAt',
+  maxTeams: 'maxTeams',
+  pricePerTeam: 'pricePerTeam',
+  isPublic: 'isPublic',
+  requiresApproval: 'requiresApproval',
+  hasWaitlist: 'hasWaitlist',
+  groupCount: 'groupCount',
+  teamsPerGroup: 'teamsPerGroup',
+  setsToWin: 'setsToWin',
+  gamesPerSet: 'gamesPerSet',
+  tiebreakPoints: 'tiebreakPoints',
+  goldenPoint: 'goldenPoint',
+  matchDurationMinutes: 'matchDurationMinutes',
+  firstMatchTime: 'firstMatchTime',
+  lastMatchTime: 'lastMatchTime',
+  breakBetweenMatchesMinutes: 'breakBetweenMatchesMinutes',
+  autoGenerateSchedule: 'autoGenerateSchedule',
+  earlyBirdDiscount: 'earlyBirdDiscount',
+  isFreeEntry: 'isFreeEntry',
   ownerId: 'ownerId',
   status: 'status',
   createdAt: 'createdAt',
@@ -1188,6 +1359,31 @@ export const MatchScalarFieldEnum = {
 } as const
 
 export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
+
+
+export const CourtScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  name: 'name',
+  type: 'type',
+  isSelected: 'isSelected',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CourtScalarFieldEnum = (typeof CourtScalarFieldEnum)[keyof typeof CourtScalarFieldEnum]
+
+
+export const PrizeScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  place: 'place',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PrizeScalarFieldEnum = (typeof PrizeScalarFieldEnum)[keyof typeof PrizeScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1321,6 +1517,27 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'CompetitionStatus'
  */
 export type EnumCompetitionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompetitionStatus'>
@@ -1373,27 +1590,6 @@ export type EnumMatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'MatchStatus[]'
  */
 export type ListEnumMatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MatchStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1502,6 +1698,8 @@ export type GlobalOmitConfig = {
   division?: Prisma.DivisionOmit
   registration?: Prisma.RegistrationOmit
   match?: Prisma.MatchOmit
+  court?: Prisma.CourtOmit
+  prize?: Prisma.PrizeOmit
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit

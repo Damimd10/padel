@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { Competition } from "../domain/competition.js";
+import { createTestCompetitionProps } from "../test-helpers.js";
 import { CancelCompetitionUseCase } from "./cancel-competition.use-case.js";
 import type { CompetitionRepository } from "./ports/competition-repository.js";
 
@@ -39,15 +40,17 @@ describe("CancelCompetitionUseCase", () => {
   it("cancels a draft competition", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new CancelCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "draft",
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        format: "elimination",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-1",
+        status: "draft",
+      }),
+    );
     repository.setFindResult(competition);
 
     const result = await useCase.execute({ competitionId: "competition-1" });
@@ -62,15 +65,17 @@ describe("CancelCompetitionUseCase", () => {
   it("cancels an open competition", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new CancelCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "open",
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        format: "elimination",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-1",
+        status: "open",
+      }),
+    );
     repository.setFindResult(competition);
 
     const result = await useCase.execute({ competitionId: "competition-1" });
@@ -95,15 +100,17 @@ describe("CancelCompetitionUseCase", () => {
   it("throws when competition is already cancelled", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new CancelCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "cancelled",
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        format: "elimination",
+        startsAt: "2026-05-10T10:00:00.000Z",
+        endsAt: "2026-05-12T18:00:00.000Z",
+        ownerId: "owner-1",
+        status: "cancelled",
+      }),
+    );
     repository.setFindResult(competition);
 
     await expect(

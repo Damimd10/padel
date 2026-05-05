@@ -116,9 +116,46 @@ export const resetPasswordResponseSchema = z
 export const createCompetitionRequestSchema = z
   .object({
     title: z.string().trim().min(1),
+    description: z.string().trim().optional(),
     format: competitionFormatSchema,
     startsAt: z.iso.datetime(),
     endsAt: z.iso.datetime(),
+    regStartsAt: z.iso.datetime().optional(),
+    regEndsAt: z.iso.datetime().optional(),
+    maxTeams: z.number().int().min(2).max(128).optional(),
+    pricePerTeam: z.number().int().min(0).default(0),
+    isPublic: z.boolean().default(true),
+    requiresApproval: z.boolean().default(false),
+    hasWaitlist: z.boolean().default(true),
+    groupCount: z.number().int().min(2).max(8).optional(),
+    teamsPerGroup: z.number().int().min(2).max(8).optional(),
+    setsToWin: z.number().int().min(1).max(3).default(2),
+    gamesPerSet: z.number().int().min(4).max(9).default(6),
+    tiebreakPoints: z.number().int().min(7).max(10).default(7),
+    goldenPoint: z.boolean().default(false),
+    matchDurationMinutes: z.number().int().min(15).max(180).default(60),
+    firstMatchTime: z.string().optional(),
+    lastMatchTime: z.string().optional(),
+    breakBetweenMatchesMinutes: z.number().int().min(5).max(60).default(15),
+    autoGenerateSchedule: z.boolean().default(true),
+    earlyBirdDiscount: z.number().int().min(0).max(100).default(0),
+    isFreeEntry: z.boolean().default(false),
+    courts: z
+      .array(
+        z.object({
+          name: z.string().trim().min(1),
+          type: z.string().trim().min(1),
+        }),
+      )
+      .default([]),
+    prizes: z
+      .array(
+        z.object({
+          place: z.string().trim().min(1),
+          amount: z.number().int().min(0),
+        }),
+      )
+      .default([]),
   })
   .strict()
   .refine(
@@ -133,11 +170,34 @@ export const createCompetitionRequestSchema = z
 export const createCompetitionResponseSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
+  description: z.string().nullable(),
   format: competitionFormatSchema,
   startsAt: z.iso.datetime(),
   endsAt: z.iso.datetime(),
+  regStartsAt: z.string().nullable(),
+  regEndsAt: z.string().nullable(),
+  maxTeams: z.number().int().nullable(),
+  pricePerTeam: z.number().int(),
+  isPublic: z.boolean(),
+  requiresApproval: z.boolean(),
+  hasWaitlist: z.boolean(),
+  groupCount: z.number().int().nullable(),
+  teamsPerGroup: z.number().int().nullable(),
+  setsToWin: z.number().int(),
+  gamesPerSet: z.number().int(),
+  tiebreakPoints: z.number().int(),
+  goldenPoint: z.boolean(),
+  matchDurationMinutes: z.number().int(),
+  firstMatchTime: z.string().nullable(),
+  lastMatchTime: z.string().nullable(),
+  breakBetweenMatchesMinutes: z.number().int(),
+  autoGenerateSchedule: z.boolean(),
+  earlyBirdDiscount: z.number().int(),
+  isFreeEntry: z.boolean(),
   ownerId: z.string(),
   status: z.literal("draft"),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export const competitionOverviewOwnerSchema = z
@@ -157,6 +217,11 @@ export const competitionOverviewItemSchema = z
     startsAt: z.iso.datetime(),
     endsAt: z.iso.datetime(),
     owner: competitionOverviewOwnerSchema,
+    categoryCount: z.number().int(),
+    divisionCount: z.number().int(),
+    registrationCount: z.number().int(),
+    prizePool: z.number().int(),
+    categoryNames: z.array(z.string()),
   })
   .strict();
 
@@ -177,6 +242,12 @@ export type CreateCompetitionResponse = z.infer<
   typeof createCompetitionResponseSchema
 >;
 export type CompetitionFormat = z.infer<typeof competitionFormatSchema>;
+export type CompetitionCourtRequest = z.infer<
+  typeof createCompetitionRequestSchema
+>["courts"][number];
+export type CompetitionPrizeRequest = z.infer<
+  typeof createCompetitionRequestSchema
+>["prizes"][number];
 export type CompetitionOverviewOwner = z.infer<
   typeof competitionOverviewOwnerSchema
 >;

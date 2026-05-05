@@ -13,6 +13,11 @@ export const competitionOverviewFixture: CompetitionOverviewCollection = [
       name: "Lucia Perez",
       email: "lucia@example.com",
     },
+    categoryCount: 3,
+    divisionCount: 2,
+    registrationCount: 24,
+    prizePool: 5000,
+    categoryNames: ["Sexta A", "Sexta B", "Quinta"],
   },
   {
     id: "d3f0afb5-3206-4f8d-bf78-40adfdfcbb13",
@@ -26,6 +31,11 @@ export const competitionOverviewFixture: CompetitionOverviewCollection = [
       name: "Mateo Sosa",
       email: "mateo@example.com",
     },
+    categoryCount: 0,
+    divisionCount: 0,
+    registrationCount: 0,
+    prizePool: 0,
+    categoryNames: [],
   },
   {
     id: "8e948e4d-a326-42dd-89f9-e4afbfd84992",
@@ -39,6 +49,11 @@ export const competitionOverviewFixture: CompetitionOverviewCollection = [
       name: "Ariana Lopez",
       email: "ariana@example.com",
     },
+    categoryCount: 2,
+    divisionCount: 1,
+    registrationCount: 16,
+    prizePool: 2000,
+    categoryNames: ["Primera", "Segunda"],
   },
 ];
 

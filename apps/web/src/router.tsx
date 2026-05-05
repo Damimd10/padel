@@ -74,6 +74,8 @@ import {
 import { CompetitionOperationsScreen } from "./features/competition-operations/competition-operations-screen.js";
 import { competitionOverviewQueryOptions } from "./features/competition-operations/competition-overview-query.js";
 import { mapCompetitionOverviewToPageModel } from "./features/competition-operations/competition-overview-view-model.js";
+import type { CreateCompetitionFormValues } from "./features/create-competition/create-competition-schema.js";
+import { CreateCompetitionScreen } from "./features/create-competition/create-competition-screen.js";
 import {
   selectAuthIsLoading,
   selectAuthUser,
@@ -142,6 +144,12 @@ const competitionOperationsRoute = createRoute({
   pendingMs: 0,
   errorComponent: CompetitionOperationsError,
   component: CompetitionOperationsRouteScreen,
+});
+
+const createCompetitionRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/competitions/create",
+  component: CreateCompetitionRouteScreen,
 });
 
 const competitionDetailRoute = createRoute({
@@ -238,6 +246,7 @@ const routeTree = rootRoute.addChildren([
     adminRoute.addChildren([
       adminDashboardRoute,
       competitionOperationsRoute,
+      createCompetitionRoute,
       competitionDetailRoute,
       adminCategoriesRoute,
       adminParticipantsRoute,
@@ -295,7 +304,6 @@ function SignInScreen() {
     },
     validators: {
       onChange: signInWithEmailRequestSchema,
-      onBlur: signInWithEmailRequestSchema,
       onSubmit: signInWithEmailRequestSchema,
     },
     onSubmit: async ({ value }) => {
@@ -734,21 +742,119 @@ function CompetitionOperationsRouteScreen() {
   );
 }
 
+function CreateCompetitionRouteScreen() {
+  const { apiClient, queryClient } = createCompetitionRoute.useRouteContext();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
+  const createCompetitionMutation = useMutation({
+    mutationFn: (values: CreateCompetitionFormValues) =>
+      apiClient.createCompetition({
+        ...values,
+        startsAt: new Date(values.startsAt).toISOString(),
+        endsAt: new Date(values.endsAt).toISOString(),
+        regStartsAt: values.regStartsAt
+          ? new Date(values.regStartsAt).toISOString()
+          : undefined,
+        regEndsAt: values.regEndsAt
+          ? new Date(values.regEndsAt).toISOString()
+          : undefined,
+      }),
+    onSuccess: (data: { id: string }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["competitions", "overview"],
+      });
+      navigate({
+        to: "/admin/competitions/$competitionId",
+        params: { competitionId: data.id },
+      });
+    },
+    onError: () => {
+      setError("Failed to create competition. Please try again.");
+    },
+  });
+
+  return (
+    <CreateCompetitionScreen
+      onSubmit={async (values) => {
+        await createCompetitionMutation.mutateAsync(values);
+      }}
+      isSubmitting={createCompetitionMutation.isPending}
+    />
+  );
+}
+
 function CompetitionOperationsPending() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.52))] px-4 py-8 sm:px-6 lg:px-10">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <div className="rounded-[2rem] border border-border/70 bg-white/80 p-6 shadow-sm sm:p-8">
-          <div className="space-y-4">
-            <Skeleton className="h-4 w-40" />
-            <Skeleton className="h-14 w-full max-w-3xl" />
-            <Skeleton className="h-6 w-full max-w-2xl" />
-          </div>
+    <div className="space-y-6">
+      {/* Header skeleton */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-2">
+          <Skeleton className="h-9 w-48" />
+          <Skeleton className="h-4 w-64" />
         </div>
-        <Skeleton className="h-40 w-full rounded-[1.5rem]" />
-        <Skeleton className="h-80 w-full rounded-[1.5rem]" />
+        <Skeleton className="h-10 w-44" />
       </div>
-    </main>
+
+      {/* Stats cards skeleton */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {["total", "active", "draft", "completed"].map((stat) => (
+          <Card key={stat}>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="size-4" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="mb-1 h-8 w-12" />
+              <Skeleton className="h-3 w-24" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Filters and table skeleton */}
+      <Card>
+        <CardHeader>
+          <Skeleton className="mb-1 h-6 w-36" />
+          <Skeleton className="h-4 w-52" />
+        </CardHeader>
+        <CardContent>
+          {/* Filter bar skeleton */}
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row">
+            <Skeleton className="h-10 flex-1" />
+            <div className="flex gap-2">
+              <Skeleton className="h-10 w-[140px]" />
+              <Skeleton className="h-10 w-[140px]" />
+              <Skeleton className="size-10" />
+            </div>
+          </div>
+
+          {/* Table skeleton */}
+          <div className="rounded-md border">
+            <div className="p-4">
+              {["row-1", "row-2", "row-3", "row-4", "row-5"].map((rowKey) => (
+                <div
+                  key={rowKey}
+                  className="flex items-center gap-4 border-b py-4 last:border-b-0"
+                >
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-40" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-2 w-16" />
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="size-8" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
@@ -1198,8 +1304,10 @@ function AdminCompetitionMatchRouteScreen() {
     mutationFn: ({
       matchId,
       scheduledAt,
-    }: { matchId: string; scheduledAt: string }) =>
-      apiClient.scheduleMatch(competitionId, matchId, { scheduledAt }),
+    }: {
+      matchId: string;
+      scheduledAt: string;
+    }) => apiClient.scheduleMatch(competitionId, matchId, { scheduledAt }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["competitions", competitionId, "matches"],
@@ -1228,8 +1336,11 @@ function AdminCompetitionMatchRouteScreen() {
       matchId,
       scoreA,
       scoreB,
-    }: { matchId: string; scoreA: number; scoreB: number }) =>
-      apiClient.completeMatch(competitionId, matchId, { scoreA, scoreB }),
+    }: {
+      matchId: string;
+      scoreA: number;
+      scoreB: number;
+    }) => apiClient.completeMatch(competitionId, matchId, { scoreA, scoreB }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["competitions", competitionId, "matches"],

@@ -1,152 +1,409 @@
 import {
+  Badge,
   Button,
-  EmptyState,
-  EmptyStateDescription,
-  EmptyStateEyebrow,
-  EmptyStateTitle,
-  InlineAlert,
-  InlineAlertDescription,
-  InlineAlertTitle,
-  InlineMetadataList,
-  KeyValueSummaryBlock,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Input,
+  Progress,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableContainer,
   TableHead,
   TableHeader,
   TableRow,
 } from "@padel/ui";
 import { Link } from "@tanstack/react-router";
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Filter,
+  MoreHorizontal,
+  Pause,
+  Play,
+  Plus,
+  Search,
+  Trophy,
+  Users,
+} from "lucide-react";
+import { useState } from "react";
 import type { CompetitionOverviewPageViewModel } from "./competition-overview-view-model.js";
 
 interface CompetitionOperationsScreenProps {
   model: CompetitionOverviewPageViewModel;
 }
 
+function StatusBadge({ status }: { status: string }) {
+  const config: Record<
+    string,
+    {
+      label: string;
+      variant: "default" | "secondary" | "outline";
+      icon: React.ReactNode;
+    }
+  > = {
+    open: {
+      label: "In Progress",
+      variant: "default",
+      icon: <Play className="size-3" />,
+    },
+    draft: {
+      label: "Draft",
+      variant: "outline",
+      icon: <Pause className="size-3" />,
+    },
+    closed: {
+      label: "Completed",
+      variant: "outline",
+      icon: <CheckCircle2 className="size-3" />,
+    },
+    cancelled: {
+      label: "Cancelled",
+      variant: "secondary",
+      icon: <Clock className="size-3" />,
+    },
+  };
+
+  const { label, variant, icon } = config[status] || config.draft;
+
+  return (
+    <Badge variant={variant} className="gap-1 font-medium">
+      {icon}
+      {label}
+    </Badge>
+  );
+}
+
+function FormatBadge({ format }: { format: string }) {
+  const formatLabelMap: Record<string, string> = {
+    elimination: "Elimination",
+    "round-robin": "Round Robin",
+    league: "League",
+  };
+
+  return (
+    <Badge variant="outline" className="font-normal">
+      {formatLabelMap[format] || format}
+    </Badge>
+  );
+}
+
+const formatOptions = [
+  { value: "elimination", label: "Elimination" },
+  { value: "round-robin", label: "Round Robin" },
+  { value: "league", label: "League" },
+];
+
+const statusOptions = [
+  { value: "open", label: "In Progress" },
+  { value: "draft", label: "Draft" },
+  { value: "closed", label: "Completed" },
+  { value: "cancelled", label: "Cancelled" },
+];
+
 export function CompetitionOperationsScreen({
   model,
 }: CompetitionOperationsScreenProps) {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [formatFilter, setFormatFilter] = useState("all");
+
+  const filteredRows = model.rows.filter((row) => {
+    const matchesSearch =
+      search === "" ||
+      row.title.toLowerCase().includes(search.toLowerCase()) ||
+      row.statusLabel.toLowerCase().includes(search.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "all" ||
+      row.statusLabel.toLowerCase() === statusFilter.toLowerCase();
+
+    const formatValue =
+      row.metadataItems.find((m) => m.label === "Format")?.value ?? "";
+    const matchesFormat =
+      formatFilter === "all" ||
+      String(formatValue).toLowerCase() === formatFilter.toLowerCase();
+
+    return matchesSearch && matchesStatus && matchesFormat;
+  });
+
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_hsla(var(--accent)/0.75),_transparent_38%),linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--secondary)/0.52))] px-4 py-8 text-foreground sm:px-6 lg:px-10">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <section className="overflow-hidden rounded-[2rem] border border-border/70 bg-[linear-gradient(135deg,_rgba(255,255,255,0.9),_rgba(231,242,236,0.95))] p-6 shadow-[0_20px_80px_rgba(33,72,53,0.08)] sm:p-8">
-          <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-            <div className="space-y-4">
-              <p className="font-mono text-xs uppercase tracking-[0.34em] text-muted-foreground">
-                Authenticated operations
-              </p>
-              <div className="space-y-3">
-                <h1 className="max-w-3xl font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
-                  Competition operations overview with route-owned loading and
-                  shared admin display primitives.
-                </h1>
-                <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                  This first route scaffold keeps routing, query orchestration,
-                  and DTO mapping in <code>apps/web</code> while the table,
-                  summary, and feedback surfaces stay reusable in{" "}
-                  <code>packages/ui</code>.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <Link to="/competitions/operations">
-                    Refresh operations view
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link to="/sign-in">View sign-in boundary</Link>
-                </Button>
-              </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Competitions</h1>
+          <p className="text-muted-foreground">
+            Manage and organize your club competitions
+          </p>
+        </div>
+        <Button asChild>
+          <Link to="/admin/competitions/create">
+            <Plus className="mr-2 size-4" />
+            Create Competition
+          </Link>
+        </Button>
+      </div>
+
+      {/* Stats */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Competitions
+            </CardTitle>
+            <Trophy className="size-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {model.summaryItems[0]?.value || "0"}
             </div>
+            <p className="text-xs text-muted-foreground">This season</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <Play className="size-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {model.summaryItems[2]?.value || "0"}
+            </div>
+            <p className="text-xs text-muted-foreground">In progress</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Draft</CardTitle>
+            <Pause className="size-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {model.summaryItems[1]?.value || "0"}
+            </div>
+            <p className="text-xs text-muted-foreground">Pending setup</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Completed</CardTitle>
+            <CheckCircle2 className="size-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {model.summaryItems[3]?.value || "0"}
+            </div>
+            <p className="text-xs text-muted-foreground">Finished</p>
+          </CardContent>
+        </Card>
+      </div>
 
-            <KeyValueSummaryBlock
-              columns={1}
-              description="Operational trust comes from making missing data and blocked workflows visible before detail editing starts."
-              heading="Snapshot"
-              items={model.summaryItems}
-            />
+      {/* Filters */}
+      <Card>
+        <CardHeader>
+          <CardTitle>All Competitions</CardTitle>
+          <CardDescription>
+            View and manage all competitions in your club
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search competitions..."
+                className="pl-9"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  {statusOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={formatFilter} onValueChange={setFormatFilter}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="Format" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Formats</SelectItem>
+                  {formatOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button variant="outline" size="icon">
+                <Filter className="size-4" />
+              </Button>
+            </div>
           </div>
-        </section>
 
-        {model.attentionMessage ? (
-          <InlineAlert variant="warning">
-            <InlineAlertTitle variant="warning">
-              Route-critical issues surfaced at the overview boundary
-            </InlineAlertTitle>
-            <InlineAlertDescription>
-              {model.attentionMessage}
-            </InlineAlertDescription>
-          </InlineAlert>
-        ) : null}
-
-        {model.rows.length === 0 ? (
-          <EmptyState className="max-w-none bg-white/85" variant="info">
-            <EmptyStateEyebrow>Competition operations</EmptyStateEyebrow>
-            <EmptyStateTitle>
-              No competitions need operational review yet.
-            </EmptyStateTitle>
-            <EmptyStateDescription>
-              Once authenticated competition data is available, this route will
-              promote the highest-risk items here without turning the shared UI
-              package into a workflow-specific screen.
-            </EmptyStateDescription>
-          </EmptyState>
-        ) : (
-          <TableContainer>
+          {/* Table */}
+          <div className="overflow-visible rounded-md border">
             <Table>
               <TableHeader>
-                <tr>
-                  <TableHead scope="col">Competition</TableHead>
-                  <TableHead scope="col">Schedule</TableHead>
-                  <TableHead scope="col">Operations</TableHead>
-                  <TableHead scope="col">Next action</TableHead>
-                </tr>
+                <TableRow>
+                  <TableHead>Competition</TableHead>
+                  <TableHead>Format</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Teams</TableHead>
+                  <TableHead>Progress</TableHead>
+                  <TableHead>Prize</TableHead>
+                  <TableHead className="w-[50px]" />
+                </TableRow>
               </TableHeader>
               <TableBody>
-                {model.rows.map((row) => (
-                  <TableRow key={row.id} state={row.rowState}>
-                    <TableCell className="space-y-3">
-                      <div className="space-y-1">
-                        <Link
-                          to="/competitions/$competitionId"
-                          params={{ competitionId: row.id }}
-                          className="font-serif text-xl leading-none tracking-tight text-foreground hover:underline"
-                        >
-                          {row.title}
-                        </Link>
-                        <p className="font-mono text-[0.72rem] uppercase tracking-[0.24em] text-muted-foreground">
-                          {row.statusLabel}
-                        </p>
-                      </div>
-                      <InlineMetadataList
-                        className="border-border/60 bg-background/70"
-                        items={row.metadataItems}
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {row.scheduleLabel}
-                    </TableCell>
-                    <TableCell>{row.operationsSummary}</TableCell>
-                    <TableCell className="font-medium">
-                      {row.nextActionLabel}
+                {filteredRows.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center py-8">
+                      <p className="text-muted-foreground">
+                        No competitions found matching your filters.
+                      </p>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-              <TableCaption>
-                Shared UI owns the table foundation. App space owns route data,
-                risk mapping, and future drill-in actions.
-              </TableCaption>
-            </Table>
-          </TableContainer>
-        )}
+                ) : (
+                  filteredRows.map((row) => {
+                    const formatValue = String(
+                      row.metadataItems.find((m) => m.label === "Format")
+                        ?.value ?? "",
+                    );
 
-        <p className="px-1 font-mono text-xs uppercase tracking-[0.24em] text-muted-foreground">
-          Overview generated {model.generatedAtLabel}
-        </p>
-      </div>
-    </main>
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell>
+                          <div>
+                            <Link
+                              to="/admin/competitions/$competitionId"
+                              params={{ competitionId: row.id }}
+                              className="font-medium hover:underline"
+                            >
+                              {row.title}
+                            </Link>
+                            <p className="text-sm text-muted-foreground">
+                              {row.scheduleLabel}
+                            </p>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <FormatBadge format={formatValue} />
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-wrap gap-1">
+                            {row.categoryNames.length > 0 ? (
+                              row.categoryNames.map((name) => (
+                                <Badge key={name} variant="secondary">
+                                  {name}
+                                </Badge>
+                              ))
+                            ) : (
+                              <span className="text-muted-foreground">-</span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <StatusBadge status={row.statusLabel.toLowerCase()} />
+                        </TableCell>
+                        <TableCell>
+                          <span className="font-medium">
+                            {row.registrationCount}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Progress
+                              value={
+                                row.statusLabel.toLowerCase() === "closed"
+                                  ? 100
+                                  : row.statusLabel.toLowerCase() === "open"
+                                    ? 50
+                                    : 0
+                              }
+                              className="h-2 w-16"
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              {row.statusLabel.toLowerCase() === "closed"
+                                ? "100%"
+                                : row.statusLabel.toLowerCase() === "open"
+                                  ? "50%"
+                                  : "0%"}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {row.prizePool > 0
+                            ? `$${row.prizePool.toLocaleString()}`
+                            : "-"}
+                        </TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MoreHorizontal className="size-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="z-50">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem asChild>
+                                <Link
+                                  to="/admin/competitions/$competitionId"
+                                  params={{ competitionId: row.id }}
+                                >
+                                  View Details
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <Link
+                                  to="/admin/competitions/$competitionId/matches"
+                                  params={{ competitionId: row.id }}
+                                >
+                                  Manage Matches
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-destructive">
+                                Delete Competition
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

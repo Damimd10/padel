@@ -43,20 +43,43 @@ enum MatchStatus {
 }
 
 model Competition {
-  id        String            @id @default(uuid())
-  title     String
-  format    CompetitionFormat
-  startsAt  DateTime
-  endsAt    DateTime
-  ownerId   String
-  status    CompetitionStatus
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  id                     String            @id @default(uuid())
+  title                  String
+  description            String?
+  format                 CompetitionFormat
+  startsAt               DateTime
+  endsAt                 DateTime
+  regStartsAt            DateTime?
+  regEndsAt              DateTime?
+  maxTeams               Int?
+  pricePerTeam           Int               @default(0)
+  isPublic               Boolean           @default(true)
+  requiresApproval       Boolean           @default(false)
+  hasWaitlist            Boolean           @default(true)
+  groupCount             Int?
+  teamsPerGroup          Int?
+  setsToWin              Int               @default(2)
+  gamesPerSet            Int               @default(6)
+  tiebreakPoints         Int               @default(7)
+  goldenPoint            Boolean           @default(false)
+  matchDurationMinutes   Int               @default(60)
+  firstMatchTime         String?
+  lastMatchTime          String?
+  breakBetweenMatchesMinutes Int           @default(15)
+  autoGenerateSchedule   Boolean           @default(true)
+  earlyBirdDiscount      Int               @default(0)
+  isFreeEntry            Boolean           @default(false)
+  ownerId                String
+  status                 CompetitionStatus
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
 
   categories    Category[]
   divisions     Division[]
   registrations Registration[]
   matches       Match[]
+  courts        Court[]
+  prizes        Prize[]
 }
 
 model Category {
@@ -119,6 +142,31 @@ model Match {
 
   @@index([competitionId])
   @@index([competitionId, status])
+}
+
+model Court {
+  id            String       @id @default(uuid())
+  competitionId String
+  competition   Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  name          String
+  type          String
+  isSelected    Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([competitionId])
+}
+
+model Prize {
+  id            String       @id @default(uuid())
+  competitionId String
+  competition   Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  place         String
+  amount        Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([competitionId])
 }
 
 model User {

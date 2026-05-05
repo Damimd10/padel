@@ -1,11 +1,25 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { competitionOverviewCollectionSchema } from "@padel/schemas";
 
+import type { CompetitionFormat as PrismaCompetitionFormat } from "../../../generated/prisma/enums.js";
 import { PrismaService } from "../../../prisma/prisma.service.js";
 import type { CompetitionRepository } from "../../application/ports/competition-repository.js";
+import type { CompetitionFormat } from "../../domain/competition-format.js";
 import type { CompetitionStatus } from "../../domain/competition-status.js";
 import { Competition } from "../../domain/competition.js";
 import { mapCompetitionOverviewRow } from "./competition-overview.mapper.js";
+
+function formatToDb(format: string): PrismaCompetitionFormat {
+  return format === "round-robin"
+    ? "round_robin"
+    : (format as PrismaCompetitionFormat);
+}
+
+function formatFromDb(format: string): CompetitionFormat {
+  return format === "round_robin"
+    ? "round-robin"
+    : (format as CompetitionFormat);
+}
 
 @Injectable()
 export class PrismaCompetitionRepository implements CompetitionRepository {
@@ -22,11 +36,45 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
       data: {
         id: row.id,
         title: row.title,
-        format: row.format === "round-robin" ? "round_robin" : row.format,
+        description: row.description,
+        format: formatToDb(row.format),
         startsAt: row.startsAt,
         endsAt: row.endsAt,
+        regStartsAt: row.regStartsAt,
+        regEndsAt: row.regEndsAt,
+        maxTeams: row.maxTeams,
+        pricePerTeam: row.pricePerTeam,
+        isPublic: row.isPublic,
+        requiresApproval: row.requiresApproval,
+        hasWaitlist: row.hasWaitlist,
+        groupCount: row.groupCount,
+        teamsPerGroup: row.teamsPerGroup,
+        setsToWin: row.setsToWin,
+        gamesPerSet: row.gamesPerSet,
+        tiebreakPoints: row.tiebreakPoints,
+        goldenPoint: row.goldenPoint,
+        matchDurationMinutes: row.matchDurationMinutes,
+        firstMatchTime: row.firstMatchTime,
+        lastMatchTime: row.lastMatchTime,
+        breakBetweenMatchesMinutes: row.breakBetweenMatchesMinutes,
+        autoGenerateSchedule: row.autoGenerateSchedule,
+        earlyBirdDiscount: row.earlyBirdDiscount,
+        isFreeEntry: row.isFreeEntry,
         ownerId: row.ownerId,
         status: row.status,
+        courts: {
+          create: row.courts.map((court) => ({
+            name: court.name,
+            type: court.type,
+            isSelected: true,
+          })),
+        },
+        prizes: {
+          create: row.prizes.map((prize) => ({
+            place: prize.place,
+            amount: prize.amount,
+          })),
+        },
       },
     });
   }
@@ -38,9 +86,30 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
       where: { id: row.id },
       data: {
         title: row.title,
-        format: row.format === "round-robin" ? "round_robin" : row.format,
+        description: row.description,
+        format: formatToDb(row.format),
         startsAt: row.startsAt,
         endsAt: row.endsAt,
+        regStartsAt: row.regStartsAt,
+        regEndsAt: row.regEndsAt,
+        maxTeams: row.maxTeams,
+        pricePerTeam: row.pricePerTeam,
+        isPublic: row.isPublic,
+        requiresApproval: row.requiresApproval,
+        hasWaitlist: row.hasWaitlist,
+        groupCount: row.groupCount,
+        teamsPerGroup: row.teamsPerGroup,
+        setsToWin: row.setsToWin,
+        gamesPerSet: row.gamesPerSet,
+        tiebreakPoints: row.tiebreakPoints,
+        goldenPoint: row.goldenPoint,
+        matchDurationMinutes: row.matchDurationMinutes,
+        firstMatchTime: row.firstMatchTime,
+        lastMatchTime: row.lastMatchTime,
+        breakBetweenMatchesMinutes: row.breakBetweenMatchesMinutes,
+        autoGenerateSchedule: row.autoGenerateSchedule,
+        earlyBirdDiscount: row.earlyBirdDiscount,
+        isFreeEntry: row.isFreeEntry,
         ownerId: row.ownerId,
         status: row.status,
       },
@@ -50,6 +119,26 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
   async listOverview() {
     const competitions = await this.prisma.competition.findMany({
       orderBy: [{ startsAt: "asc" }, { createdAt: "asc" }],
+      include: {
+        _count: {
+          select: {
+            categories: true,
+            divisions: true,
+            registrations: true,
+            prizes: true,
+          },
+        },
+        categories: {
+          select: {
+            label: true,
+          },
+        },
+        prizes: {
+          select: {
+            amount: true,
+          },
+        },
+      },
     });
 
     const ownerIds = [...new Set(competitions.map(({ ownerId }) => ownerId))];
@@ -76,6 +165,13 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
             return null;
           }
 
+          const prizePool = competition.prizes.reduce(
+            (sum, prize) => sum + prize.amount,
+            0,
+          );
+
+          const categoryNames = competition.categories.map((c) => c.label);
+
           return mapCompetitionOverviewRow({
             id: competition.id,
             title: competition.title,
@@ -84,6 +180,11 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
             startsAt: competition.startsAt,
             endsAt: competition.endsAt,
             owner,
+            categoryCount: competition._count.categories,
+            divisionCount: competition._count.divisions,
+            registrationCount: competition._count.registrations,
+            prizePool,
+            categoryNames,
           });
         })
         .filter((row): row is NonNullable<typeof row> => row !== null),
@@ -93,6 +194,10 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
   async findById(id: string) {
     const row = await this.prisma.competition.findUnique({
       where: { id },
+      include: {
+        courts: true,
+        prizes: true,
+      },
     });
 
     if (!row) {
@@ -102,11 +207,42 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
     return Competition.restore({
       id: row.id,
       title: row.title,
-      format: row.format === "round_robin" ? "round-robin" : row.format,
+      description: row.description,
+      format: formatFromDb(row.format),
       startsAt: row.startsAt.toISOString(),
       endsAt: row.endsAt.toISOString(),
+      regStartsAt: row.regStartsAt?.toISOString() ?? null,
+      regEndsAt: row.regEndsAt?.toISOString() ?? null,
+      maxTeams: row.maxTeams,
+      pricePerTeam: row.pricePerTeam,
+      isPublic: row.isPublic,
+      requiresApproval: row.requiresApproval,
+      hasWaitlist: row.hasWaitlist,
+      groupCount: row.groupCount,
+      teamsPerGroup: row.teamsPerGroup,
+      setsToWin: row.setsToWin,
+      gamesPerSet: row.gamesPerSet,
+      tiebreakPoints: row.tiebreakPoints,
+      goldenPoint: row.goldenPoint,
+      matchDurationMinutes: row.matchDurationMinutes,
+      firstMatchTime: row.firstMatchTime,
+      lastMatchTime: row.lastMatchTime,
+      breakBetweenMatchesMinutes: row.breakBetweenMatchesMinutes,
+      autoGenerateSchedule: row.autoGenerateSchedule,
+      earlyBirdDiscount: row.earlyBirdDiscount,
+      isFreeEntry: row.isFreeEntry,
       ownerId: row.ownerId,
       status: row.status as CompetitionStatus,
+      courts: row.courts.map((court) => ({
+        name: court.name,
+        type: court.type,
+      })),
+      prizes: row.prizes.map((prize) => ({
+        place: prize.place,
+        amount: prize.amount,
+      })),
+      createdAt: row.createdAt.toISOString(),
+      updatedAt: row.updatedAt.toISOString(),
     });
   }
 
@@ -120,6 +256,8 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
             divisions: true,
           },
         },
+        courts: true,
+        prizes: true,
       },
     });
 
@@ -130,13 +268,44 @@ export class PrismaCompetitionRepository implements CompetitionRepository {
     return Competition.restore({
       id: row.id,
       title: row.title,
-      format: row.format === "round_robin" ? "round-robin" : row.format,
+      description: row.description,
+      format: formatFromDb(row.format),
       startsAt: row.startsAt.toISOString(),
       endsAt: row.endsAt.toISOString(),
+      regStartsAt: row.regStartsAt?.toISOString() ?? null,
+      regEndsAt: row.regEndsAt?.toISOString() ?? null,
+      maxTeams: row.maxTeams,
+      pricePerTeam: row.pricePerTeam,
+      isPublic: row.isPublic,
+      requiresApproval: row.requiresApproval,
+      hasWaitlist: row.hasWaitlist,
+      groupCount: row.groupCount,
+      teamsPerGroup: row.teamsPerGroup,
+      setsToWin: row.setsToWin,
+      gamesPerSet: row.gamesPerSet,
+      tiebreakPoints: row.tiebreakPoints,
+      goldenPoint: row.goldenPoint,
+      matchDurationMinutes: row.matchDurationMinutes,
+      firstMatchTime: row.firstMatchTime,
+      lastMatchTime: row.lastMatchTime,
+      breakBetweenMatchesMinutes: row.breakBetweenMatchesMinutes,
+      autoGenerateSchedule: row.autoGenerateSchedule,
+      earlyBirdDiscount: row.earlyBirdDiscount,
+      isFreeEntry: row.isFreeEntry,
       ownerId: row.ownerId,
       status: row.status as CompetitionStatus,
+      courts: row.courts.map((court) => ({
+        name: court.name,
+        type: court.type,
+      })),
+      prizes: row.prizes.map((prize) => ({
+        place: prize.place,
+        amount: prize.amount,
+      })),
       categoryCount: row._count.categories,
       divisionCount: row._count.divisions,
+      createdAt: row.createdAt.toISOString(),
+      updatedAt: row.updatedAt.toISOString(),
     });
   }
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { Competition } from "../domain/competition.js";
+import { createTestCompetitionProps } from "../test-helpers.js";
 import { OpenCompetitionUseCase } from "./open-competition.use-case.js";
 import type { CompetitionRepository } from "./ports/competition-repository.js";
 
@@ -39,17 +40,15 @@ describe("OpenCompetitionUseCase", () => {
   it("opens a draft competition", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new OpenCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "draft",
-      categoryCount: 2,
-      divisionCount: 1,
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        status: "draft",
+        categoryCount: 2,
+        divisionCount: 1,
+      }),
+    );
     repository.setFindResult(competition);
 
     const result = await useCase.execute({ competitionId: "competition-1" });
@@ -74,17 +73,15 @@ describe("OpenCompetitionUseCase", () => {
   it("throws when competition has no categories", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new OpenCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "draft",
-      categoryCount: 0,
-      divisionCount: 1,
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        status: "draft",
+        categoryCount: 0,
+        divisionCount: 1,
+      }),
+    );
     repository.setFindResult(competition);
 
     await expect(
@@ -95,17 +92,15 @@ describe("OpenCompetitionUseCase", () => {
   it("throws when competition has no divisions", async () => {
     const repository = new FakeCompetitionRepository();
     const useCase = new OpenCompetitionUseCase(repository);
-    const competition = Competition.restore({
-      id: "competition-1",
-      title: "Spring Open",
-      format: "elimination",
-      startsAt: "2026-05-10T10:00:00.000Z",
-      endsAt: "2026-05-12T18:00:00.000Z",
-      ownerId: "owner-1",
-      status: "draft",
-      categoryCount: 2,
-      divisionCount: 0,
-    });
+    const competition = Competition.restore(
+      createTestCompetitionProps({
+        id: "competition-1",
+        title: "Spring Open",
+        status: "draft",
+        categoryCount: 2,
+        divisionCount: 0,
+      }),
+    );
     repository.setFindResult(competition);
 
     await expect(

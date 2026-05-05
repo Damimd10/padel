@@ -12,6 +12,11 @@ interface CompetitionOverviewRow {
     name: string;
     email: string;
   };
+  categoryCount: number;
+  divisionCount: number;
+  registrationCount: number;
+  prizePool: number;
+  categoryNames: string[];
 }
 
 export function mapCompetitionOverviewRow(
@@ -29,5 +34,10 @@ export function mapCompetitionOverviewRow(
       name: row.owner.name,
       email: row.owner.email,
     },
+    categoryCount: row.categoryCount,
+    divisionCount: row.divisionCount,
+    registrationCount: row.registrationCount,
+    prizePool: row.prizePool,
+    categoryNames: row.categoryNames,
   };
 }

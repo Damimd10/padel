@@ -54,6 +54,8 @@ export const ModelName = {
   Division: 'Division',
   Registration: 'Registration',
   Match: 'Match',
+  Court: 'Court',
+  Prize: 'Prize',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -79,9 +81,30 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const CompetitionScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  description: 'description',
   format: 'format',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
+  regStartsAt: 'regStartsAt',
+  regEndsAt: 'regEndsAt',
+  maxTeams: 'maxTeams',
+  pricePerTeam: 'pricePerTeam',
+  isPublic: 'isPublic',
+  requiresApproval: 'requiresApproval',
+  hasWaitlist: 'hasWaitlist',
+  groupCount: 'groupCount',
+  teamsPerGroup: 'teamsPerGroup',
+  setsToWin: 'setsToWin',
+  gamesPerSet: 'gamesPerSet',
+  tiebreakPoints: 'tiebreakPoints',
+  goldenPoint: 'goldenPoint',
+  matchDurationMinutes: 'matchDurationMinutes',
+  firstMatchTime: 'firstMatchTime',
+  lastMatchTime: 'lastMatchTime',
+  breakBetweenMatchesMinutes: 'breakBetweenMatchesMinutes',
+  autoGenerateSchedule: 'autoGenerateSchedule',
+  earlyBirdDiscount: 'earlyBirdDiscount',
+  isFreeEntry: 'isFreeEntry',
   ownerId: 'ownerId',
   status: 'status',
   createdAt: 'createdAt',
@@ -141,6 +164,31 @@ export const MatchScalarFieldEnum = {
 } as const
 
 export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
+
+
+export const CourtScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  name: 'name',
+  type: 'type',
+  isSelected: 'isSelected',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CourtScalarFieldEnum = (typeof CourtScalarFieldEnum)[keyof typeof CourtScalarFieldEnum]
+
+
+export const PrizeScalarFieldEnum = {
+  id: 'id',
+  competitionId: 'competitionId',
+  place: 'place',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PrizeScalarFieldEnum = (typeof PrizeScalarFieldEnum)[keyof typeof PrizeScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

@@ -139,6 +139,11 @@ describe("competition schemas", () => {
             name: "Operations User",
             email: "ops@example.com",
           },
+          categoryCount: 3,
+          divisionCount: 2,
+          registrationCount: 12,
+          prizePool: 3000,
+          categoryNames: ["Sexta", "Quinta"],
         },
       ]),
     ).toHaveLength(1);

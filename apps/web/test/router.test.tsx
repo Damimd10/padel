@@ -155,8 +155,9 @@ describe("competition operations route", () => {
 
     render(<App queryClient={queryClient} router={router} />);
 
+    expect(await screen.findByText("Competitions")).toBeTruthy();
     expect(
-      await screen.findByText("No competitions need operational review yet."),
+      screen.getByText("No competitions found matching your filters."),
     ).toBeTruthy();
   });
 
@@ -198,10 +199,7 @@ describe("competition operations route", () => {
     render(<App queryClient={queryClient} router={router} />);
 
     expect(await screen.findByText("North Circuit Masters")).toBeTruthy();
-    expect(
-      screen.getByText("Review registrations and keep operations moving"),
-    ).toBeTruthy();
+    expect(screen.getByText("Sexta A")).toBeTruthy();
     expect(document.querySelector('[data-slot="table"]')).not.toBeNull();
-    expect(document.querySelector('[data-slot="inline-alert"]')).not.toBeNull();
   });
 });
