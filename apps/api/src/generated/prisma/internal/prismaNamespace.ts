@@ -392,6 +392,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Competition: 'Competition',
   Category: 'Category',
+  GlobalCategory: 'GlobalCategory',
   Division: 'Division',
   Registration: 'Registration',
   Match: 'Match',
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "competition" | "category" | "division" | "registration" | "match" | "court" | "prize" | "user" | "session" | "account" | "verification"
+    modelProps: "competition" | "category" | "globalCategory" | "division" | "registration" | "match" | "court" | "prize" | "user" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -565,6 +566,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CategoryCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    GlobalCategory: {
+      payload: Prisma.$GlobalCategoryPayload<ExtArgs>
+      fields: Prisma.GlobalCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GlobalCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GlobalCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.GlobalCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GlobalCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.GlobalCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.GlobalCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.GlobalCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GlobalCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.GlobalCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>
+        }
+        update: {
+          args: Prisma.GlobalCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.GlobalCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GlobalCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GlobalCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.GlobalCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.GlobalCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGlobalCategory>
+        }
+        groupBy: {
+          args: Prisma.GlobalCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GlobalCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GlobalCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GlobalCategoryCountAggregateOutputType> | number
         }
       }
     }
@@ -1320,6 +1395,26 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+export const GlobalCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  shortCode: 'shortCode',
+  description: 'description',
+  skillLevel: 'skillLevel',
+  color: 'color',
+  divisions: 'divisions',
+  minRanking: 'minRanking',
+  maxRanking: 'maxRanking',
+  requiresOfficialRanking: 'requiresOfficialRanking',
+  allowCategoryChange: 'allowCategoryChange',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GlobalCategoryScalarFieldEnum = (typeof GlobalCategoryScalarFieldEnum)[keyof typeof GlobalCategoryScalarFieldEnum]
+
+
 export const DivisionScalarFieldEnum = {
   id: 'id',
   competitionId: 'competitionId',
@@ -1552,16 +1647,16 @@ export type ListEnumCompetitionStatusFieldRefInput<$PrismaModel> = FieldRefInput
 
 
 /**
- * Reference to a field of type 'DivisionName'
+ * Reference to a field of type 'DivisionName[]'
  */
-export type EnumDivisionNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DivisionName'>
+export type ListEnumDivisionNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DivisionName[]'>
     
 
 
 /**
- * Reference to a field of type 'DivisionName[]'
+ * Reference to a field of type 'DivisionName'
  */
-export type ListEnumDivisionNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DivisionName[]'>
+export type EnumDivisionNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DivisionName'>
     
 
 
@@ -1695,6 +1790,7 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   competition?: Prisma.CompetitionOmit
   category?: Prisma.CategoryOmit
+  globalCategory?: Prisma.GlobalCategoryOmit
   division?: Prisma.DivisionOmit
   registration?: Prisma.RegistrationOmit
   match?: Prisma.MatchOmit
