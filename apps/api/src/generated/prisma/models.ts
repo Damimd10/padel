@@ -10,6 +10,7 @@
  */
 export type * from './models/Competition.js'
 export type * from './models/Category.js'
+export type * from './models/GlobalCategory.js'
 export type * from './models/Division.js'
 export type * from './models/Registration.js'
 export type * from './models/Match.js'

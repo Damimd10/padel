@@ -51,6 +51,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Competition: 'Competition',
   Category: 'Category',
+  GlobalCategory: 'GlobalCategory',
   Division: 'Division',
   Registration: 'Registration',
   Match: 'Match',
@@ -123,6 +124,26 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const GlobalCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  shortCode: 'shortCode',
+  description: 'description',
+  skillLevel: 'skillLevel',
+  color: 'color',
+  divisions: 'divisions',
+  minRanking: 'minRanking',
+  maxRanking: 'maxRanking',
+  requiresOfficialRanking: 'requiresOfficialRanking',
+  allowCategoryChange: 'allowCategoryChange',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GlobalCategoryScalarFieldEnum = (typeof GlobalCategoryScalarFieldEnum)[keyof typeof GlobalCategoryScalarFieldEnum]
 
 
 export const DivisionScalarFieldEnum = {

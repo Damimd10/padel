@@ -314,6 +314,55 @@ export type CategoryCollection = z.infer<typeof categoryCollectionSchema>;
 
 export const divisionNameSchema = z.enum(["masculino", "femenino", "mixto"]);
 
+export const createGlobalCategoryRequestSchema = z
+  .object({
+    name: z.string().trim().min(1),
+    shortCode: z.string().trim().min(1).max(5),
+    description: z.string().trim().optional(),
+    skillLevel: z.number().int().min(0).max(9),
+    color: z.string().trim().min(1),
+    divisions: z.array(divisionNameSchema),
+    minRanking: z.number().int().min(0).optional(),
+    maxRanking: z.number().int().min(0).optional(),
+    requiresOfficialRanking: z.boolean().default(false),
+    allowCategoryChange: z.boolean().default(true),
+    isActive: z.boolean().default(true),
+  })
+  .strict();
+
+export const globalCategoryResponseSchema = z
+  .object({
+    id: z.string().uuid(),
+    name: z.string(),
+    shortCode: z.string(),
+    description: z.string().nullable(),
+    skillLevel: z.number().int(),
+    color: z.string(),
+    divisions: z.array(divisionNameSchema),
+    minRanking: z.number().int().nullable(),
+    maxRanking: z.number().int().nullable(),
+    requiresOfficialRanking: z.boolean(),
+    allowCategoryChange: z.boolean(),
+    isActive: z.boolean(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const globalCategoryCollectionSchema = z.array(
+  globalCategoryResponseSchema,
+);
+
+export type CreateGlobalCategoryRequest = z.infer<
+  typeof createGlobalCategoryRequestSchema
+>;
+export type GlobalCategoryResponse = z.infer<
+  typeof globalCategoryResponseSchema
+>;
+export type GlobalCategoryCollection = z.infer<
+  typeof globalCategoryCollectionSchema
+>;
+
 export const createDivisionRequestSchema = z
   .object({
     name: divisionNameSchema,

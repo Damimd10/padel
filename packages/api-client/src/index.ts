@@ -9,12 +9,15 @@ import {
   type CreateCompetitionRequest,
   type CreateCompetitionResponse,
   type CreateDivisionRequest,
+  type CreateGlobalCategoryRequest,
   type CreateRegistrationRequest,
   type DivisionCollection,
   type DivisionResponse,
   type ForgetPasswordRequest,
   type ForgetPasswordResponse,
   type GenerateMatchesResponse,
+  type GlobalCategoryCollection,
+  type GlobalCategoryResponse,
   type MatchCollection,
   type RegistrationCollection,
   type RegistrationResponse,
@@ -34,10 +37,13 @@ import {
   competitionOverviewCollectionSchema,
   completeMatchRequestSchema,
   createCompetitionResponseSchema,
+  createGlobalCategoryRequestSchema,
   divisionCollectionSchema,
   divisionResponseSchema,
   forgetPasswordResponseSchema,
   generateMatchesResponseSchema,
+  globalCategoryCollectionSchema,
+  globalCategoryResponseSchema,
   matchCollectionSchema,
   registrationCollectionSchema,
   registrationResponseSchema,
@@ -55,6 +61,7 @@ export const signOutPath = "/auth/sign-out";
 export const sessionPath = "/auth/session";
 export const forgetPasswordPath = "/auth/forget-password";
 export const resetPasswordPath = "/auth/reset-password";
+export const globalCategoriesPath = "/categories";
 
 export function competitionCategoriesPath(competitionId: string) {
   return `/competitions/${competitionId}/categories`;
@@ -249,6 +256,14 @@ export interface PadelApiClient {
   ): Promise<ForgetPasswordResponse>;
 
   resetPassword(request: ResetPasswordRequest): Promise<ResetPasswordResponse>;
+
+  createCategoryGlobal(
+    request: CreateGlobalCategoryRequest,
+  ): Promise<GlobalCategoryResponse>;
+
+  listGlobalCategories(
+    options?: ListCategoriesRequestOptions,
+  ): Promise<GlobalCategoryCollection>;
 
   listCategories(
     competitionId: string,
@@ -459,6 +474,27 @@ export function createApiClient({
       return parseResponseWithSchema(
         response.data,
         resetPasswordResponseSchema,
+      );
+    },
+
+    async createCategoryGlobal(request) {
+      const response = await client.post(
+        globalCategoriesPath,
+        createGlobalCategoryRequestSchema.parse(request),
+      );
+      return parseResponseWithSchema(
+        response.data,
+        globalCategoryResponseSchema,
+      );
+    },
+
+    async listGlobalCategories(options = {}) {
+      const response = await client.get(globalCategoriesPath, {
+        signal: options.signal,
+      });
+      return parseResponseWithSchema(
+        response.data,
+        globalCategoryCollectionSchema,
       );
     },
 

@@ -55,6 +55,11 @@ export type Competition = Prisma.CompetitionModel
  */
 export type Category = Prisma.CategoryModel
 /**
+ * Model GlobalCategory
+ * 
+ */
+export type GlobalCategory = Prisma.GlobalCategoryModel
+/**
  * Model Division
  * 
  */

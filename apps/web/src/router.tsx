@@ -51,6 +51,8 @@ import { AdminDashboardScreen } from "./features/admin/admin-dashboard-screen.js
 import { AdminLayout } from "./features/admin/admin-layout.js";
 import { mapToAdminPageViewModel } from "./features/admin/admin-view-model.js";
 import { AdminCategoriesScreen } from "./features/admin/categories/admin-categories-screen.js";
+import type { CreateCategoryFormValues } from "./features/admin/categories/create-category-schema.js";
+import { CreateCategoryScreen } from "./features/admin/categories/create-category-screen.js";
 import {
   competitionMatchesQueryOptions,
   ensureCompetitionMatches,
@@ -205,8 +207,63 @@ const adminDashboardRoute = createRoute({
 const adminCategoriesRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: "/categories",
-  component: AdminCategoriesScreen,
+  loader: async ({ context }) => {
+    const categories = await context.apiClient.listGlobalCategories();
+    return { categories };
+  },
+  component: AdminCategoriesRouteScreen,
 });
+
+function AdminCategoriesRouteScreen() {
+  const { categories } = adminCategoriesRoute.useLoaderData();
+  return <AdminCategoriesScreen categories={categories} />;
+}
+
+const adminCreateCategoryRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/categories/create",
+  component: CreateCategoryRouteScreen,
+});
+
+function CreateCategoryRouteScreen() {
+  const { apiClient } = adminCreateCategoryRoute.useRouteContext();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (values: CreateCategoryFormValues) => {
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      await apiClient.createCategoryGlobal({
+        name: values.name,
+        shortCode: values.shortCode,
+        description: values.description,
+        skillLevel: values.skillLevel,
+        color: values.color,
+        divisions: values.divisions,
+        minRanking: values.minRanking,
+        maxRanking: values.maxRanking,
+        requiresOfficialRanking: values.requiresOfficialRanking,
+        allowCategoryChange: values.allowCategoryChange,
+        isActive: values.isActive,
+      });
+      navigate({ to: "/admin/categories" });
+    } catch (err) {
+      setError("Failed to create category. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <CreateCategoryScreen
+      onSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
+      error={error}
+    />
+  );
+}
 
 const adminParticipantsRoute = createRoute({
   getParentRoute: () => adminRoute,
@@ -249,6 +306,7 @@ const routeTree = rootRoute.addChildren([
       createCompetitionRoute,
       competitionDetailRoute,
       adminCategoriesRoute,
+      adminCreateCategoryRoute,
       adminParticipantsRoute,
       adminMatchesRoute,
       adminCompetitionMatchRoute,
